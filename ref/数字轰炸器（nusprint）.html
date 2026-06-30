@@ -1,0 +1,231 @@
+<!DOCTYPE html>
+<!-- saved from url=(0134)file:///Users/tanzheng/Documents/w3%E5%8F%A3%E8%AF%91-%2D%E5%8C%97%E7%90%86%E6%95%B0%E5%AD%97%E8%BD%B0%E7%82%B8%E5%B7%A5%E5%85%B7.html -->
+<html lang="zh-CN"><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>北理数字轰炸-口译实训工具</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: "Microsoft Yahei", Arial, sans-serif;
+        }
+        body {
+            max-width: 900px;
+            margin: 50px auto;
+            padding: 20px;
+            background-color: #f5f5f5;
+        }
+        .container {
+            background-color: white;
+            padding: 40px;
+            border-radius: 10px;
+            box-shadow: 0 2px 15px rgba(0,0,0,0.1);
+        }
+        h1 {
+            text-align: center;
+            color: #2c3e50;
+            margin-bottom: 40px;
+            font-size: 28px;
+            font-weight: bold;
+        }
+        .input-section {
+            margin-bottom: 80px; /* 大幅增加输入区和显示区的间距 */
+        }
+        .display-section {
+            margin-top: 20px;
+        }
+        label {
+            display: block;
+            margin-bottom: 10px;
+            font-weight: bold;
+            color: #34495e;
+            font-size: 16px;
+        }
+        textarea {
+            width: 100%;
+            padding: 15px;
+            border: 1px solid #bdc3c7;
+            border-radius: 6px;
+            font-size: 18px;
+            resize: vertical;
+            min-height: 120px;
+            line-height: 1.5;
+        }
+        .controls {
+            margin: 25px 0;
+            display: flex;
+            align-items: center;
+            gap: 20px;
+            flex-wrap: wrap;
+        }
+        .interval-option {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-size: 16px;
+        }
+        button {
+            padding: 12px 30px;
+            background-color: #27ae60;
+            color: white;
+            border: none;
+            border-radius: 6px;
+            font-size: 16px;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+        button:hover {
+            background-color: #219653;
+        }
+        button:disabled {
+            background-color: #bdc3c7;
+            cursor: not-allowed;
+        }
+        .display-area {
+            width: 100%;
+            height: 200px; /* 增大显示框高度，更醒目 */
+            border: 3px solid #27ae60;
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 56px; /* 增大显示字体 */
+            font-weight: bold;
+            color: #2c3e50;
+            background-color: #f9f9f9;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+        }
+        .instructions {
+            margin-top: 30px;
+            font-size: 14px;
+            color: #7f8c8d;
+            line-height: 1.8;
+            border-top: 1px solid #eee;
+            padding-top: 20px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>北理数字轰炸-口译实训工具</h1>
+        
+        <!-- 输入区域 -->
+        <div class="input-section">
+            <label for="number-input">请输入需要练习的内容（数字/单词，全角空格分隔）：</label>
+            <textarea id="number-input" placeholder="例如：123　45　利用　結果　6789　注意"></textarea>
+        </div>
+        
+        <!-- 控制区域 -->
+        <div class="controls">
+            <div class="interval-option">
+                <input type="radio" name="interval" id="interval-5" value="5" checked="">
+                <label for="interval-5">间隔5秒</label>
+            </div>
+            <div class="interval-option">
+                <input type="radio" name="interval" id="interval-10" value="10">
+                <label for="interval-10">间隔10秒</label>
+            </div>
+            <button id="start-btn">开始练习</button>
+            <button id="stop-btn" style="background-color:#e74c3c;" disabled="">停止练习</button>
+        </div>
+        
+        <!-- 显示区域（和输入区间距大幅增加） -->
+        <div class="display-section">
+            <label>实训显示区：</label>
+            <div id="display-area" class="display-area">准备就绪</div>
+        </div>
+        
+        <!-- 使用说明 -->
+        <div class="instructions">
+            <p>📝 使用说明：</p>
+            <p>1. 在上方输入框中输入需要练习的内容（数字/日语/英语单词），内容之间请用<strong>全角空格</strong>分隔；</p>
+            <p>2. 选择内容显示的时间间隔（5秒/10秒）；</p>
+            <p>3. 点击「开始练习」按钮，内容会逐个在下方显示区展示；</p>
+            <p>4. 练习过程中可点击「停止练习」按钮终止显示。</p>
+        </div>
+    </div>
+
+    <script>
+        // 获取DOM元素
+        const numberInput = document.getElementById('number-input');
+        const startBtn = document.getElementById('start-btn');
+        const stopBtn = document.getElementById('stop-btn');
+        const displayArea = document.getElementById('display-area');
+        const intervalRadios = document.getElementsByName('interval');
+        
+        let timer = null;      // 定时器
+        let contentList = [];  // 内容列表（兼容数字/单词）
+        let currentIndex = 0;  // 当前显示的内容索引
+        
+        // 获取选中的间隔时间
+        function getSelectedInterval() {
+            for (const radio of intervalRadios) {
+                if (radio.checked) {
+                    return parseInt(radio.value) * 1000; // 转换为毫秒
+                }
+            }
+            return 5000; // 默认5秒
+        }
+        
+        // 逐个显示内容
+        function showNextContent() {
+            // 所有内容显示完毕
+            if (currentIndex >= contentList.length) {
+                displayArea.textContent = "练习结束";
+                resetControls();
+                return;
+            }
+            
+            // 显示当前内容（单独显示）
+            displayArea.textContent = contentList[currentIndex];
+            currentIndex++;
+            
+            // 设置下一次显示
+            timer = setTimeout(showNextContent, getSelectedInterval());
+        }
+        
+        // 重置控制按钮状态
+        function resetControls() {
+            clearTimeout(timer);
+            timer = null;
+            startBtn.disabled = false;
+            stopBtn.disabled = true;
+            currentIndex = 0;
+        }
+        
+        // 开始按钮点击事件
+        startBtn.addEventListener('click', () => {
+            // 获取并处理输入的内容
+            const inputText = numberInput.value.trim();
+            if (!inputText) {
+                alert("请先输入需要练习的内容！");
+                return;
+            }
+            
+            // 用全角空格分割内容，过滤空值
+            contentList = inputText.split('　').filter(item => item.trim() !== '');
+            
+            if (contentList.length === 0) {
+                alert("请输入有效的内容（使用全角空格分隔）！");
+                return;
+            }
+            
+            // 禁用开始按钮，启用停止按钮
+            startBtn.disabled = true;
+            stopBtn.disabled = false;
+            
+            // 开始显示内容
+            currentIndex = 0;
+            showNextContent();
+        });
+        
+        // 停止按钮点击事件
+        stopBtn.addEventListener('click', () => {
+            displayArea.textContent = "练习已停止";
+            resetControls();
+        });
+    </script>
+
+</body></html>

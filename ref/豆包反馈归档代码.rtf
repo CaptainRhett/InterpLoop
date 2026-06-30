@@ -1,0 +1,1134 @@
+{\rtf1\ansi\ansicpg936\cocoartf2822
+\cocoatextscaling0\cocoaplatform0{\fonttbl\f0\fnil\fcharset0 Menlo-Regular;\f1\fnil\fcharset0 Menlo-Italic;\f2\fnil\fcharset0 Menlo-Bold;
+}
+{\colortbl;\red255\green255\blue255;\red129\green144\blue144;\red252\green244\blue220;\red33\green118\blue199;
+\red83\green104\blue112;\red37\green146\blue134;\red115\green138\blue4;\red198\green28\blue111;\red189\green54\blue19;
+\red71\green91\blue98;\red209\green28\blue36;\red165\green119\blue5;}
+{\*\expandedcolortbl;;\cssrgb\c57647\c63137\c63137;\cssrgb\c99216\c96471\c89020;\cssrgb\c14902\c54510\c82353;
+\cssrgb\c39608\c48235\c51373;\cssrgb\c16471\c63137\c59608;\cssrgb\c52157\c60000\c0;\cssrgb\c82745\c21176\c50980;\cssrgb\c79608\c29412\c8627;
+\cssrgb\c34510\c43137\c45882;\cssrgb\c86275\c19608\c18431;\cssrgb\c70980\c53725\c0;}
+\paperw11900\paperh16840\margl1440\margr1440\vieww29200\viewh17820\viewkind0
+\deftab720
+\pard\pardeftab720\partightenfactor0
+
+\f0\fs24 \cf2 \cb3 \expnd0\expndtw0\kerning0
+\outl0\strokewidth0 \strokec2 <!\cf4 \strokec4 DOCTYPE\cf5 \strokec5  \cf2 \strokec2 html>\cf5 \cb1 \strokec5 \
+\cf2 \cb3 \strokec2 <\cf4 \strokec4 html\cf5 \strokec5  \cf2 \strokec2 lang\cf5 \strokec5 =\cf6 \strokec6 "zh-CN"\cf2 \strokec2 >\cf5 \cb1 \strokec5 \
+\cf2 \cb3 \strokec2 <\cf4 \strokec4 head\cf2 \strokec2 >\cf5 \cb1 \strokec5 \
+\cf2 \cb3 \strokec2 <\cf4 \strokec4 meta\cf5 \strokec5  \cf2 \strokec2 charset\cf5 \strokec5 =\cf6 \strokec6 "UTF-8"\cf2 \strokec2 >\cf5 \cb1 \strokec5 \
+\cf2 \cb3 \strokec2 <\cf4 \strokec4 meta\cf5 \strokec5  \cf2 \strokec2 name\cf5 \strokec5 =\cf6 \strokec6 "viewport"\cf5 \strokec5  \cf2 \strokec2 content\cf5 \strokec5 =\cf6 \strokec6 "width=device-width, initial-scale=1.0"\cf2 \strokec2 >\cf5 \cb1 \strokec5 \
+\cf2 \cb3 \strokec2 <\cf4 \strokec4 title\cf2 \strokec2 >\cf5 \strokec5 DoubaoLogger \uc0\u35910 \u21253 \u21453 \u39304 \u24402 \u26723 \u22120 \cf2 \strokec2 </\cf4 \strokec4 title\cf2 \strokec2 >\cf5 \cb1 \strokec5 \
+\cf2 \cb3 \strokec2 <\cf4 \strokec4 style\cf2 \strokec2 >\cf5 \cb1 \strokec5 \
+\pard\pardeftab720\partightenfactor0
+\cf4 \cb3 \strokec4 *\cf5 \strokec5  \{ \cf7 \strokec7 box-sizing\cf5 \strokec5 : border-box; \cf7 \strokec7 margin\cf5 \strokec5 : \cf8 \strokec8 0\cf5 \strokec5 ; \cf7 \strokec7 padding\cf5 \strokec5 : \cf8 \strokec8 0\cf5 \strokec5 ; \}\cb1 \
+\cf4 \cb3 \strokec4 body\cf5 \strokec5  \{\cb1 \
+\pard\pardeftab720\partightenfactor0
+\cf5 \cb3   \cf7 \strokec7 font-family\cf5 \strokec5 : \cf6 \strokec6 "PingFang SC"\cf5 \strokec5 , \cf6 \strokec6 "Microsoft YaHei"\cf5 \strokec5 , \cf6 \strokec6 "Hiragino Sans GB"\cf5 \strokec5 , sans-serif;\cb1 \
+\cb3   \cf7 \strokec7 background\cf5 \strokec5 : \cf9 \strokec9 #f0f4f8\cf5 \strokec5 ;\cb1 \
+\cb3   \cf7 \strokec7 color\cf5 \strokec5 : \cf9 \strokec9 #2c3e50\cf5 \strokec5 ;\cb1 \
+\cb3   \cf7 \strokec7 padding\cf5 \strokec5 : \cf8 \strokec8 20\cf7 \strokec7 px\cf5 \strokec5 ;\cb1 \
+\cb3   \cf7 \strokec7 line-height\cf5 \strokec5 : \cf8 \strokec8 1.6\cf5 \strokec5 ;\cb1 \
+\cb3 \}\cb1 \
+\pard\pardeftab720\partightenfactor0
+\cf2 \cb3 \strokec2 .container\cf5 \strokec5  \{\cb1 \
+\pard\pardeftab720\partightenfactor0
+\cf5 \cb3   \cf7 \strokec7 max-width\cf5 \strokec5 : \cf8 \strokec8 1200\cf7 \strokec7 px\cf5 \strokec5 ;\cb1 \
+\cb3   \cf7 \strokec7 margin\cf5 \strokec5 : \cf8 \strokec8 0\cf5 \strokec5  auto;\cb1 \
+\cb3   \cf7 \strokec7 background\cf5 \strokec5 : white;\cb1 \
+\cb3   \cf7 \strokec7 border-radius\cf5 \strokec5 : \cf8 \strokec8 12\cf7 \strokec7 px\cf5 \strokec5 ;\cb1 \
+\cb3   \cf7 \strokec7 box-shadow\cf5 \strokec5 : \cf8 \strokec8 0\cf5 \strokec5  \cf8 \strokec8 4\cf7 \strokec7 px\cf5 \strokec5  \cf8 \strokec8 20\cf7 \strokec7 px\cf5 \strokec5  \cf4 \strokec4 rgba\cf5 \strokec5 (\cf8 \strokec8 0\cf5 \strokec5 ,\cf8 \strokec8 0\cf5 \strokec5 ,\cf8 \strokec8 0\cf5 \strokec5 ,\cf8 \strokec8 0.08\cf5 \strokec5 );\cb1 \
+\cb3   \cf7 \strokec7 overflow\cf5 \strokec5 : hidden;\cb1 \
+\cb3 \}\cb1 \
+\pard\pardeftab720\partightenfactor0
+\cf4 \cb3 \strokec4 header\cf5 \strokec5  \{\cb1 \
+\pard\pardeftab720\partightenfactor0
+\cf5 \cb3   \cf7 \strokec7 background\cf5 \strokec5 : \cf4 \strokec4 linear-gradient\cf5 \strokec5 (\cf8 \strokec8 135\cf7 \strokec7 deg\cf5 \strokec5 , \cf9 \strokec9 #e67e22\cf5 \strokec5 , \cf9 \strokec9 #c0392b\cf5 \strokec5 );\cb1 \
+\cb3   \cf7 \strokec7 color\cf5 \strokec5 : white;\cb1 \
+\cb3   \cf7 \strokec7 padding\cf5 \strokec5 : \cf8 \strokec8 30\cf7 \strokec7 px\cf5 \strokec5  \cf8 \strokec8 40\cf7 \strokec7 px\cf5 \strokec5 ;\cb1 \
+\cb3 \}\cb1 \
+\pard\pardeftab720\partightenfactor0
+\cf4 \cb3 \strokec4 header\cf5 \strokec5  \cf4 \strokec4 h1\cf5 \strokec5  \{ \cf7 \strokec7 font-size\cf5 \strokec5 : \cf8 \strokec8 26\cf7 \strokec7 px\cf5 \strokec5 ; \cf7 \strokec7 margin-bottom\cf5 \strokec5 : \cf8 \strokec8 6\cf7 \strokec7 px\cf5 \strokec5 ; \}\cb1 \
+\cf4 \cb3 \strokec4 header\cf5 \strokec5  \cf2 \strokec2 .subtitle\cf5 \strokec5  \{ \cf7 \strokec7 font-size\cf5 \strokec5 : \cf8 \strokec8 14\cf7 \strokec7 px\cf5 \strokec5 ; \cf7 \strokec7 opacity\cf5 \strokec5 : \cf8 \strokec8 0.9\cf5 \strokec5 ; \}\cb1 \
+\cf4 \cb3 \strokec4 header\cf5 \strokec5  \cf2 \strokec2 .badge\cf5 \strokec5  \{\cb1 \
+\pard\pardeftab720\partightenfactor0
+\cf5 \cb3   \cf7 \strokec7 display\cf5 \strokec5 : inline-block;\cb1 \
+\cb3   \cf7 \strokec7 background\cf5 \strokec5 : \cf4 \strokec4 rgba\cf5 \strokec5 (\cf8 \strokec8 255\cf5 \strokec5 ,\cf8 \strokec8 255\cf5 \strokec5 ,\cf8 \strokec8 255\cf5 \strokec5 ,\cf8 \strokec8 0.2\cf5 \strokec5 );\cb1 \
+\cb3   \cf7 \strokec7 padding\cf5 \strokec5 : \cf8 \strokec8 3\cf7 \strokec7 px\cf5 \strokec5  \cf8 \strokec8 10\cf7 \strokec7 px\cf5 \strokec5 ;\cb1 \
+\cb3   \cf7 \strokec7 border-radius\cf5 \strokec5 : \cf8 \strokec8 12\cf7 \strokec7 px\cf5 \strokec5 ;\cb1 \
+\cb3   \cf7 \strokec7 font-size\cf5 \strokec5 : \cf8 \strokec8 12\cf7 \strokec7 px\cf5 \strokec5 ;\cb1 \
+\cb3   \cf7 \strokec7 margin-top\cf5 \strokec5 : \cf8 \strokec8 8\cf7 \strokec7 px\cf5 \strokec5 ;\cb1 \
+\cb3 \}\cb1 \
+\pard\pardeftab720\partightenfactor0
+\cf2 \cb3 \strokec2 .meta-bar\cf5 \strokec5  \{\cb1 \
+\pard\pardeftab720\partightenfactor0
+\cf5 \cb3   \cf7 \strokec7 background\cf5 \strokec5 : \cf9 \strokec9 #fafbfc\cf5 \strokec5 ;\cb1 \
+\cb3   \cf7 \strokec7 padding\cf5 \strokec5 : \cf8 \strokec8 20\cf7 \strokec7 px\cf5 \strokec5  \cf8 \strokec8 40\cf7 \strokec7 px\cf5 \strokec5 ;\cb1 \
+\cb3   \cf7 \strokec7 border-bottom\cf5 \strokec5 : \cf8 \strokec8 1\cf7 \strokec7 px\cf5 \strokec5  solid \cf9 \strokec9 #e1e8ed\cf5 \strokec5 ;\cb1 \
+\cb3   \cf7 \strokec7 display\cf5 \strokec5 : grid;\cb1 \
+\cb3   \cf7 \strokec7 grid-template-columns\cf5 \strokec5 : \cf4 \strokec4 repeat\cf5 \strokec5 (\cf8 \strokec8 4\cf5 \strokec5 , \cf8 \strokec8 1\cf7 \strokec7 fr\cf5 \strokec5 );\cb1 \
+\cb3   \cf7 \strokec7 gap\cf5 \strokec5 : \cf8 \strokec8 15\cf7 \strokec7 px\cf5 \strokec5 ;\cb1 \
+\cb3 \}\cb1 \
+\pard\pardeftab720\partightenfactor0
+\cf2 \cb3 \strokec2 .meta-bar\cf5 \strokec5  \cf2 \strokec2 .field\cf5 \strokec5  \cf4 \strokec4 label\cf5 \strokec5  \{\cb1 \
+\pard\pardeftab720\partightenfactor0
+\cf5 \cb3   \cf7 \strokec7 display\cf5 \strokec5 : block;\cb1 \
+\cb3   \cf7 \strokec7 font-size\cf5 \strokec5 : \cf8 \strokec8 12\cf7 \strokec7 px\cf5 \strokec5 ;\cb1 \
+\cb3   \cf7 \strokec7 font-weight\cf5 \strokec5 : \cf8 \strokec8 600\cf5 \strokec5 ;\cb1 \
+\cb3   \cf7 \strokec7 color\cf5 \strokec5 : \cf9 \strokec9 #7f8c8d\cf5 \strokec5 ;\cb1 \
+\cb3   \cf7 \strokec7 margin-bottom\cf5 \strokec5 : \cf8 \strokec8 4\cf7 \strokec7 px\cf5 \strokec5 ;\cb1 \
+\cb3   \cf7 \strokec7 text-transform\cf5 \strokec5 : uppercase;\cb1 \
+\cb3   \cf7 \strokec7 letter-spacing\cf5 \strokec5 : \cf8 \strokec8 0.5\cf7 \strokec7 px\cf5 \strokec5 ;\cb1 \
+\cb3 \}\cb1 \
+\pard\pardeftab720\partightenfactor0
+\cf2 \cb3 \strokec2 .meta-bar\cf5 \strokec5  \cf4 \strokec4 input\cf5 \strokec5 , \cf2 \strokec2 .meta-bar\cf5 \strokec5  \cf4 \strokec4 select\cf5 \strokec5  \{\cb1 \
+\pard\pardeftab720\partightenfactor0
+\cf5 \cb3   \cf7 \strokec7 width\cf5 \strokec5 : \cf8 \strokec8 100\cf7 \strokec7 %\cf5 \strokec5 ;\cb1 \
+\cb3   \cf7 \strokec7 padding\cf5 \strokec5 : \cf8 \strokec8 8\cf7 \strokec7 px\cf5 \strokec5  \cf8 \strokec8 10\cf7 \strokec7 px\cf5 \strokec5 ;\cb1 \
+\cb3   \cf7 \strokec7 border\cf5 \strokec5 : \cf8 \strokec8 1\cf7 \strokec7 px\cf5 \strokec5  solid \cf9 \strokec9 #d0d7de\cf5 \strokec5 ;\cb1 \
+\cb3   \cf7 \strokec7 border-radius\cf5 \strokec5 : \cf8 \strokec8 5\cf7 \strokec7 px\cf5 \strokec5 ;\cb1 \
+\cb3   \cf7 \strokec7 font-size\cf5 \strokec5 : \cf8 \strokec8 13\cf7 \strokec7 px\cf5 \strokec5 ;\cb1 \
+\cb3   \cf7 \strokec7 background\cf5 \strokec5 : white;\cb1 \
+\cb3   \cf7 \strokec7 font-family\cf5 \strokec5 : inherit;\cb1 \
+\cb3 \}\cb1 \
+\pard\pardeftab720\partightenfactor0
+\cf2 \cb3 \strokec2 .main\cf5 \strokec5  \{\cb1 \
+\pard\pardeftab720\partightenfactor0
+\cf5 \cb3   \cf7 \strokec7 display\cf5 \strokec5 : grid;\cb1 \
+\cb3   \cf7 \strokec7 grid-template-columns\cf5 \strokec5 : \cf8 \strokec8 1\cf7 \strokec7 fr\cf5 \strokec5  \cf8 \strokec8 1\cf7 \strokec7 fr\cf5 \strokec5 ;\cb1 \
+\cb3   \cf7 \strokec7 gap\cf5 \strokec5 : \cf8 \strokec8 0\cf5 \strokec5 ;\cb1 \
+\cb3   \cf7 \strokec7 min-height\cf5 \strokec5 : \cf8 \strokec8 500\cf7 \strokec7 px\cf5 \strokec5 ;\cb1 \
+\cb3 \}\cb1 \
+\pard\pardeftab720\partightenfactor0
+\cf2 \cb3 \strokec2 .left\cf5 \strokec5  \{\cb1 \
+\pard\pardeftab720\partightenfactor0
+\cf5 \cb3   \cf7 \strokec7 padding\cf5 \strokec5 : \cf8 \strokec8 25\cf7 \strokec7 px\cf5 \strokec5  \cf8 \strokec8 30\cf7 \strokec7 px\cf5 \strokec5 ;\cb1 \
+\cb3   \cf7 \strokec7 border-right\cf5 \strokec5 : \cf8 \strokec8 1\cf7 \strokec7 px\cf5 \strokec5  solid \cf9 \strokec9 #e1e8ed\cf5 \strokec5 ;\cb1 \
+\cb3   \cf7 \strokec7 background\cf5 \strokec5 : \cf9 \strokec9 #fafbfc\cf5 \strokec5 ;\cb1 \
+\cb3 \}\cb1 \
+\pard\pardeftab720\partightenfactor0
+\cf2 \cb3 \strokec2 .right\cf5 \strokec5  \{\cb1 \
+\pard\pardeftab720\partightenfactor0
+\cf5 \cb3   \cf7 \strokec7 padding\cf5 \strokec5 : \cf8 \strokec8 25\cf7 \strokec7 px\cf5 \strokec5  \cf8 \strokec8 30\cf7 \strokec7 px\cf5 \strokec5 ;\cb1 \
+\cb3   \cf7 \strokec7 background\cf5 \strokec5 : white;\cb1 \
+\cb3 \}\cb1 \
+\pard\pardeftab720\partightenfactor0
+\cf2 \cb3 \strokec2 .section-title\cf5 \strokec5  \{\cb1 \
+\pard\pardeftab720\partightenfactor0
+\cf5 \cb3   \cf7 \strokec7 font-size\cf5 \strokec5 : \cf8 \strokec8 12\cf7 \strokec7 px\cf5 \strokec5 ;\cb1 \
+\cb3   \cf7 \strokec7 font-weight\cf5 \strokec5 : \cf8 \strokec8 700\cf5 \strokec5 ;\cb1 \
+\cb3   \cf7 \strokec7 color\cf5 \strokec5 : \cf9 \strokec9 #7f8c8d\cf5 \strokec5 ;\cb1 \
+\cb3   \cf7 \strokec7 text-transform\cf5 \strokec5 : uppercase;\cb1 \
+\cb3   \cf7 \strokec7 letter-spacing\cf5 \strokec5 : \cf8 \strokec8 1\cf7 \strokec7 px\cf5 \strokec5 ;\cb1 \
+\cb3   \cf7 \strokec7 margin-bottom\cf5 \strokec5 : \cf8 \strokec8 12\cf7 \strokec7 px\cf5 \strokec5 ;\cb1 \
+\cb3   \cf7 \strokec7 padding-bottom\cf5 \strokec5 : \cf8 \strokec8 8\cf7 \strokec7 px\cf5 \strokec5 ;\cb1 \
+\cb3   \cf7 \strokec7 border-bottom\cf5 \strokec5 : \cf8 \strokec8 2\cf7 \strokec7 px\cf5 \strokec5  solid \cf9 \strokec9 #ecf0f1\cf5 \strokec5 ;\cb1 \
+\cb3 \}\cb1 \
+\pard\pardeftab720\partightenfactor0
+\cf4 \cb3 \strokec4 textarea\cf2 \strokec2 #rawInput\cf5 \strokec5  \{\cb1 \
+\pard\pardeftab720\partightenfactor0
+\cf5 \cb3   \cf7 \strokec7 width\cf5 \strokec5 : \cf8 \strokec8 100\cf7 \strokec7 %\cf5 \strokec5 ;\cb1 \
+\cb3   \cf7 \strokec7 min-height\cf5 \strokec5 : \cf8 \strokec8 380\cf7 \strokec7 px\cf5 \strokec5 ;\cb1 \
+\cb3   \cf7 \strokec7 padding\cf5 \strokec5 : \cf8 \strokec8 15\cf7 \strokec7 px\cf5 \strokec5 ;\cb1 \
+\cb3   \cf7 \strokec7 border\cf5 \strokec5 : \cf8 \strokec8 1\cf7 \strokec7 px\cf5 \strokec5  solid \cf9 \strokec9 #d0d7de\cf5 \strokec5 ;\cb1 \
+\cb3   \cf7 \strokec7 border-radius\cf5 \strokec5 : \cf8 \strokec8 6\cf7 \strokec7 px\cf5 \strokec5 ;\cb1 \
+\cb3   \cf7 \strokec7 font-size\cf5 \strokec5 : \cf8 \strokec8 13\cf7 \strokec7 px\cf5 \strokec5 ;\cb1 \
+\cb3   \cf7 \strokec7 font-family\cf5 \strokec5 : inherit;\cb1 \
+\cb3   \cf7 \strokec7 line-height\cf5 \strokec5 : \cf8 \strokec8 1.7\cf5 \strokec5 ;\cb1 \
+\cb3   \cf7 \strokec7 resize\cf5 \strokec5 : vertical;\cb1 \
+\cb3 \}\cb1 \
+\pard\pardeftab720\partightenfactor0
+\cf4 \cb3 \strokec4 textarea\cf2 \strokec2 #rawInput:focus\cf5 \strokec5  \{\cb1 \
+\pard\pardeftab720\partightenfactor0
+\cf5 \cb3   \cf7 \strokec7 outline\cf5 \strokec5 : none;\cb1 \
+\cb3   \cf7 \strokec7 border-color\cf5 \strokec5 : \cf9 \strokec9 #e67e22\cf5 \strokec5 ;\cb1 \
+\cb3 \}\cb1 \
+\pard\pardeftab720\partightenfactor0
+\cf2 \cb3 \strokec2 .btn-row\cf5 \strokec5  \{\cb1 \
+\pard\pardeftab720\partightenfactor0
+\cf5 \cb3   \cf7 \strokec7 display\cf5 \strokec5 : flex;\cb1 \
+\cb3   \cf7 \strokec7 gap\cf5 \strokec5 : \cf8 \strokec8 10\cf7 \strokec7 px\cf5 \strokec5 ;\cb1 \
+\cb3   \cf7 \strokec7 margin-top\cf5 \strokec5 : \cf8 \strokec8 15\cf7 \strokec7 px\cf5 \strokec5 ;\cb1 \
+\cb3 \}\cb1 \
+\pard\pardeftab720\partightenfactor0
+\cf4 \cb3 \strokec4 button\cf5 \strokec5  \{\cb1 \
+\pard\pardeftab720\partightenfactor0
+\cf5 \cb3   \cf7 \strokec7 padding\cf5 \strokec5 : \cf8 \strokec8 10\cf7 \strokec7 px\cf5 \strokec5  \cf8 \strokec8 18\cf7 \strokec7 px\cf5 \strokec5 ;\cb1 \
+\cb3   \cf7 \strokec7 border\cf5 \strokec5 : none;\cb1 \
+\cb3   \cf7 \strokec7 border-radius\cf5 \strokec5 : \cf8 \strokec8 6\cf7 \strokec7 px\cf5 \strokec5 ;\cb1 \
+\cb3   \cf7 \strokec7 font-size\cf5 \strokec5 : \cf8 \strokec8 13\cf7 \strokec7 px\cf5 \strokec5 ;\cb1 \
+\cb3   \cf7 \strokec7 font-weight\cf5 \strokec5 : \cf8 \strokec8 600\cf5 \strokec5 ;\cb1 \
+\cb3   \cf7 \strokec7 cursor\cf5 \strokec5 : pointer;\cb1 \
+\cb3   \cf7 \strokec7 font-family\cf5 \strokec5 : inherit;\cb1 \
+\cb3   \cf7 \strokec7 transition\cf5 \strokec5 : all \cf8 \strokec8 0.2\cf7 \strokec7 s\cf5 \strokec5 ;\cb1 \
+\cb3 \}\cb1 \
+\pard\pardeftab720\partightenfactor0
+\cf2 \cb3 \strokec2 .btn-primary\cf5 \strokec5  \{ \cf7 \strokec7 background\cf5 \strokec5 : \cf9 \strokec9 #e67e22\cf5 \strokec5 ; \cf7 \strokec7 color\cf5 \strokec5 : white; \}\cb1 \
+\cf2 \cb3 \strokec2 .btn-primary:hover\cf5 \strokec5  \{ \cf7 \strokec7 background\cf5 \strokec5 : \cf9 \strokec9 #d35400\cf5 \strokec5 ; \}\cb1 \
+\cf2 \cb3 \strokec2 .btn-success\cf5 \strokec5  \{ \cf7 \strokec7 background\cf5 \strokec5 : \cf9 \strokec9 #27ae60\cf5 \strokec5 ; \cf7 \strokec7 color\cf5 \strokec5 : white; \}\cb1 \
+\cf2 \cb3 \strokec2 .btn-success:hover\cf5 \strokec5  \{ \cf7 \strokec7 background\cf5 \strokec5 : \cf9 \strokec9 #229954\cf5 \strokec5 ; \}\cb1 \
+\cf2 \cb3 \strokec2 .btn-secondary\cf5 \strokec5  \{ \cf7 \strokec7 background\cf5 \strokec5 : \cf9 \strokec9 #ecf0f1\cf5 \strokec5 ; \cf7 \strokec7 color\cf5 \strokec5 : \cf9 \strokec9 #2c3e50\cf5 \strokec5 ; \}\cb1 \
+\cf2 \cb3 \strokec2 .btn-secondary:hover\cf5 \strokec5  \{ \cf7 \strokec7 background\cf5 \strokec5 : \cf9 \strokec9 #d5dbdb\cf5 \strokec5 ; \}\cb1 \
+\cf2 \cb3 \strokec2 .btn-info\cf5 \strokec5  \{ \cf7 \strokec7 background\cf5 \strokec5 : \cf9 \strokec9 #3498db\cf5 \strokec5 ; \cf7 \strokec7 color\cf5 \strokec5 : white; \}\cb1 \
+\cf2 \cb3 \strokec2 .btn-info:hover\cf5 \strokec5  \{ \cf7 \strokec7 background\cf5 \strokec5 : \cf9 \strokec9 #2980b9\cf5 \strokec5 ; \}\cb1 \
+\cf2 \cb3 \strokec2 .tip\cf5 \strokec5  \{\cb1 \
+\pard\pardeftab720\partightenfactor0
+\cf5 \cb3   \cf7 \strokec7 background\cf5 \strokec5 : \cf9 \strokec9 #fff8e1\cf5 \strokec5 ;\cb1 \
+\cb3   \cf7 \strokec7 border-left\cf5 \strokec5 : \cf8 \strokec8 3\cf7 \strokec7 px\cf5 \strokec5  solid \cf9 \strokec9 #f39c12\cf5 \strokec5 ;\cb1 \
+\cb3   \cf7 \strokec7 padding\cf5 \strokec5 : \cf8 \strokec8 10\cf7 \strokec7 px\cf5 \strokec5  \cf8 \strokec8 12\cf7 \strokec7 px\cf5 \strokec5 ;\cb1 \
+\cb3   \cf7 \strokec7 font-size\cf5 \strokec5 : \cf8 \strokec8 12\cf7 \strokec7 px\cf5 \strokec5 ;\cb1 \
+\cb3   \cf7 \strokec7 color\cf5 \strokec5 : \cf9 \strokec9 #7d6608\cf5 \strokec5 ;\cb1 \
+\cb3   \cf7 \strokec7 margin-top\cf5 \strokec5 : \cf8 \strokec8 12\cf7 \strokec7 px\cf5 \strokec5 ;\cb1 \
+\cb3   \cf7 \strokec7 border-radius\cf5 \strokec5 : \cf8 \strokec8 4\cf7 \strokec7 px\cf5 \strokec5 ;\cb1 \
+\cb3   \cf7 \strokec7 line-height\cf5 \strokec5 : \cf8 \strokec8 1.6\cf5 \strokec5 ;\cb1 \
+\cb3 \}\cb1 \
+\pard\pardeftab720\partightenfactor0
+\cf2 \cb3 \strokec2 .parsed-section\cf5 \strokec5  \{\cb1 \
+\pard\pardeftab720\partightenfactor0
+\cf5 \cb3   \cf7 \strokec7 margin-bottom\cf5 \strokec5 : \cf8 \strokec8 18\cf7 \strokec7 px\cf5 \strokec5 ;\cb1 \
+\cb3 \}\cb1 \
+\pard\pardeftab720\partightenfactor0
+\cf2 \cb3 \strokec2 .parsed-section\cf5 \strokec5  \cf2 \strokec2 .head\cf5 \strokec5  \{\cb1 \
+\pard\pardeftab720\partightenfactor0
+\cf5 \cb3   \cf7 \strokec7 display\cf5 \strokec5 : flex;\cb1 \
+\cb3   \cf7 \strokec7 justify-content\cf5 \strokec5 : space-between;\cb1 \
+\cb3   \cf7 \strokec7 align-items\cf5 \strokec5 : center;\cb1 \
+\cb3   \cf7 \strokec7 margin-bottom\cf5 \strokec5 : \cf8 \strokec8 6\cf7 \strokec7 px\cf5 \strokec5 ;\cb1 \
+\cb3 \}\cb1 \
+\pard\pardeftab720\partightenfactor0
+\cf2 \cb3 \strokec2 .parsed-section\cf5 \strokec5  \cf2 \strokec2 .head\cf5 \strokec5  \cf2 \strokec2 .label\cf5 \strokec5  \{\cb1 \
+\pard\pardeftab720\partightenfactor0
+\cf5 \cb3   \cf7 \strokec7 font-weight\cf5 \strokec5 : \cf8 \strokec8 600\cf5 \strokec5 ;\cb1 \
+\cb3   \cf7 \strokec7 font-size\cf5 \strokec5 : \cf8 \strokec8 13\cf7 \strokec7 px\cf5 \strokec5 ;\cb1 \
+\cb3   \cf7 \strokec7 color\cf5 \strokec5 : \cf9 \strokec9 #34495e\cf5 \strokec5 ;\cb1 \
+\cb3 \}\cb1 \
+\pard\pardeftab720\partightenfactor0
+\cf2 \cb3 \strokec2 .parsed-section\cf5 \strokec5  \cf2 \strokec2 .head\cf5 \strokec5  \cf2 \strokec2 .count\cf5 \strokec5  \{\cb1 \
+\pard\pardeftab720\partightenfactor0
+\cf5 \cb3   \cf7 \strokec7 font-size\cf5 \strokec5 : \cf8 \strokec8 11\cf7 \strokec7 px\cf5 \strokec5 ;\cb1 \
+\cb3   \cf7 \strokec7 color\cf5 \strokec5 : \cf9 \strokec9 #95a5a6\cf5 \strokec5 ;\cb1 \
+\cb3   \cf7 \strokec7 background\cf5 \strokec5 : \cf9 \strokec9 #ecf0f1\cf5 \strokec5 ;\cb1 \
+\cb3   \cf7 \strokec7 padding\cf5 \strokec5 : \cf8 \strokec8 2\cf7 \strokec7 px\cf5 \strokec5  \cf8 \strokec8 8\cf7 \strokec7 px\cf5 \strokec5 ;\cb1 \
+\cb3   \cf7 \strokec7 border-radius\cf5 \strokec5 : \cf8 \strokec8 10\cf7 \strokec7 px\cf5 \strokec5 ;\cb1 \
+\cb3 \}\cb1 \
+\pard\pardeftab720\partightenfactor0
+\cf2 \cb3 \strokec2 .parsed-section\cf5 \strokec5  \cf4 \strokec4 textarea\cf5 \strokec5  \{\cb1 \
+\pard\pardeftab720\partightenfactor0
+\cf5 \cb3   \cf7 \strokec7 width\cf5 \strokec5 : \cf8 \strokec8 100\cf7 \strokec7 %\cf5 \strokec5 ;\cb1 \
+\cb3   \cf7 \strokec7 min-height\cf5 \strokec5 : \cf8 \strokec8 80\cf7 \strokec7 px\cf5 \strokec5 ;\cb1 \
+\cb3   \cf7 \strokec7 padding\cf5 \strokec5 : \cf8 \strokec8 10\cf7 \strokec7 px\cf5 \strokec5 ;\cb1 \
+\cb3   \cf7 \strokec7 border\cf5 \strokec5 : \cf8 \strokec8 1\cf7 \strokec7 px\cf5 \strokec5  solid \cf9 \strokec9 #d0d7de\cf5 \strokec5 ;\cb1 \
+\cb3   \cf7 \strokec7 border-radius\cf5 \strokec5 : \cf8 \strokec8 5\cf7 \strokec7 px\cf5 \strokec5 ;\cb1 \
+\cb3   \cf7 \strokec7 font-size\cf5 \strokec5 : \cf8 \strokec8 12\cf7 \strokec7 px\cf5 \strokec5 ;\cb1 \
+\cb3   \cf7 \strokec7 font-family\cf5 \strokec5 : inherit;\cb1 \
+\cb3   \cf7 \strokec7 line-height\cf5 \strokec5 : \cf8 \strokec8 1.6\cf5 \strokec5 ;\cb1 \
+\cb3   \cf7 \strokec7 resize\cf5 \strokec5 : vertical;\cb1 \
+\cb3   \cf7 \strokec7 background\cf5 \strokec5 : white;\cb1 \
+\cb3 \}\cb1 \
+\pard\pardeftab720\partightenfactor0
+\cf2 \cb3 \strokec2 .tag-pros\cf5 \strokec5  \{ \cf7 \strokec7 border-left\cf5 \strokec5 : \cf8 \strokec8 3\cf7 \strokec7 px\cf5 \strokec5  solid \cf9 \strokec9 #27ae60\cf5 \strokec5 ; \cf7 \strokec7 padding-left\cf5 \strokec5 : \cf8 \strokec8 8\cf7 \strokec7 px\cf5 \strokec5 ; \}\cb1 \
+\cf2 \cb3 \strokec2 .tag-cons\cf5 \strokec5  \{ \cf7 \strokec7 border-left\cf5 \strokec5 : \cf8 \strokec8 3\cf7 \strokec7 px\cf5 \strokec5  solid \cf9 \strokec9 #e74c3c\cf5 \strokec5 ; \cf7 \strokec7 padding-left\cf5 \strokec5 : \cf8 \strokec8 8\cf7 \strokec7 px\cf5 \strokec5 ; \}\cb1 \
+\cf2 \cb3 \strokec2 .tag-sugg\cf5 \strokec5  \{ \cf7 \strokec7 border-left\cf5 \strokec5 : \cf8 \strokec8 3\cf7 \strokec7 px\cf5 \strokec5  solid \cf9 \strokec9 #3498db\cf5 \strokec5 ; \cf7 \strokec7 padding-left\cf5 \strokec5 : \cf8 \strokec8 8\cf7 \strokec7 px\cf5 \strokec5 ; \}\cb1 \
+\cf2 \cb3 \strokec2 .tag-meta\cf5 \strokec5  \{ \cf7 \strokec7 border-left\cf5 \strokec5 : \cf8 \strokec8 3\cf7 \strokec7 px\cf5 \strokec5  solid \cf9 \strokec9 #95a5a6\cf5 \strokec5 ; \cf7 \strokec7 padding-left\cf5 \strokec5 : \cf8 \strokec8 8\cf7 \strokec7 px\cf5 \strokec5 ; \}\cb1 \
+\cf2 \cb3 \strokec2 .stats\cf5 \strokec5  \{\cb1 \
+\pard\pardeftab720\partightenfactor0
+\cf5 \cb3   \cf7 \strokec7 background\cf5 \strokec5 : \cf9 \strokec9 #f8f9fa\cf5 \strokec5 ;\cb1 \
+\cb3   \cf7 \strokec7 border\cf5 \strokec5 : \cf8 \strokec8 1\cf7 \strokec7 px\cf5 \strokec5  solid \cf9 \strokec9 #e1e8ed\cf5 \strokec5 ;\cb1 \
+\cb3   \cf7 \strokec7 border-radius\cf5 \strokec5 : \cf8 \strokec8 6\cf7 \strokec7 px\cf5 \strokec5 ;\cb1 \
+\cb3   \cf7 \strokec7 padding\cf5 \strokec5 : \cf8 \strokec8 12\cf7 \strokec7 px\cf5 \strokec5  \cf8 \strokec8 15\cf7 \strokec7 px\cf5 \strokec5 ;\cb1 \
+\cb3   \cf7 \strokec7 margin-top\cf5 \strokec5 : \cf8 \strokec8 15\cf7 \strokec7 px\cf5 \strokec5 ;\cb1 \
+\cb3   \cf7 \strokec7 display\cf5 \strokec5 : grid;\cb1 \
+\cb3   \cf7 \strokec7 grid-template-columns\cf5 \strokec5 : \cf4 \strokec4 repeat\cf5 \strokec5 (\cf8 \strokec8 4\cf5 \strokec5 , \cf8 \strokec8 1\cf7 \strokec7 fr\cf5 \strokec5 );\cb1 \
+\cb3   \cf7 \strokec7 gap\cf5 \strokec5 : \cf8 \strokec8 12\cf7 \strokec7 px\cf5 \strokec5 ;\cb1 \
+\cb3 \}\cb1 \
+\pard\pardeftab720\partightenfactor0
+\cf2 \cb3 \strokec2 .stat-item\cf5 \strokec5  \{\cb1 \
+\pard\pardeftab720\partightenfactor0
+\cf5 \cb3   \cf7 \strokec7 text-align\cf5 \strokec5 : center;\cb1 \
+\cb3 \}\cb1 \
+\pard\pardeftab720\partightenfactor0
+\cf2 \cb3 \strokec2 .stat-item\cf5 \strokec5  \cf2 \strokec2 .num\cf5 \strokec5  \{\cb1 \
+\pard\pardeftab720\partightenfactor0
+\cf5 \cb3   \cf7 \strokec7 font-size\cf5 \strokec5 : \cf8 \strokec8 20\cf7 \strokec7 px\cf5 \strokec5 ;\cb1 \
+\cb3   \cf7 \strokec7 font-weight\cf5 \strokec5 : \cf8 \strokec8 700\cf5 \strokec5 ;\cb1 \
+\cb3   \cf7 \strokec7 color\cf5 \strokec5 : \cf9 \strokec9 #2c3e50\cf5 \strokec5 ;\cb1 \
+\cb3 \}\cb1 \
+\pard\pardeftab720\partightenfactor0
+\cf2 \cb3 \strokec2 .stat-item\cf5 \strokec5  \cf2 \strokec2 .lbl\cf5 \strokec5  \{\cb1 \
+\pard\pardeftab720\partightenfactor0
+\cf5 \cb3   \cf7 \strokec7 font-size\cf5 \strokec5 : \cf8 \strokec8 11\cf7 \strokec7 px\cf5 \strokec5 ;\cb1 \
+\cb3   \cf7 \strokec7 color\cf5 \strokec5 : \cf9 \strokec9 #7f8c8d\cf5 \strokec5 ;\cb1 \
+\cb3   \cf7 \strokec7 margin-top\cf5 \strokec5 : \cf8 \strokec8 2\cf7 \strokec7 px\cf5 \strokec5 ;\cb1 \
+\cb3 \}\cb1 \
+\pard\pardeftab720\partightenfactor0
+\cf2 \cb3 \strokec2 .toast\cf5 \strokec5  \{\cb1 \
+\pard\pardeftab720\partightenfactor0
+\cf5 \cb3   \cf7 \strokec7 position\cf5 \strokec5 : fixed;\cb1 \
+\cb3   \cf7 \strokec7 bottom\cf5 \strokec5 : \cf8 \strokec8 30\cf7 \strokec7 px\cf5 \strokec5 ;\cb1 \
+\cb3   \cf7 \strokec7 left\cf5 \strokec5 : \cf8 \strokec8 50\cf7 \strokec7 %\cf5 \strokec5 ;\cb1 \
+\cb3   \cf7 \strokec7 transform\cf5 \strokec5 : \cf4 \strokec4 translateX\cf5 \strokec5 (\cf8 \strokec8 -50\cf7 \strokec7 %\cf5 \strokec5 ) \cf4 \strokec4 translateY\cf5 \strokec5 (\cf8 \strokec8 100\cf7 \strokec7 px\cf5 \strokec5 );\cb1 \
+\cb3   \cf7 \strokec7 background\cf5 \strokec5 : \cf9 \strokec9 #27ae60\cf5 \strokec5 ;\cb1 \
+\cb3   \cf7 \strokec7 color\cf5 \strokec5 : white;\cb1 \
+\cb3   \cf7 \strokec7 padding\cf5 \strokec5 : \cf8 \strokec8 12\cf7 \strokec7 px\cf5 \strokec5  \cf8 \strokec8 24\cf7 \strokec7 px\cf5 \strokec5 ;\cb1 \
+\cb3   \cf7 \strokec7 border-radius\cf5 \strokec5 : \cf8 \strokec8 6\cf7 \strokec7 px\cf5 \strokec5 ;\cb1 \
+\cb3   \cf7 \strokec7 font-size\cf5 \strokec5 : \cf8 \strokec8 14\cf7 \strokec7 px\cf5 \strokec5 ;\cb1 \
+\cb3   \cf7 \strokec7 font-weight\cf5 \strokec5 : \cf8 \strokec8 500\cf5 \strokec5 ;\cb1 \
+\cb3   \cf7 \strokec7 opacity\cf5 \strokec5 : \cf8 \strokec8 0\cf5 \strokec5 ;\cb1 \
+\cb3   \cf7 \strokec7 transition\cf5 \strokec5 : all \cf8 \strokec8 0.3\cf7 \strokec7 s\cf5 \strokec5 ;\cb1 \
+\cb3   \cf7 \strokec7 box-shadow\cf5 \strokec5 : \cf8 \strokec8 0\cf5 \strokec5  \cf8 \strokec8 4\cf7 \strokec7 px\cf5 \strokec5  \cf8 \strokec8 12\cf7 \strokec7 px\cf5 \strokec5  \cf4 \strokec4 rgba\cf5 \strokec5 (\cf8 \strokec8 0\cf5 \strokec5 ,\cf8 \strokec8 0\cf5 \strokec5 ,\cf8 \strokec8 0\cf5 \strokec5 ,\cf8 \strokec8 0.15\cf5 \strokec5 );\cb1 \
+\cb3   \cf7 \strokec7 z-index\cf5 \strokec5 : \cf8 \strokec8 1000\cf5 \strokec5 ;\cb1 \
+\cb3 \}\cb1 \
+\pard\pardeftab720\partightenfactor0
+\cf2 \cb3 \strokec2 .toast.show\cf5 \strokec5  \{\cb1 \
+\pard\pardeftab720\partightenfactor0
+\cf5 \cb3   \cf7 \strokec7 opacity\cf5 \strokec5 : \cf8 \strokec8 1\cf5 \strokec5 ;\cb1 \
+\cb3   \cf7 \strokec7 transform\cf5 \strokec5 : \cf4 \strokec4 translateX\cf5 \strokec5 (\cf8 \strokec8 -50\cf7 \strokec7 %\cf5 \strokec5 ) \cf4 \strokec4 translateY\cf5 \strokec5 (\cf8 \strokec8 0\cf5 \strokec5 );\cb1 \
+\cb3 \}\cb1 \
+\pard\pardeftab720\partightenfactor0
+\cf2 \cb3 \strokec2 .toast.error\cf5 \strokec5  \{ \cf7 \strokec7 background\cf5 \strokec5 : \cf9 \strokec9 #e74c3c\cf5 \strokec5 ; \}\cb1 \
+\pard\pardeftab720\partightenfactor0
+\cf4 \cb3 \strokec4 footer\cf5 \strokec5  \{\cb1 \
+\pard\pardeftab720\partightenfactor0
+\cf5 \cb3   \cf7 \strokec7 padding\cf5 \strokec5 : \cf8 \strokec8 14\cf7 \strokec7 px\cf5 \strokec5  \cf8 \strokec8 40\cf7 \strokec7 px\cf5 \strokec5 ;\cb1 \
+\cb3   \cf7 \strokec7 background\cf5 \strokec5 : \cf9 \strokec9 #f8f9fa\cf5 \strokec5 ;\cb1 \
+\cb3   \cf7 \strokec7 border-top\cf5 \strokec5 : \cf8 \strokec8 1\cf7 \strokec7 px\cf5 \strokec5  solid \cf9 \strokec9 #e1e8ed\cf5 \strokec5 ;\cb1 \
+\cb3   \cf7 \strokec7 font-size\cf5 \strokec5 : \cf8 \strokec8 11\cf7 \strokec7 px\cf5 \strokec5 ;\cb1 \
+\cb3   \cf7 \strokec7 color\cf5 \strokec5 : \cf9 \strokec9 #95a5a6\cf5 \strokec5 ;\cb1 \
+\cb3   \cf7 \strokec7 text-align\cf5 \strokec5 : center;\cb1 \
+\cb3 \}\cb1 \
+\pard\pardeftab720\partightenfactor0
+\cf2 \cb3 \strokec2 .history-bar\cf5 \strokec5  \{\cb1 \
+\pard\pardeftab720\partightenfactor0
+\cf5 \cb3   \cf7 \strokec7 padding\cf5 \strokec5 : \cf8 \strokec8 15\cf7 \strokec7 px\cf5 \strokec5  \cf8 \strokec8 40\cf7 \strokec7 px\cf5 \strokec5 ;\cb1 \
+\cb3   \cf7 \strokec7 background\cf5 \strokec5 : \cf9 \strokec9 #f8f9fa\cf5 \strokec5 ;\cb1 \
+\cb3   \cf7 \strokec7 border-top\cf5 \strokec5 : \cf8 \strokec8 1\cf7 \strokec7 px\cf5 \strokec5  solid \cf9 \strokec9 #e1e8ed\cf5 \strokec5 ;\cb1 \
+\cb3   \cf7 \strokec7 font-size\cf5 \strokec5 : \cf8 \strokec8 12\cf7 \strokec7 px\cf5 \strokec5 ;\cb1 \
+\cb3 \}\cb1 \
+\pard\pardeftab720\partightenfactor0
+\cf2 \cb3 \strokec2 .history-bar\cf5 \strokec5  \cf2 \strokec2 .label\cf5 \strokec5  \{\cb1 \
+\pard\pardeftab720\partightenfactor0
+\cf5 \cb3   \cf7 \strokec7 font-weight\cf5 \strokec5 : \cf8 \strokec8 600\cf5 \strokec5 ;\cb1 \
+\cb3   \cf7 \strokec7 color\cf5 \strokec5 : \cf9 \strokec9 #34495e\cf5 \strokec5 ;\cb1 \
+\cb3   \cf7 \strokec7 margin-right\cf5 \strokec5 : \cf8 \strokec8 10\cf7 \strokec7 px\cf5 \strokec5 ;\cb1 \
+\cb3 \}\cb1 \
+\pard\pardeftab720\partightenfactor0
+\cf2 \cb3 \strokec2 .history-item\cf5 \strokec5  \{\cb1 \
+\pard\pardeftab720\partightenfactor0
+\cf5 \cb3   \cf7 \strokec7 display\cf5 \strokec5 : inline-block;\cb1 \
+\cb3   \cf7 \strokec7 background\cf5 \strokec5 : white;\cb1 \
+\cb3   \cf7 \strokec7 border\cf5 \strokec5 : \cf8 \strokec8 1\cf7 \strokec7 px\cf5 \strokec5  solid \cf9 \strokec9 #d0d7de\cf5 \strokec5 ;\cb1 \
+\cb3   \cf7 \strokec7 border-radius\cf5 \strokec5 : \cf8 \strokec8 12\cf7 \strokec7 px\cf5 \strokec5 ;\cb1 \
+\cb3   \cf7 \strokec7 padding\cf5 \strokec5 : \cf8 \strokec8 3\cf7 \strokec7 px\cf5 \strokec5  \cf8 \strokec8 12\cf7 \strokec7 px\cf5 \strokec5 ;\cb1 \
+\cb3   \cf7 \strokec7 margin\cf5 \strokec5 : \cf8 \strokec8 3\cf7 \strokec7 px\cf5 \strokec5 ;\cb1 \
+\cb3   \cf7 \strokec7 font-size\cf5 \strokec5 : \cf8 \strokec8 11\cf7 \strokec7 px\cf5 \strokec5 ;\cb1 \
+\cb3   \cf7 \strokec7 color\cf5 \strokec5 : \cf9 \strokec9 #34495e\cf5 \strokec5 ;\cb1 \
+\cb3   \cf7 \strokec7 cursor\cf5 \strokec5 : pointer;\cb1 \
+\cb3 \}\cb1 \
+\pard\pardeftab720\partightenfactor0
+\cf2 \cb3 \strokec2 .history-item:hover\cf5 \strokec5  \{ \cf7 \strokec7 background\cf5 \strokec5 : \cf9 \strokec9 #ecf0f1\cf5 \strokec5 ; \}\cb1 \
+\cf2 \cb3 \strokec2 .history-item\cf5 \strokec5  \cf2 \strokec2 .del\cf5 \strokec5  \{\cb1 \
+\pard\pardeftab720\partightenfactor0
+\cf5 \cb3   \cf7 \strokec7 margin-left\cf5 \strokec5 : \cf8 \strokec8 6\cf7 \strokec7 px\cf5 \strokec5 ;\cb1 \
+\cb3   \cf7 \strokec7 color\cf5 \strokec5 : \cf9 \strokec9 #95a5a6\cf5 \strokec5 ;\cb1 \
+\cb3   \cf7 \strokec7 cursor\cf5 \strokec5 : pointer;\cb1 \
+\cb3 \}\cb1 \
+\pard\pardeftab720\partightenfactor0
+\cf2 \cb3 \strokec2 .history-item\cf5 \strokec5  \cf2 \strokec2 .del:hover\cf5 \strokec5  \{ \cf7 \strokec7 color\cf5 \strokec5 : \cf9 \strokec9 #e74c3c\cf5 \strokec5 ; \}\cb1 \
+\pard\pardeftab720\partightenfactor0
+\cf7 \cb3 \strokec7 @media\cf5 \strokec5  (\cf7 \strokec7 max-width\cf5 \strokec5 : \cf8 \strokec8 768\cf7 \strokec7 px\cf5 \strokec5 ) \{\cb1 \
+\pard\pardeftab720\partightenfactor0
+\cf5 \cb3   \cf2 \strokec2 .main\cf5 \strokec5  \{ \cf7 \strokec7 grid-template-columns\cf5 \strokec5 : \cf8 \strokec8 1\cf7 \strokec7 fr\cf5 \strokec5 ; \}\cb1 \
+\cb3   \cf2 \strokec2 .left\cf5 \strokec5  \{ \cf7 \strokec7 border-right\cf5 \strokec5 : none; \cf7 \strokec7 border-bottom\cf5 \strokec5 : \cf8 \strokec8 1\cf7 \strokec7 px\cf5 \strokec5  solid \cf9 \strokec9 #e1e8ed\cf5 \strokec5 ; \}\cb1 \
+\cb3   \cf2 \strokec2 .meta-bar\cf5 \strokec5  \{ \cf7 \strokec7 grid-template-columns\cf5 \strokec5 : \cf4 \strokec4 repeat\cf5 \strokec5 (\cf8 \strokec8 2\cf5 \strokec5 , \cf8 \strokec8 1\cf7 \strokec7 fr\cf5 \strokec5 ); \}\cb1 \
+\cb3   \cf2 \strokec2 .stats\cf5 \strokec5  \{ \cf7 \strokec7 grid-template-columns\cf5 \strokec5 : \cf4 \strokec4 repeat\cf5 \strokec5 (\cf8 \strokec8 2\cf5 \strokec5 , \cf8 \strokec8 1\cf7 \strokec7 fr\cf5 \strokec5 ); \}\cb1 \
+\cb3 \}\cb1 \
+\pard\pardeftab720\partightenfactor0
+\cf2 \cb3 \strokec2 </\cf4 \strokec4 style\cf2 \strokec2 >\cf5 \cb1 \strokec5 \
+\cf2 \cb3 \strokec2 </\cf4 \strokec4 head\cf2 \strokec2 >\cf5 \cb1 \strokec5 \
+\cf2 \cb3 \strokec2 <\cf4 \strokec4 body\cf2 \strokec2 >\cf5 \cb1 \strokec5 \
+\cf2 \cb3 \strokec2 <\cf4 \strokec4 div\cf5 \strokec5  \cf2 \strokec2 class\cf5 \strokec5 =\cf6 \strokec6 "container"\cf2 \strokec2 >\cf5 \cb1 \strokec5 \
+\pard\pardeftab720\partightenfactor0
+\cf5 \cb3   \cf2 \strokec2 <\cf4 \strokec4 header\cf2 \strokec2 >\cf5 \cb1 \strokec5 \
+\cb3     \cf2 \strokec2 <\cf4 \strokec4 h1\cf2 \strokec2 >\cf5 \strokec5 DoubaoLogger \'b7 \uc0\u35910 \u21253 \u21453 \u39304 \u24402 \u26723 \u22120 \cf2 \strokec2 </\cf4 \strokec4 h1\cf2 \strokec2 >\cf5 \cb1 \strokec5 \
+\cb3     \cf2 \strokec2 <\cf4 \strokec4 div\cf5 \strokec5  \cf2 \strokec2 class\cf5 \strokec5 =\cf6 \strokec6 "subtitle"\cf2 \strokec2 >\cf5 \strokec5 \uc0\u33258 \u21160 \u25286 \u20998 \u35910 \u21253 \u21453 \u39304 \u25991 \u26412  \u8594  \u32467 \u26500 \u21270 \u20026 \u30740 \u31350 \u34920 B4\u23383 \u27573  \u8594  \u19968 \u38190 \u23548 \u20986 CSV\cf2 \strokec2 </\cf4 \strokec4 div\cf2 \strokec2 >\cf5 \cb1 \strokec5 \
+\cb3     \cf2 \strokec2 <\cf4 \strokec4 span\cf5 \strokec5  \cf2 \strokec2 class\cf5 \strokec5 =\cf6 \strokec6 "badge"\cf2 \strokec2 >\cf5 \strokec5 \uc0\u23545 \u25509  AI \u21475 \u35793 \u30740 \u31350 \u25968 \u25454 \u25910 \u38598 \u24037 \u20855 \u21253 \cf2 \strokec2 </\cf4 \strokec4 span\cf2 \strokec2 >\cf5 \cb1 \strokec5 \
+\cb3   \cf2 \strokec2 </\cf4 \strokec4 header\cf2 \strokec2 >\cf5 \cb1 \strokec5 \
+\
+\cb3   \cf2 \strokec2 <\cf4 \strokec4 div\cf5 \strokec5  \cf2 \strokec2 class\cf5 \strokec5 =\cf6 \strokec6 "meta-bar"\cf2 \strokec2 >\cf5 \cb1 \strokec5 \
+\cb3     \cf2 \strokec2 <\cf4 \strokec4 div\cf5 \strokec5  \cf2 \strokec2 class\cf5 \strokec5 =\cf6 \strokec6 "field"\cf2 \strokec2 >\cf5 \cb1 \strokec5 \
+\cb3       \cf2 \strokec2 <\cf4 \strokec4 label\cf2 \strokec2 >\cf5 \strokec5 \uc0\u23398 \u29983 \u32534 \u21495 \cf2 \strokec2 </\cf4 \strokec4 label\cf2 \strokec2 >\cf5 \cb1 \strokec5 \
+\cb3       \cf2 \strokec2 <\cf4 \strokec4 input\cf5 \strokec5  \cf2 \strokec2 type\cf5 \strokec5 =\cf6 \strokec6 "text"\cf5 \strokec5  \cf2 \strokec2 id\cf5 \strokec5 =\cf6 \strokec6 "studentId"\cf5 \strokec5  \cf2 \strokec2 placeholder\cf5 \strokec5 =\cf6 \strokec6 "\uc0\u22914  1120230120"\cf2 \strokec2 >\cf5 \cb1 \strokec5 \
+\cb3     \cf2 \strokec2 </\cf4 \strokec4 div\cf2 \strokec2 >\cf5 \cb1 \strokec5 \
+\cb3     \cf2 \strokec2 <\cf4 \strokec4 div\cf5 \strokec5  \cf2 \strokec2 class\cf5 \strokec5 =\cf6 \strokec6 "field"\cf2 \strokec2 >\cf5 \cb1 \strokec5 \
+\cb3       \cf2 \strokec2 <\cf4 \strokec4 label\cf2 \strokec2 >\cf5 \strokec5 \uc0\u20219 \u21153 \u32534 \u21495 \cf2 \strokec2 </\cf4 \strokec4 label\cf2 \strokec2 >\cf5 \cb1 \strokec5 \
+\cb3       \cf2 \strokec2 <\cf4 \strokec4 input\cf5 \strokec5  \cf2 \strokec2 type\cf5 \strokec5 =\cf6 \strokec6 "text"\cf5 \strokec5  \cf2 \strokec2 id\cf5 \strokec5 =\cf6 \strokec6 "taskId"\cf5 \strokec5  \cf2 \strokec2 placeholder\cf5 \strokec5 =\cf6 \strokec6 "\uc0\u22914  W5-T2"\cf2 \strokec2 >\cf5 \cb1 \strokec5 \
+\cb3     \cf2 \strokec2 </\cf4 \strokec4 div\cf2 \strokec2 >\cf5 \cb1 \strokec5 \
+\cb3     \cf2 \strokec2 <\cf4 \strokec4 div\cf5 \strokec5  \cf2 \strokec2 class\cf5 \strokec5 =\cf6 \strokec6 "field"\cf2 \strokec2 >\cf5 \cb1 \strokec5 \
+\cb3       \cf2 \strokec2 <\cf4 \strokec4 label\cf2 \strokec2 >\cf5 \strokec5 \uc0\u21453 \u39304 \u31867 \u22411 \cf2 \strokec2 </\cf4 \strokec4 label\cf2 \strokec2 >\cf5 \cb1 \strokec5 \
+\cb3       \cf2 \strokec2 <\cf4 \strokec4 select\cf5 \strokec5  \cf2 \strokec2 id\cf5 \strokec5 =\cf6 \strokec6 "feedbackType"\cf2 \strokec2 >\cf5 \cb1 \strokec5 \
+\cb3         \cf2 \strokec2 <\cf4 \strokec4 option\cf5 \strokec5  \cf2 \strokec2 value\cf5 \strokec5 =\cf6 \strokec6 "AI\uc0\u21453 \u39304 \u65288 \u35910 \u21253 \u65289 "\cf2 \strokec2 >\cf5 \strokec5 AI\uc0\u21453 \u39304 \u65288 \u35910 \u21253 \u65289 \cf2 \strokec2 </\cf4 \strokec4 option\cf2 \strokec2 >\cf5 \cb1 \strokec5 \
+\cb3         \cf2 \strokec2 <\cf4 \strokec4 option\cf5 \strokec5  \cf2 \strokec2 value\cf5 \strokec5 =\cf6 \strokec6 "\uc0\u25945 \u24072 \u21453 \u39304 "\cf2 \strokec2 >\cf5 \strokec5 \uc0\u25945 \u24072 \u21453 \u39304 \cf2 \strokec2 </\cf4 \strokec4 option\cf2 \strokec2 >\cf5 \cb1 \strokec5 \
+\cb3         \cf2 \strokec2 <\cf4 \strokec4 option\cf5 \strokec5  \cf2 \strokec2 value\cf5 \strokec5 =\cf6 \strokec6 "\uc0\u21516 \u20276 \u21453 \u39304 "\cf2 \strokec2 >\cf5 \strokec5 \uc0\u21516 \u20276 \u21453 \u39304 \cf2 \strokec2 </\cf4 \strokec4 option\cf2 \strokec2 >\cf5 \cb1 \strokec5 \
+\cb3       \cf2 \strokec2 </\cf4 \strokec4 select\cf2 \strokec2 >\cf5 \cb1 \strokec5 \
+\cb3     \cf2 \strokec2 </\cf4 \strokec4 div\cf2 \strokec2 >\cf5 \cb1 \strokec5 \
+\cb3     \cf2 \strokec2 <\cf4 \strokec4 div\cf5 \strokec5  \cf2 \strokec2 class\cf5 \strokec5 =\cf6 \strokec6 "field"\cf2 \strokec2 >\cf5 \cb1 \strokec5 \
+\cb3       \cf2 \strokec2 <\cf4 \strokec4 label\cf2 \strokec2 >\cf5 \strokec5 \uc0\u26085 \u26399 \cf2 \strokec2 </\cf4 \strokec4 label\cf2 \strokec2 >\cf5 \cb1 \strokec5 \
+\cb3       \cf2 \strokec2 <\cf4 \strokec4 input\cf5 \strokec5  \cf2 \strokec2 type\cf5 \strokec5 =\cf6 \strokec6 "date"\cf5 \strokec5  \cf2 \strokec2 id\cf5 \strokec5 =\cf6 \strokec6 "date"\cf2 \strokec2 >\cf5 \cb1 \strokec5 \
+\cb3     \cf2 \strokec2 </\cf4 \strokec4 div\cf2 \strokec2 >\cf5 \cb1 \strokec5 \
+\cb3   \cf2 \strokec2 </\cf4 \strokec4 div\cf2 \strokec2 >\cf5 \cb1 \strokec5 \
+\
+\cb3   \cf2 \strokec2 <\cf4 \strokec4 div\cf5 \strokec5  \cf2 \strokec2 class\cf5 \strokec5 =\cf6 \strokec6 "main"\cf2 \strokec2 >\cf5 \cb1 \strokec5 \
+\cb3     
+\f1\i \cf2 \strokec2 <!-- \uc0\u24038 \u65306 \u31896 \u36148 \u21407 \u22987 \u25991 \u26412  -->
+\f0\i0 \cf5 \cb1 \strokec5 \
+\cb3     \cf2 \strokec2 <\cf4 \strokec4 div\cf5 \strokec5  \cf2 \strokec2 class\cf5 \strokec5 =\cf6 \strokec6 "left"\cf2 \strokec2 >\cf5 \cb1 \strokec5 \
+\cb3       \cf2 \strokec2 <\cf4 \strokec4 div\cf5 \strokec5  \cf2 \strokec2 class\cf5 \strokec5 =\cf6 \strokec6 "section-title"\cf2 \strokec2 >\cf5 \strokec5 \uc0\u31532 \u19968 \u27493 \u65306 \u31896 \u36148 \u35910 \u21253 \u21453 \u39304 \u21407 \u25991 \cf2 \strokec2 </\cf4 \strokec4 div\cf2 \strokec2 >\cf5 \cb1 \strokec5 \
+\cb3       \cf2 \strokec2 <\cf4 \strokec4 textarea\cf5 \strokec5  \cf2 \strokec2 id\cf5 \strokec5 =\cf6 \strokec6 "rawInput"\cf5 \strokec5  \cf2 \strokec2 placeholder\cf5 \strokec5 =\cf6 \strokec6 "\uc0\u25226 \u35910 \u21253 \u32473 \u23398 \u29983 \u30340 \u21453 \u39304 \u20869 \u23481 \u31896 \u36148 \u21040 \u27492 \u22788 \u65292 \u20363 \u22914 \u65306 \cf5 \cb1 \strokec5 \
+\
+\pard\pardeftab720\partightenfactor0
+\cf6 \cb3 \strokec6 \uc0\u19968 \u12289 \u25972 \u20307 \u35780 \u20215 \cf5 \cb1 \strokec5 \
+\cf6 \cb3 \strokec6 1. \uc0\u20248 \u28857 \cf5 \cb1 \strokec5 \
+\cf6 \cb3 \strokec6 - \uc0\u26680 \u24515 \u25919 \u27835 \u26415 \u35821 \u22522 \u26412 \u27491 \u30830 \u65292 \u21477 \u24847 \u23436 \u25972 \u21487 \u25026 \u12290 \cf5 \cb1 \strokec5 \
+\cf6 \cb3 \strokec6 - \uc0\u21477 \u24335 \u32467 \u26500 \u31526 \u21512 \u26085 \u35821 \u34920 \u36798 \u20064 \u24815 \u12290 \cf5 \cb1 \strokec5 \
+\cf6 \cb3 \strokec6 2. \uc0\u20027 \u35201 \u38382 \u39064 \cf5 \cb1 \strokec5 \
+\cf6 \cb3 \strokec6 - \uc0\u12300 \u65374 \u12375 \u12363 \u65374 \u12394 \u12356 \u12301 \u21477 \u24335 \u35823 \u29992 \u12290 \cf5 \cb1 \strokec5 \
+\cf6 \cb3 \strokec6 - \uc0\u12300 \u26368 \u22823 \u30340 \u12301 \u30452 \u35793 \u20026 \u12300 \u26368 \u22823 \u30340 \u12301 \u65288 \u26085 \u35821 \u19981 \u29992 \u12300 \u30340 \u12301 \u65289 \u12290 \cf5 \cb1 \strokec5 \
+\cf6 \cb3 \strokec6 \uc0\u20108 \u12289 \u25913 \u36827 \u24314 \u35758 \cf5 \cb1 \strokec5 \
+\cf6 \cb3 \strokec6 - \uc0\u31995 \u32479 \u23398 \u20064 \u12302 \u65374 \u12390 \u12399 \u12376 \u12417 \u12390 \u65374 \u12303 \u21477 \u24335 ...\cf5 \cb1 \strokec5 \
+\cf6 \cb3 \strokec6 - \uc0\u21152 \u24378 \u25919 \u27835 \u26415 \u35821 \u22266 \u23450 \u35793 \u27861 \u35760 \u24518 ..."\cf2 \strokec2 ></\cf4 \strokec4 textarea\cf2 \strokec2 >\cf5 \cb1 \strokec5 \
+\pard\pardeftab720\partightenfactor0
+\cf5 \cb3       \cf2 \strokec2 <\cf4 \strokec4 div\cf5 \strokec5  \cf2 \strokec2 class\cf5 \strokec5 =\cf6 \strokec6 "btn-row"\cf2 \strokec2 >\cf5 \cb1 \strokec5 \
+\cb3         \cf2 \strokec2 <\cf4 \strokec4 button\cf5 \strokec5  \cf2 \strokec2 class\cf5 \strokec5 =\cf6 \strokec6 "btn-primary"\cf5 \strokec5  \cf2 \strokec2 id\cf5 \strokec5 =\cf6 \strokec6 "parseBtn"\cf2 \strokec2 >\cf5 \strokec5 \uc0\u55357 \u56589  \u33258 \u21160 \u25286 \u20998 \cf2 \strokec2 </\cf4 \strokec4 button\cf2 \strokec2 >\cf5 \cb1 \strokec5 \
+\cb3         \cf2 \strokec2 <\cf4 \strokec4 button\cf5 \strokec5  \cf2 \strokec2 class\cf5 \strokec5 =\cf6 \strokec6 "btn-secondary"\cf5 \strokec5  \cf2 \strokec2 id\cf5 \strokec5 =\cf6 \strokec6 "sampleBtn"\cf2 \strokec2 >\cf5 \strokec5 \uc0\u36733 \u20837 \u31034 \u20363 \cf2 \strokec2 </\cf4 \strokec4 button\cf2 \strokec2 >\cf5 \cb1 \strokec5 \
+\cb3         \cf2 \strokec2 <\cf4 \strokec4 button\cf5 \strokec5  \cf2 \strokec2 class\cf5 \strokec5 =\cf6 \strokec6 "btn-secondary"\cf5 \strokec5  \cf2 \strokec2 id\cf5 \strokec5 =\cf6 \strokec6 "clearBtn"\cf2 \strokec2 >\cf5 \strokec5 \uc0\u28165 \u31354 \cf2 \strokec2 </\cf4 \strokec4 button\cf2 \strokec2 >\cf5 \cb1 \strokec5 \
+\cb3       \cf2 \strokec2 </\cf4 \strokec4 div\cf2 \strokec2 >\cf5 \cb1 \strokec5 \
+\cb3       \cf2 \strokec2 <\cf4 \strokec4 div\cf5 \strokec5  \cf2 \strokec2 class\cf5 \strokec5 =\cf6 \strokec6 "tip"\cf2 \strokec2 >\cf5 \cb1 \strokec5 \
+\cb3         \uc0\u55357 \u56481  \cf2 \strokec2 <\cf4 \strokec4 strong\cf2 \strokec2 >\cf5 \strokec5 \uc0\u25552 \u31034 \cf2 \strokec2 </\cf4 \strokec4 strong\cf2 \strokec2 >\cf5 \strokec5 \uc0\u65306 \u26412 \u24037 \u20855 \u35782 \u21035 "\u20248 \u28857  / \u38382 \u39064  / \u32570 \u28857  / \u25913 \u36827  / \u24314 \u35758  / \u35780 \u20215 "\u31561 \u20851 \u38190 \u35789 \u36827 \u34892 \u33258 \u21160 \u24402 \u31867 \u12290 \u22914 \u33258 \u21160 \u25286 \u20998 \u19981 \u20934 \u65292 \u21487 \u22312 \u21491 \u20391 \u25163 \u21160 \u35843 \u25972 \u12290 \cb1 \
+\cb3       \cf2 \strokec2 </\cf4 \strokec4 div\cf2 \strokec2 >\cf5 \cb1 \strokec5 \
+\cb3     \cf2 \strokec2 </\cf4 \strokec4 div\cf2 \strokec2 >\cf5 \cb1 \strokec5 \
+\
+\cb3     
+\f1\i \cf2 \strokec2 <!-- \uc0\u21491 \u65306 \u25286 \u20998 \u32467 \u26524  -->
+\f0\i0 \cf5 \cb1 \strokec5 \
+\cb3     \cf2 \strokec2 <\cf4 \strokec4 div\cf5 \strokec5  \cf2 \strokec2 class\cf5 \strokec5 =\cf6 \strokec6 "right"\cf2 \strokec2 >\cf5 \cb1 \strokec5 \
+\cb3       \cf2 \strokec2 <\cf4 \strokec4 div\cf5 \strokec5  \cf2 \strokec2 class\cf5 \strokec5 =\cf6 \strokec6 "section-title"\cf2 \strokec2 >\cf5 \strokec5 \uc0\u31532 \u20108 \u27493 \u65306 \u26680 \u23545 \u32467 \u26500 \u21270 \u23383 \u27573 \u65288 \u21487 \u25163 \u21160 \u35843 \u25972 \u65289 \cf2 \strokec2 </\cf4 \strokec4 div\cf2 \strokec2 >\cf5 \cb1 \strokec5 \
+\
+\cb3       \cf2 \strokec2 <\cf4 \strokec4 div\cf5 \strokec5  \cf2 \strokec2 class\cf5 \strokec5 =\cf6 \strokec6 "parsed-section"\cf2 \strokec2 >\cf5 \cb1 \strokec5 \
+\cb3         \cf2 \strokec2 <\cf4 \strokec4 div\cf5 \strokec5  \cf2 \strokec2 class\cf5 \strokec5 =\cf6 \strokec6 "head"\cf2 \strokec2 >\cf5 \cb1 \strokec5 \
+\cb3           \cf2 \strokec2 <\cf4 \strokec4 span\cf5 \strokec5  \cf2 \strokec2 class\cf5 \strokec5 =\cf6 \strokec6 "label tag-pros"\cf2 \strokec2 >\cf5 \strokec5 \uc0\u10003  \u20248 \u28857 \u65288 Pros\u65289 \cf2 \strokec2 </\cf4 \strokec4 span\cf2 \strokec2 >\cf5 \cb1 \strokec5 \
+\cb3           \cf2 \strokec2 <\cf4 \strokec4 span\cf5 \strokec5  \cf2 \strokec2 class\cf5 \strokec5 =\cf6 \strokec6 "count"\cf5 \strokec5  \cf2 \strokec2 id\cf5 \strokec5 =\cf6 \strokec6 "prosCount"\cf2 \strokec2 >\cf5 \strokec5 0 \uc0\u26465 \cf2 \strokec2 </\cf4 \strokec4 span\cf2 \strokec2 >\cf5 \cb1 \strokec5 \
+\cb3         \cf2 \strokec2 </\cf4 \strokec4 div\cf2 \strokec2 >\cf5 \cb1 \strokec5 \
+\cb3         \cf2 \strokec2 <\cf4 \strokec4 textarea\cf5 \strokec5  \cf2 \strokec2 id\cf5 \strokec5 =\cf6 \strokec6 "pros"\cf5 \strokec5  \cf2 \strokec2 placeholder\cf5 \strokec5 =\cf6 \strokec6 "\uc0\u35910 \u21253 \u25351 \u20986 \u30340 \u20248 \u28857 \'85\'85"\cf2 \strokec2 ></\cf4 \strokec4 textarea\cf2 \strokec2 >\cf5 \cb1 \strokec5 \
+\cb3       \cf2 \strokec2 </\cf4 \strokec4 div\cf2 \strokec2 >\cf5 \cb1 \strokec5 \
+\
+\cb3       \cf2 \strokec2 <\cf4 \strokec4 div\cf5 \strokec5  \cf2 \strokec2 class\cf5 \strokec5 =\cf6 \strokec6 "parsed-section"\cf2 \strokec2 >\cf5 \cb1 \strokec5 \
+\cb3         \cf2 \strokec2 <\cf4 \strokec4 div\cf5 \strokec5  \cf2 \strokec2 class\cf5 \strokec5 =\cf6 \strokec6 "head"\cf2 \strokec2 >\cf5 \cb1 \strokec5 \
+\cb3           \cf2 \strokec2 <\cf4 \strokec4 span\cf5 \strokec5  \cf2 \strokec2 class\cf5 \strokec5 =\cf6 \strokec6 "label tag-cons"\cf2 \strokec2 >\cf5 \strokec5 \uc0\u10007  \u20027 \u35201 \u38382 \u39064 \u65288 Cons\u65289 \cf2 \strokec2 </\cf4 \strokec4 span\cf2 \strokec2 >\cf5 \cb1 \strokec5 \
+\cb3           \cf2 \strokec2 <\cf4 \strokec4 span\cf5 \strokec5  \cf2 \strokec2 class\cf5 \strokec5 =\cf6 \strokec6 "count"\cf5 \strokec5  \cf2 \strokec2 id\cf5 \strokec5 =\cf6 \strokec6 "consCount"\cf2 \strokec2 >\cf5 \strokec5 0 \uc0\u26465 \cf2 \strokec2 </\cf4 \strokec4 span\cf2 \strokec2 >\cf5 \cb1 \strokec5 \
+\cb3         \cf2 \strokec2 </\cf4 \strokec4 div\cf2 \strokec2 >\cf5 \cb1 \strokec5 \
+\cb3         \cf2 \strokec2 <\cf4 \strokec4 textarea\cf5 \strokec5  \cf2 \strokec2 id\cf5 \strokec5 =\cf6 \strokec6 "cons"\cf5 \strokec5  \cf2 \strokec2 placeholder\cf5 \strokec5 =\cf6 \strokec6 "\uc0\u35910 \u21253 \u25351 \u20986 \u30340 \u38382 \u39064 \'85\'85"\cf2 \strokec2 ></\cf4 \strokec4 textarea\cf2 \strokec2 >\cf5 \cb1 \strokec5 \
+\cb3       \cf2 \strokec2 </\cf4 \strokec4 div\cf2 \strokec2 >\cf5 \cb1 \strokec5 \
+\
+\cb3       \cf2 \strokec2 <\cf4 \strokec4 div\cf5 \strokec5  \cf2 \strokec2 class\cf5 \strokec5 =\cf6 \strokec6 "parsed-section"\cf2 \strokec2 >\cf5 \cb1 \strokec5 \
+\cb3         \cf2 \strokec2 <\cf4 \strokec4 div\cf5 \strokec5  \cf2 \strokec2 class\cf5 \strokec5 =\cf6 \strokec6 "head"\cf2 \strokec2 >\cf5 \cb1 \strokec5 \
+\cb3           \cf2 \strokec2 <\cf4 \strokec4 span\cf5 \strokec5  \cf2 \strokec2 class\cf5 \strokec5 =\cf6 \strokec6 "label tag-sugg"\cf2 \strokec2 >\cf5 \strokec5 \uc0\u8594  \u25913 \u36827 \u24314 \u35758 \u65288 Suggestions\u65289 \cf2 \strokec2 </\cf4 \strokec4 span\cf2 \strokec2 >\cf5 \cb1 \strokec5 \
+\cb3           \cf2 \strokec2 <\cf4 \strokec4 span\cf5 \strokec5  \cf2 \strokec2 class\cf5 \strokec5 =\cf6 \strokec6 "count"\cf5 \strokec5  \cf2 \strokec2 id\cf5 \strokec5 =\cf6 \strokec6 "suggCount"\cf2 \strokec2 >\cf5 \strokec5 0 \uc0\u26465 \cf2 \strokec2 </\cf4 \strokec4 span\cf2 \strokec2 >\cf5 \cb1 \strokec5 \
+\cb3         \cf2 \strokec2 </\cf4 \strokec4 div\cf2 \strokec2 >\cf5 \cb1 \strokec5 \
+\cb3         \cf2 \strokec2 <\cf4 \strokec4 textarea\cf5 \strokec5  \cf2 \strokec2 id\cf5 \strokec5 =\cf6 \strokec6 "suggestions"\cf5 \strokec5  \cf2 \strokec2 placeholder\cf5 \strokec5 =\cf6 \strokec6 "\uc0\u35910 \u21253 \u32473 \u20986 \u30340 \u25913 \u36827 \u24314 \u35758 \'85\'85"\cf2 \strokec2 ></\cf4 \strokec4 textarea\cf2 \strokec2 >\cf5 \cb1 \strokec5 \
+\cb3       \cf2 \strokec2 </\cf4 \strokec4 div\cf2 \strokec2 >\cf5 \cb1 \strokec5 \
+\
+\cb3       \cf2 \strokec2 <\cf4 \strokec4 div\cf5 \strokec5  \cf2 \strokec2 class\cf5 \strokec5 =\cf6 \strokec6 "parsed-section"\cf2 \strokec2 >\cf5 \cb1 \strokec5 \
+\cb3         \cf2 \strokec2 <\cf4 \strokec4 div\cf5 \strokec5  \cf2 \strokec2 class\cf5 \strokec5 =\cf6 \strokec6 "head"\cf2 \strokec2 >\cf5 \cb1 \strokec5 \
+\cb3           \cf2 \strokec2 <\cf4 \strokec4 span\cf5 \strokec5  \cf2 \strokec2 class\cf5 \strokec5 =\cf6 \strokec6 "label tag-meta"\cf2 \strokec2 >\cf5 \strokec5 \uc0\u9881  \u32508 \u21512 \u35780 \u35821  / \u24635 \u35780 \cf2 \strokec2 </\cf4 \strokec4 span\cf2 \strokec2 >\cf5 \cb1 \strokec5 \
+\cb3         \cf2 \strokec2 </\cf4 \strokec4 div\cf2 \strokec2 >\cf5 \cb1 \strokec5 \
+\cb3         \cf2 \strokec2 <\cf4 \strokec4 textarea\cf5 \strokec5  \cf2 \strokec2 id\cf5 \strokec5 =\cf6 \strokec6 "overall"\cf5 \strokec5  \cf2 \strokec2 placeholder\cf5 \strokec5 =\cf6 \strokec6 "\uc0\u35910 \u21253 \u32473 \u20986 \u30340 \u24635 \u35780 \u65288 \u21487 \u36873 \u65289 \'85\'85"\cf2 \strokec2 ></\cf4 \strokec4 textarea\cf2 \strokec2 >\cf5 \cb1 \strokec5 \
+\cb3       \cf2 \strokec2 </\cf4 \strokec4 div\cf2 \strokec2 >\cf5 \cb1 \strokec5 \
+\
+\cb3       \cf2 \strokec2 <\cf4 \strokec4 div\cf5 \strokec5  \cf2 \strokec2 class\cf5 \strokec5 =\cf6 \strokec6 "stats"\cf2 \strokec2 >\cf5 \cb1 \strokec5 \
+\cb3         \cf2 \strokec2 <\cf4 \strokec4 div\cf5 \strokec5  \cf2 \strokec2 class\cf5 \strokec5 =\cf6 \strokec6 "stat-item"\cf2 \strokec2 >\cf5 \cb1 \strokec5 \
+\cb3           \cf2 \strokec2 <\cf4 \strokec4 div\cf5 \strokec5  \cf2 \strokec2 class\cf5 \strokec5 =\cf6 \strokec6 "num"\cf5 \strokec5  \cf2 \strokec2 id\cf5 \strokec5 =\cf6 \strokec6 "totalChars"\cf2 \strokec2 >\cf5 \strokec5 0\cf2 \strokec2 </\cf4 \strokec4 div\cf2 \strokec2 >\cf5 \cb1 \strokec5 \
+\cb3           \cf2 \strokec2 <\cf4 \strokec4 div\cf5 \strokec5  \cf2 \strokec2 class\cf5 \strokec5 =\cf6 \strokec6 "lbl"\cf2 \strokec2 >\cf5 \strokec5 \uc0\u21407 \u25991 \u23383 \u25968 \cf2 \strokec2 </\cf4 \strokec4 div\cf2 \strokec2 >\cf5 \cb1 \strokec5 \
+\cb3         \cf2 \strokec2 </\cf4 \strokec4 div\cf2 \strokec2 >\cf5 \cb1 \strokec5 \
+\cb3         \cf2 \strokec2 <\cf4 \strokec4 div\cf5 \strokec5  \cf2 \strokec2 class\cf5 \strokec5 =\cf6 \strokec6 "stat-item"\cf2 \strokec2 >\cf5 \cb1 \strokec5 \
+\cb3           \cf2 \strokec2 <\cf4 \strokec4 div\cf5 \strokec5  \cf2 \strokec2 class\cf5 \strokec5 =\cf6 \strokec6 "num"\cf5 \strokec5  \cf2 \strokec2 id\cf5 \strokec5 =\cf6 \strokec6 "totalAdvice"\cf2 \strokec2 >\cf5 \strokec5 0\cf2 \strokec2 </\cf4 \strokec4 div\cf2 \strokec2 >\cf5 \cb1 \strokec5 \
+\cb3           \cf2 \strokec2 <\cf4 \strokec4 div\cf5 \strokec5  \cf2 \strokec2 class\cf5 \strokec5 =\cf6 \strokec6 "lbl"\cf2 \strokec2 >\cf5 \strokec5 \uc0\u24314 \u35758 \u24635 \u26465 \u25968 \cf2 \strokec2 </\cf4 \strokec4 div\cf2 \strokec2 >\cf5 \cb1 \strokec5 \
+\cb3         \cf2 \strokec2 </\cf4 \strokec4 div\cf2 \strokec2 >\cf5 \cb1 \strokec5 \
+\cb3         \cf2 \strokec2 <\cf4 \strokec4 div\cf5 \strokec5  \cf2 \strokec2 class\cf5 \strokec5 =\cf6 \strokec6 "stat-item"\cf2 \strokec2 >\cf5 \cb1 \strokec5 \
+\cb3           \cf2 \strokec2 <\cf4 \strokec4 div\cf5 \strokec5  \cf2 \strokec2 class\cf5 \strokec5 =\cf6 \strokec6 "num"\cf5 \strokec5  \cf2 \strokec2 id\cf5 \strokec5 =\cf6 \strokec6 "prosNum"\cf2 \strokec2 >\cf5 \strokec5 0\cf2 \strokec2 </\cf4 \strokec4 div\cf2 \strokec2 >\cf5 \cb1 \strokec5 \
+\cb3           \cf2 \strokec2 <\cf4 \strokec4 div\cf5 \strokec5  \cf2 \strokec2 class\cf5 \strokec5 =\cf6 \strokec6 "lbl"\cf2 \strokec2 >\cf5 \strokec5 \uc0\u20248 \u28857 \u25968 \cf2 \strokec2 </\cf4 \strokec4 div\cf2 \strokec2 >\cf5 \cb1 \strokec5 \
+\cb3         \cf2 \strokec2 </\cf4 \strokec4 div\cf2 \strokec2 >\cf5 \cb1 \strokec5 \
+\cb3         \cf2 \strokec2 <\cf4 \strokec4 div\cf5 \strokec5  \cf2 \strokec2 class\cf5 \strokec5 =\cf6 \strokec6 "stat-item"\cf2 \strokec2 >\cf5 \cb1 \strokec5 \
+\cb3           \cf2 \strokec2 <\cf4 \strokec4 div\cf5 \strokec5  \cf2 \strokec2 class\cf5 \strokec5 =\cf6 \strokec6 "num"\cf5 \strokec5  \cf2 \strokec2 id\cf5 \strokec5 =\cf6 \strokec6 "consNum"\cf2 \strokec2 >\cf5 \strokec5 0\cf2 \strokec2 </\cf4 \strokec4 div\cf2 \strokec2 >\cf5 \cb1 \strokec5 \
+\cb3           \cf2 \strokec2 <\cf4 \strokec4 div\cf5 \strokec5  \cf2 \strokec2 class\cf5 \strokec5 =\cf6 \strokec6 "lbl"\cf2 \strokec2 >\cf5 \strokec5 \uc0\u38382 \u39064 \u25968 \cf2 \strokec2 </\cf4 \strokec4 div\cf2 \strokec2 >\cf5 \cb1 \strokec5 \
+\cb3         \cf2 \strokec2 </\cf4 \strokec4 div\cf2 \strokec2 >\cf5 \cb1 \strokec5 \
+\cb3       \cf2 \strokec2 </\cf4 \strokec4 div\cf2 \strokec2 >\cf5 \cb1 \strokec5 \
+\
+\cb3       \cf2 \strokec2 <\cf4 \strokec4 div\cf5 \strokec5  \cf2 \strokec2 class\cf5 \strokec5 =\cf6 \strokec6 "btn-row"\cf2 \strokec2 >\cf5 \cb1 \strokec5 \
+\cb3         \cf2 \strokec2 <\cf4 \strokec4 button\cf5 \strokec5  \cf2 \strokec2 class\cf5 \strokec5 =\cf6 \strokec6 "btn-success"\cf5 \strokec5  \cf2 \strokec2 id\cf5 \strokec5 =\cf6 \strokec6 "saveBtn"\cf2 \strokec2 >\cf5 \strokec5 \uc0\u55357 \u56510  \u20445 \u23384 \u21040 \u26412 \u22320 \cf2 \strokec2 </\cf4 \strokec4 button\cf2 \strokec2 >\cf5 \cb1 \strokec5 \
+\cb3         \cf2 \strokec2 <\cf4 \strokec4 button\cf5 \strokec5  \cf2 \strokec2 class\cf5 \strokec5 =\cf6 \strokec6 "btn-info"\cf5 \strokec5  \cf2 \strokec2 id\cf5 \strokec5 =\cf6 \strokec6 "exportBtn"\cf2 \strokec2 >\cf5 \strokec5 \uc0\u55357 \u56522  \u23548 \u20986 CSV\u65288 \u23545 \u25509 \u34920 B4\u65289 \cf2 \strokec2 </\cf4 \strokec4 button\cf2 \strokec2 >\cf5 \cb1 \strokec5 \
+\cb3       \cf2 \strokec2 </\cf4 \strokec4 div\cf2 \strokec2 >\cf5 \cb1 \strokec5 \
+\cb3     \cf2 \strokec2 </\cf4 \strokec4 div\cf2 \strokec2 >\cf5 \cb1 \strokec5 \
+\cb3   \cf2 \strokec2 </\cf4 \strokec4 div\cf2 \strokec2 >\cf5 \cb1 \strokec5 \
+\
+\cb3   \cf2 \strokec2 <\cf4 \strokec4 div\cf5 \strokec5  \cf2 \strokec2 class\cf5 \strokec5 =\cf6 \strokec6 "history-bar"\cf2 \strokec2 >\cf5 \cb1 \strokec5 \
+\cb3     \cf2 \strokec2 <\cf4 \strokec4 span\cf5 \strokec5  \cf2 \strokec2 class\cf5 \strokec5 =\cf6 \strokec6 "label"\cf2 \strokec2 >\cf5 \strokec5 \uc0\u24050 \u20445 \u23384 \u35760 \u24405 \u65306 \cf2 \strokec2 </\cf4 \strokec4 span\cf2 \strokec2 >\cf5 \cb1 \strokec5 \
+\cb3     \cf2 \strokec2 <\cf4 \strokec4 span\cf5 \strokec5  \cf2 \strokec2 id\cf5 \strokec5 =\cf6 \strokec6 "historyList"\cf2 \strokec2 ><\cf4 \strokec4 span\cf5 \strokec5  \cf2 \strokec2 style\cf5 \strokec5 =\cf6 \strokec6 "color:#95a5a6;"\cf2 \strokec2 >\cf5 \strokec5 \uc0\u23578 \u26080 \u35760 \u24405 \cf2 \strokec2 </\cf4 \strokec4 span\cf2 \strokec2 ></\cf4 \strokec4 span\cf2 \strokec2 >\cf5 \cb1 \strokec5 \
+\cb3   \cf2 \strokec2 </\cf4 \strokec4 div\cf2 \strokec2 >\cf5 \cb1 \strokec5 \
+\
+\cb3   \cf2 \strokec2 <\cf4 \strokec4 footer\cf2 \strokec2 >\cf5 \cb1 \strokec5 \
+\cb3     DoubaoLogger v1.0 \'b7 \uc0\u25968 \u25454 \u20840 \u37096 \u20445 \u23384 \u22312 \u27983 \u35272 \u22120 \u26412 \u22320 \u65292 \u19981 \u19978 \u20256 \u26381 \u21153 \u22120  \'b7 \u37197 \u21512 \u12302 AI\u21475 \u35793 \u30740 \u31350 \u25968 \u25454 \u25910 \u38598 \u24037 \u20855 \u21253 \u12303 \u34920 B4\u20351 \u29992 \cb1 \
+\cb3   \cf2 \strokec2 </\cf4 \strokec4 footer\cf2 \strokec2 >\cf5 \cb1 \strokec5 \
+\pard\pardeftab720\partightenfactor0
+\cf2 \cb3 \strokec2 </\cf4 \strokec4 div\cf2 \strokec2 >\cf5 \cb1 \strokec5 \
+\
+\cf2 \cb3 \strokec2 <\cf4 \strokec4 div\cf5 \strokec5  \cf2 \strokec2 id\cf5 \strokec5 =\cf6 \strokec6 "toast"\cf5 \strokec5  \cf2 \strokec2 class\cf5 \strokec5 =\cf6 \strokec6 "toast"\cf2 \strokec2 >\cf5 \strokec5 \uc0\u25805 \u20316 \u25104 \u21151 \cf2 \strokec2 </\cf4 \strokec4 div\cf2 \strokec2 >\cf5 \cb1 \strokec5 \
+\
+\cf2 \cb3 \strokec2 <\cf4 \strokec4 script\cf2 \strokec2 >\cf5 \cb1 \strokec5 \
+\pard\pardeftab720\partightenfactor0
+
+\f1\i \cf2 \cb3 \strokec2 // ===== \uc0\u20803 \u32032 \u24341 \u29992  =====
+\f0\i0 \cf5 \cb1 \strokec5 \
+\pard\pardeftab720\partightenfactor0
+
+\f2\b \cf10 \cb3 \strokec10 const
+\f0\b0 \cf5 \strokec5  \cf4 \strokec4 els\cf5 \strokec5  \cf7 \strokec7 =\cf5 \strokec5  \{\cb1 \
+\pard\pardeftab720\partightenfactor0
+\cf5 \cb3   \cf4 \strokec4 raw\cf5 \strokec5 : \cf4 \strokec4 document\cf5 \strokec5 .\cf4 \strokec4 getElementById\cf5 \strokec5 (\cf6 \strokec6 'rawInput'\cf5 \strokec5 ),\cb1 \
+\cb3   \cf4 \strokec4 pros\cf5 \strokec5 : \cf4 \strokec4 document\cf5 \strokec5 .\cf4 \strokec4 getElementById\cf5 \strokec5 (\cf6 \strokec6 'pros'\cf5 \strokec5 ),\cb1 \
+\cb3   \cf4 \strokec4 cons\cf5 \strokec5 : \cf4 \strokec4 document\cf5 \strokec5 .\cf4 \strokec4 getElementById\cf5 \strokec5 (\cf6 \strokec6 'cons'\cf5 \strokec5 ),\cb1 \
+\cb3   \cf4 \strokec4 suggestions\cf5 \strokec5 : \cf4 \strokec4 document\cf5 \strokec5 .\cf4 \strokec4 getElementById\cf5 \strokec5 (\cf6 \strokec6 'suggestions'\cf5 \strokec5 ),\cb1 \
+\cb3   \cf4 \strokec4 overall\cf5 \strokec5 : \cf4 \strokec4 document\cf5 \strokec5 .\cf4 \strokec4 getElementById\cf5 \strokec5 (\cf6 \strokec6 'overall'\cf5 \strokec5 ),\cb1 \
+\cb3   \cf4 \strokec4 studentId\cf5 \strokec5 : \cf4 \strokec4 document\cf5 \strokec5 .\cf4 \strokec4 getElementById\cf5 \strokec5 (\cf6 \strokec6 'studentId'\cf5 \strokec5 ),\cb1 \
+\cb3   \cf4 \strokec4 taskId\cf5 \strokec5 : \cf4 \strokec4 document\cf5 \strokec5 .\cf4 \strokec4 getElementById\cf5 \strokec5 (\cf6 \strokec6 'taskId'\cf5 \strokec5 ),\cb1 \
+\cb3   \cf4 \strokec4 feedbackType\cf5 \strokec5 : \cf4 \strokec4 document\cf5 \strokec5 .\cf4 \strokec4 getElementById\cf5 \strokec5 (\cf6 \strokec6 'feedbackType'\cf5 \strokec5 ),\cb1 \
+\cb3   \cf4 \strokec4 date\cf5 \strokec5 : \cf4 \strokec4 document\cf5 \strokec5 .\cf4 \strokec4 getElementById\cf5 \strokec5 (\cf6 \strokec6 'date'\cf5 \strokec5 ),\cb1 \
+\cb3 \};\cb1 \
+\
+\pard\pardeftab720\partightenfactor0
+
+\f1\i \cf2 \cb3 \strokec2 // \uc0\u26085 \u26399 \u40664 \u35748 \u20170 \u22825 
+\f0\i0 \cf5 \cb1 \strokec5 \
+\pard\pardeftab720\partightenfactor0
+\cf4 \cb3 \strokec4 els\cf5 \strokec5 .\cf4 \strokec4 date\cf5 \strokec5 .\cf4 \strokec4 value\cf5 \strokec5  \cf7 \strokec7 =\cf5 \strokec5  \cf7 \strokec7 new\cf5 \strokec5  \cf7 \strokec7 Date\cf5 \strokec5 ().\cf4 \strokec4 toISOString\cf5 \strokec5 ().\cf4 \strokec4 split\cf5 \strokec5 (\cf6 \strokec6 'T'\cf5 \strokec5 )[\cf8 \strokec8 0\cf5 \strokec5 ];\cb1 \
+\
+\pard\pardeftab720\partightenfactor0
+
+\f1\i \cf2 \cb3 \strokec2 // ===== \uc0\u25286 \u20998 \u36923 \u36753 \u65288 v2 \u37325 \u20889 \u65306 \u22522 \u20110 \u31456 \u33410 \u36793 \u30028 \u35782 \u21035 \u65289 =====
+\f0\i0 \cf5 \cb1 \strokec5 \
+\pard\pardeftab720\partightenfactor0
+
+\f2\b \cf10 \cb3 \strokec10 function
+\f0\b0 \cf5 \strokec5  \cf4 \strokec4 parseText\cf5 \strokec5 () \{\cb1 \
+\pard\pardeftab720\partightenfactor0
+\cf5 \cb3   
+\f2\b \cf10 \strokec10 const
+\f0\b0 \cf5 \strokec5  \cf4 \strokec4 text\cf5 \strokec5  \cf7 \strokec7 =\cf5 \strokec5  \cf4 \strokec4 els\cf5 \strokec5 .\cf4 \strokec4 raw\cf5 \strokec5 .\cf4 \strokec4 value\cf5 \strokec5 .\cf4 \strokec4 trim\cf5 \strokec5 ();\cb1 \
+\cb3   \cf7 \strokec7 if\cf5 \strokec5  (\cf7 \strokec7 !\cf4 \strokec4 text\cf5 \strokec5 ) \{\cb1 \
+\cb3     \cf4 \strokec4 showToast\cf5 \strokec5 (\cf6 \strokec6 '\uc0\u35831 \u20808 \u31896 \u36148 \u35910 \u21253 \u21453 \u39304 \u25991 \u26412 '\cf5 \strokec5 , \cf6 \strokec6 'error'\cf5 \strokec5 );\cb1 \
+\cb3     \cf7 \strokec7 return\cf5 \strokec5 ;\cb1 \
+\cb3   \}\cb1 \
+\
+\cb3   
+\f1\i \cf2 \strokec2 // \uc0\u25226 \u21407 \u25991 \u25353 \u34892 \u20999 \u20998 \u65288 \u20445 \u30041 \u25442 \u34892 \u20316 \u20026 \u27573 \u33853 \u26631 \u35760 \u65289 
+\f0\i0 \cf5 \cb1 \strokec5 \
+\cb3   
+\f2\b \cf10 \strokec10 const
+\f0\b0 \cf5 \strokec5  \cf4 \strokec4 rawLines\cf5 \strokec5  \cf7 \strokec7 =\cf5 \strokec5  \cf4 \strokec4 text\cf5 \strokec5 .\cf4 \strokec4 split\cf5 \strokec5 (\cf6 \strokec6 '\cf9 \strokec9 \\n\cf6 \strokec6 '\cf5 \strokec5 ).\cf4 \strokec4 map\cf5 \strokec5 (l 
+\f2\b \cf10 \strokec10 =>
+\f0\b0 \cf5 \strokec5  \cf4 \strokec4 l\cf5 \strokec5 .\cf4 \strokec4 trim\cf5 \strokec5 ());\cb1 \
+\cb3   
+\f2\b \cf10 \strokec10 const
+\f0\b0 \cf5 \strokec5  \cf4 \strokec4 lines\cf5 \strokec5  \cf7 \strokec7 =\cf5 \strokec5  \cf4 \strokec4 rawLines\cf5 \strokec5 .\cf4 \strokec4 filter\cf5 \strokec5 (l 
+\f2\b \cf10 \strokec10 =>
+\f0\b0 \cf5 \strokec5  \cf4 \strokec4 l\cf5 \strokec5  \cf7 \strokec7 !==\cf5 \strokec5  \cf6 \strokec6 ''\cf5 \strokec5 );\cb1 \
+\cb3   \cb1 \
+\cb3   
+\f1\i \cf2 \strokec2 // \uc0\u31456 \u33410 \u20851 \u38190 \u35789 \u65288 \u29992 \u20110 \u35782 \u21035 "\u26631 \u39064 \u34892 "\u20998 \u21035 \u24402 \u23646 \u21738 \u20010 \u26742 \u65289 
+\f0\i0 \cf5 \cb1 \strokec5 \
+\cb3   
+\f2\b \cf10 \strokec10 const
+\f0\b0 \cf5 \strokec5  \cf4 \strokec4 SECTION_PATTERNS\cf5 \strokec5  \cf7 \strokec7 =\cf5 \strokec5  \{\cb1 \
+\cb3     \cf4 \strokec4 pros\cf5 \strokec5 :\cf11 \strokec11  /(\uc0\u20248 \u28857 \cf7 \strokec7 |\cf11 \strokec11 \uc0\u20142 \u28857 \cf7 \strokec7 |\cf11 \strokec11 \uc0\u21487 \u21462 \u20043 \u22788 \cf7 \strokec7 |\cf11 \strokec11 \uc0\u20570 \u24471 \u22909 \cf7 \strokec7 |\cf11 \strokec11 \uc0\u20570 \u30340 \u22909 \cf7 \strokec7 |\cf11 \strokec11 \uc0\u24378 \u39033 \cf7 \strokec7 |\cf11 \strokec11 \uc0\u26680 \u24515 \u20248 \u28857 \cf7 \strokec7 |\cf11 \strokec11 \uc0\u20027 \u35201 \u20248 \u28857 \cf7 \strokec7 |\cf11 \strokec11 \uc0\u34920 \u29616 \u33391 \u22909 )/\cf5 \strokec5 ,\cb1 \
+\cb3     \cf4 \strokec4 cons\cf5 \strokec5 :\cf11 \strokec11  /(\uc0\u32570 \u28857 \cf7 \strokec7 |\cf11 \strokec11 \uc0\u19981 \u36275 \cf7 \strokec7 |\cf11 \strokec11 \uc0\u38382 \u39064 \cf7 \strokec7 |\cf11 \strokec11 \uc0\u20027 \u35201 \u38382 \u39064 \cf7 \strokec7 |\cf11 \strokec11 \uc0\u30701 \u26495 \cf7 \strokec7 |\cf11 \strokec11 \uc0\u34180 \u24369 \cf7 \strokec7 |\cf11 \strokec11 \uc0\u24369 \u39033 \cf7 \strokec7 |\cf11 \strokec11 \uc0\u38656 \u35201 \u25913 \u36827 \u30340 \u22320 \u26041 \cf7 \strokec7 |\cf11 \strokec11 \uc0\u25913 \u36827 \u28857 \cf7 \strokec7 |\cf11 \strokec11 \uc0\u20027 \u35201 \u19981 \u36275 \cf7 \strokec7 |\cf11 \strokec11 \uc0\u21487 \u25913 \u36827 \u28857 )/\cf5 \strokec5 ,\cb1 \
+\cb3     \cf4 \strokec4 sugg\cf5 \strokec5 :\cf11 \strokec11  /(\uc0\u24314 \u35758 \cf7 \strokec7 |\cf11 \strokec11 \uc0\u25913 \u36827 \u24314 \u35758 \cf7 \strokec7 |\cf11 \strokec11 \uc0\u25552 \u21319 \u26041 \u21521 \cf7 \strokec7 |\cf11 \strokec11 \uc0\u38024 \u23545 \u24615 \u25552 \u21319 \u26041 \u21521 \cf7 \strokec7 |\cf11 \strokec11 \uc0\u25913 \u36827 \u26041 \u21521 \cf7 \strokec7 |\cf11 \strokec11 \uc0\u20170 \u21518 \u26041 \u21521 \cf7 \strokec7 |\cf11 \strokec11 \uc0\u21518 \u32493 \u26041 \u21521 \cf7 \strokec7 |\cf11 \strokec11 \uc0\u25913 \u36827 \u25514 \u26045 \cf7 \strokec7 |\cf11 \strokec11 \uc0\u25552 \u21319 \u36335 \u24452 )/\cf5 \strokec5 ,\cb1 \
+\cb3     \cf4 \strokec4 overall\cf5 \strokec5 :\cf11 \strokec11  /(\uc0\u24635 \u35780 \cf7 \strokec7 |\cf11 \strokec11 \uc0\u25972 \u20307 \u35780 \u20215 \cf7 \strokec7 |\cf11 \strokec11 \uc0\u32508 \u21512 \u35780 \u20215 \cf7 \strokec7 |\cf11 \strokec11 \uc0\u25972 \u20307 \u26469 \u30475 \cf7 \strokec7 |\cf11 \strokec11 \uc0\u24635 \u20307 \u26469 \u30475 \cf7 \strokec7 |\cf11 \strokec11 \uc0\u25972 \u20307 \u34920 \u29616 \cf7 \strokec7 |\cf11 \strokec11 \uc0\u24635 \u32467 \cf7 \strokec7 |\cf11 \strokec11 \uc0\u32467 \u35770 )/\cf5 \strokec5 ,\cb1 \
+\cb3     \cf4 \strokec4 skip\cf5 \strokec5 :\cf11 \strokec11  /(\uc0\u26631 \u20934 \u21442 \u32771 \u35793 \u25991 \cf7 \strokec7 |\cf11 \strokec11 \uc0\u21442 \u32771 \u35793 \u25991 \cf7 \strokec7 |\cf11 \strokec11 \uc0\u26631 \u20934 \u35793 \u27861 \cf7 \strokec7 |\cf11 \strokec11 \uc0\u21442 \u32771 \u31572 \u26696 \cf7 \strokec7 |\cf11 \strokec11 \uc0\u35793 \u25991 \u23545 \u29031 )/\cf5 \strokec5 ,  
+\f1\i \cf2 \strokec2 // \uc0\u36339 \u36807 \u36825 \u31181 \u31456 \u33410 
+\f0\i0 \cf5 \cb1 \strokec5 \
+\cb3   \};\cb1 \
+\cb3   \cb1 \
+\cb3   
+\f1\i \cf2 \strokec2 // \uc0\u31532  1 \u27493 \u65306 \u35782 \u21035 \u31456 \u33410 \u26631 \u39064 \u34892 
+\f0\i0 \cf5 \cb1 \strokec5 \
+\cb3   
+\f1\i \cf2 \strokec2 // \uc0\u26631 \u39064 \u34892 \u29305 \u24449 \u65306 \u65288 \u30701 \u34892  < 35 \u23383 \u65289 \u19988 \u65288 \u21547 \u32599 \u39532 \u25968 \u23383 /\u38463 \u25289 \u20271 \u25968 \u23383 +\u39039 \u21495 /\u20840 \u20026 \u20851 \u38190 \u35789 \u65289 
+\f0\i0 \cf5 \cb1 \strokec5 \
+\cb3   
+\f2\b \cf10 \strokec10 function
+\f0\b0 \cf5 \strokec5  \cf4 \strokec4 classifyTitle\cf5 \strokec5 (line) \{\cb1 \
+\cb3     
+\f1\i \cf2 \strokec2 // \uc0\u21435 \u25481  markdown \u21152 \u31895 \u12289 \u31354 \u26684 
+\f0\i0 \cf5 \cb1 \strokec5 \
+\cb3     
+\f2\b \cf10 \strokec10 const
+\f0\b0 \cf5 \strokec5  \cf4 \strokec4 clean\cf5 \strokec5  \cf7 \strokec7 =\cf5 \strokec5  \cf4 \strokec4 line\cf5 \strokec5 .\cf4 \strokec4 replace\cf5 \strokec5 (\cf11 \strokec11 /\cf9 \strokec9 \\*\cf7 \strokec7 +\cf11 \strokec11 /\cf7 \strokec7 g\cf5 \strokec5 , \cf6 \strokec6 ''\cf5 \strokec5 ).\cf4 \strokec4 replace\cf5 \strokec5 (\cf11 \strokec11 /\cf9 \strokec9 \\s\cf7 \strokec7 +\cf11 \strokec11 /\cf7 \strokec7 g\cf5 \strokec5 , \cf6 \strokec6 ''\cf5 \strokec5 ).\cf4 \strokec4 trim\cf5 \strokec5 ();\cb1 \
+\cb3     \cf7 \strokec7 if\cf5 \strokec5  (\cf4 \strokec4 clean\cf5 \strokec5 .length \cf7 \strokec7 >\cf5 \strokec5  \cf8 \strokec8 35\cf5 \strokec5 ) \cf7 \strokec7 return\cf5 \strokec5  \cf12 \strokec12 null\cf5 \strokec5 ;  
+\f1\i \cf2 \strokec2 // \uc0\u22826 \u38271 \u19981 \u26159 \u26631 \u39064 
+\f0\i0 \cf5 \cb1 \strokec5 \
+\cb3     \cb1 \
+\cb3     
+\f1\i \cf2 \strokec2 // \uc0\u24517 \u39035 \u21547 \u26377 \u31456 \u33410 \u36215 \u22987 \u26631 \u35760 \u65288 \u19968 \u12289 / 1. / \u20248 \u28857 \u65288 \u29420 \u31435 \u25104 \u34892 \u65289 \u31561 \u65289 
+\f0\i0 \cf5 \cb1 \strokec5 \
+\cb3     
+\f2\b \cf10 \strokec10 const
+\f0\b0 \cf5 \strokec5  \cf4 \strokec4 hasRoman\cf5 \strokec5  \cf7 \strokec7 =\cf11 \strokec11  /\cf7 \strokec7 ^\cf9 \strokec9 [\uc0\u19968 \u20108 \u19977 \u22235 \u20116 \u20845 \u19971 \u20843 \u20061 \u21313 ]\cf11 \strokec11 \uc0\u12289 /\cf5 \strokec5 .\cf4 \strokec4 test\cf5 \strokec5 (\cf4 \strokec4 clean\cf5 \strokec5 );\cb1 \
+\cb3     
+\f2\b \cf10 \strokec10 const
+\f0\b0 \cf5 \strokec5  \cf4 \strokec4 hasArabic\cf5 \strokec5  \cf7 \strokec7 =\cf11 \strokec11  /\cf7 \strokec7 ^\cf9 \strokec9 \\d\cf7 \strokec7 +\cf9 \strokec9 [\\.\\\uc0\u12289 ]\cf11 \strokec11 /\cf5 \strokec5 .\cf4 \strokec4 test\cf5 \strokec5 (\cf4 \strokec4 clean\cf5 \strokec5 );\cb1 \
+\cb3     
+\f2\b \cf10 \strokec10 const
+\f0\b0 \cf5 \strokec5  \cf4 \strokec4 hasMarker\cf5 \strokec5  \cf7 \strokec7 =\cf11 \strokec11  /\cf7 \strokec7 ^\cf9 \strokec9 [\uc0\u12304 \\[\u65288 (].\cf7 \strokec7 \{1,15\}\cf9 \strokec9 [\uc0\u12305 \\]\u65289 )]\cf11 \strokec11 /\cf5 \strokec5 .\cf4 \strokec4 test\cf5 \strokec5 (\cf4 \strokec4 clean\cf5 \strokec5 );\cb1 \
+\cb3     
+\f1\i \cf2 \strokec2 // \uc0\u25110 \u32773 \u25972 \u34892 \u23601 \u26159 \u21333 \u19968 \u20851 \u38190 \u35789 \u65288 \u22914 "\u20248 \u28857 "\u29420 \u31435 \u25104 \u34892 \u65289 
+\f0\i0 \cf5 \cb1 \strokec5 \
+\cb3     
+\f2\b \cf10 \strokec10 const
+\f0\b0 \cf5 \strokec5  \cf4 \strokec4 isPureKeyword\cf5 \strokec5  \cf7 \strokec7 =\cf5 \strokec5  \cf4 \strokec4 clean\cf5 \strokec5 .length \cf7 \strokec7 <=\cf5 \strokec5  \cf8 \strokec8 12\cf5 \strokec5  \cf7 \strokec7 &&\cf5 \strokec5  \cf7 \strokec7 Object\cf5 \strokec5 .\cf4 \strokec4 values\cf5 \strokec5 (\cf4 \strokec4 SECTION_PATTERNS\cf5 \strokec5 ).\cf4 \strokec4 some\cf5 \strokec5 (p 
+\f2\b \cf10 \strokec10 =>
+\f0\b0 \cf5 \strokec5  \cf4 \strokec4 p\cf5 \strokec5 .\cf4 \strokec4 test\cf5 \strokec5 (\cf4 \strokec4 clean\cf5 \strokec5 ));\cb1 \
+\cb3     
+\f1\i \cf2 \strokec2 // \uc0\u25110 \u32773 \u25972 \u34892 \u26159 \u20851 \u38190 \u35789 \u20026 \u26680 \u24515 \u30340 \u30701 \u26631 \u39064 \u65288 "\u38656 \u35201 \u25913 \u36827 \u30340 \u22320 \u26041 \u65288 \u28201 \u21644 \u30495 \u23454 \u29256 \u65289 "\u36825 \u31181 \u65289 
+\f0\i0 \cf5 \cb1 \strokec5 \
+\cb3     
+\f1\i \cf2 \strokec2 // \uc0\u26465 \u20214 \u65306 \u8804 25\u23383  \u19988  \u21547 \u24378 \u20851 \u38190 \u35789  \u19988  \u19981 \u21547 \u20998 \u38548 \u26631 \u28857 \u65288 \u26080 \u36887 \u21495 \u12289 \u21477 \u21495 \u65292 \u36991 \u20813 \u25226 \u21477 \u23376 \u35823 \u21028 \u20026 \u26631 \u39064 \u65289 
+\f0\i0 \cf5 \cb1 \strokec5 \
+\cb3     
+\f2\b \cf10 \strokec10 const
+\f0\b0 \cf5 \strokec5  \cf4 \strokec4 isShortHeaderLike\cf5 \strokec5  \cf7 \strokec7 =\cf5 \strokec5  \cf4 \strokec4 clean\cf5 \strokec5 .length \cf7 \strokec7 <=\cf5 \strokec5  \cf8 \strokec8 25\cf5 \cb1 \strokec5 \
+\cb3         \cf7 \strokec7 &&\cf5 \strokec5  \cf7 \strokec7 !\cf11 \strokec11 /\cf9 \strokec9 [\uc0\u65292 ,\u12290 \u65307 ;\u65306 :]\cf11 \strokec11 /\cf5 \strokec5 .\cf4 \strokec4 test\cf5 \strokec5 (\cf4 \strokec4 clean\cf5 \strokec5 )\cb1 \
+\cb3         \cf7 \strokec7 &&\cf5 \strokec5  (\cf4 \strokec4 SECTION_PATTERNS\cf5 \strokec5 .\cf4 \strokec4 pros\cf5 \strokec5 .\cf4 \strokec4 test\cf5 \strokec5 (\cf4 \strokec4 clean\cf5 \strokec5 ) \cf7 \strokec7 ||\cf5 \strokec5  \cf4 \strokec4 SECTION_PATTERNS\cf5 \strokec5 .\cf4 \strokec4 cons\cf5 \strokec5 .\cf4 \strokec4 test\cf5 \strokec5 (\cf4 \strokec4 clean\cf5 \strokec5 ) \cb1 \
+\cb3             \cf7 \strokec7 ||\cf5 \strokec5  \cf4 \strokec4 SECTION_PATTERNS\cf5 \strokec5 .\cf4 \strokec4 sugg\cf5 \strokec5 .\cf4 \strokec4 test\cf5 \strokec5 (\cf4 \strokec4 clean\cf5 \strokec5 ) \cf7 \strokec7 ||\cf5 \strokec5  \cf4 \strokec4 SECTION_PATTERNS\cf5 \strokec5 .\cf4 \strokec4 overall\cf5 \strokec5 .\cf4 \strokec4 test\cf5 \strokec5 (\cf4 \strokec4 clean\cf5 \strokec5 ));\cb1 \
+\cb3     \cb1 \
+\cb3     \cf7 \strokec7 if\cf5 \strokec5  (\cf7 \strokec7 !\cf4 \strokec4 hasRoman\cf5 \strokec5  \cf7 \strokec7 &&\cf5 \strokec5  \cf7 \strokec7 !\cf4 \strokec4 hasArabic\cf5 \strokec5  \cf7 \strokec7 &&\cf5 \strokec5  \cf7 \strokec7 !\cf4 \strokec4 hasMarker\cf5 \strokec5  \cf7 \strokec7 &&\cf5 \strokec5  \cf7 \strokec7 !\cf4 \strokec4 isPureKeyword\cf5 \strokec5  \cf7 \strokec7 &&\cf5 \strokec5  \cf7 \strokec7 !\cf4 \strokec4 isShortHeaderLike\cf5 \strokec5 ) \cf7 \strokec7 return\cf5 \strokec5  \cf12 \strokec12 null\cf5 \strokec5 ;\cb1 \
+\cb3     \cb1 \
+\cb3     
+\f1\i \cf2 \strokec2 // \uc0\u21028 \u26029 \u23646 \u20110 \u21738 \u20010 \u31456 \u33410 
+\f0\i0 \cf5 \cb1 \strokec5 \
+\cb3     \cf7 \strokec7 if\cf5 \strokec5  (\cf4 \strokec4 SECTION_PATTERNS\cf5 \strokec5 .\cf4 \strokec4 skip\cf5 \strokec5 .\cf4 \strokec4 test\cf5 \strokec5 (\cf4 \strokec4 clean\cf5 \strokec5 )) \cf7 \strokec7 return\cf5 \strokec5  \cf6 \strokec6 'skip'\cf5 \strokec5 ;\cb1 \
+\cb3     \cf7 \strokec7 if\cf5 \strokec5  (\cf4 \strokec4 SECTION_PATTERNS\cf5 \strokec5 .\cf4 \strokec4 pros\cf5 \strokec5 .\cf4 \strokec4 test\cf5 \strokec5 (\cf4 \strokec4 clean\cf5 \strokec5 ) \cf7 \strokec7 &&\cf5 \strokec5  \cf7 \strokec7 !\cf4 \strokec4 SECTION_PATTERNS\cf5 \strokec5 .\cf4 \strokec4 cons\cf5 \strokec5 .\cf4 \strokec4 test\cf5 \strokec5 (\cf4 \strokec4 clean\cf5 \strokec5 )) \cf7 \strokec7 return\cf5 \strokec5  \cf6 \strokec6 'pros'\cf5 \strokec5 ;\cb1 \
+\cb3     \cf7 \strokec7 if\cf5 \strokec5  (\cf4 \strokec4 SECTION_PATTERNS\cf5 \strokec5 .\cf4 \strokec4 cons\cf5 \strokec5 .\cf4 \strokec4 test\cf5 \strokec5 (\cf4 \strokec4 clean\cf5 \strokec5 )) \cf7 \strokec7 return\cf5 \strokec5  \cf6 \strokec6 'cons'\cf5 \strokec5 ;\cb1 \
+\cb3     \cf7 \strokec7 if\cf5 \strokec5  (\cf4 \strokec4 SECTION_PATTERNS\cf5 \strokec5 .\cf4 \strokec4 sugg\cf5 \strokec5 .\cf4 \strokec4 test\cf5 \strokec5 (\cf4 \strokec4 clean\cf5 \strokec5 )) \cf7 \strokec7 return\cf5 \strokec5  \cf6 \strokec6 'sugg'\cf5 \strokec5 ;\cb1 \
+\cb3     \cf7 \strokec7 if\cf5 \strokec5  (\cf4 \strokec4 SECTION_PATTERNS\cf5 \strokec5 .\cf4 \strokec4 overall\cf5 \strokec5 .\cf4 \strokec4 test\cf5 \strokec5 (\cf4 \strokec4 clean\cf5 \strokec5 )) \cf7 \strokec7 return\cf5 \strokec5  \cf6 \strokec6 'overall'\cf5 \strokec5 ;\cb1 \
+\cb3     \cb1 \
+\cb3     
+\f1\i \cf2 \strokec2 // \uc0\u32599 \u39532 \u25968 \u23383 \u24320 \u22836 \u20294 \u27809 \u21305 \u37197 \u19978 \u20851 \u38190 \u35789 \'97\'97\u21487 \u33021 \u26159 \u23376 \u26631 \u39064 \u65292 \u19981 \u20999 \u25442 \u31456 \u33410 
+\f0\i0 \cf5 \cb1 \strokec5 \
+\cb3     \cf7 \strokec7 return\cf5 \strokec5  \cf12 \strokec12 null\cf5 \strokec5 ;\cb1 \
+\cb3   \}\cb1 \
+\cb3   \cb1 \
+\cb3   
+\f1\i \cf2 \strokec2 // \uc0\u31532  2 \u27493 \u65306 \u25353 \u31456 \u33410 \u26631 \u39064 \u20999 \u20998 \u25991 \u26412 \u22359 
+\f0\i0 \cf5 \cb1 \strokec5 \
+\cb3   
+\f1\i \cf2 \strokec2 // \uc0\u20851 \u38190 \u20462 \u25913 \u65306 \u25152 \u26377 \u38750 \u26631 \u39064 \u34892 \u37117 \u24402 \u24403 \u21069  section\u65292 \u19981 \u20877 \u29992 \u20851 \u38190 \u35789 \u21453 \u25512 
+\f0\i0 \cf5 \cb1 \strokec5 \
+\cb3   
+\f2\b \cf10 \strokec10 const
+\f0\b0 \cf5 \strokec5  \cf4 \strokec4 buckets\cf5 \strokec5  \cf7 \strokec7 =\cf5 \strokec5  \{ \cf4 \strokec4 pros\cf5 \strokec5 : [], \cf4 \strokec4 cons\cf5 \strokec5 : [], \cf4 \strokec4 sugg\cf5 \strokec5 : [], \cf4 \strokec4 overall\cf5 \strokec5 : [], \cf4 \strokec4 skip\cf5 \strokec5 : [] \};\cb1 \
+\cb3   
+\f2\b \cf10 \strokec10 let
+\f0\b0 \cf5 \strokec5  \cf4 \strokec4 currentSection\cf5 \strokec5  \cf7 \strokec7 =\cf5 \strokec5  \cf6 \strokec6 'overall'\cf5 \strokec5 ;  
+\f1\i \cf2 \strokec2 // \uc0\u40664 \u35748 \u36827 \u24635 \u35780 \u65288 \u24320 \u22836 \u25551 \u36848 \u31867 \u35821 \u21477 \u65289 
+\f0\i0 \cf5 \cb1 \strokec5 \
+\cb3   \cb1 \
+\cb3   \cf7 \strokec7 for\cf5 \strokec5  (
+\f2\b \cf10 \strokec10 const
+\f0\b0 \cf5 \strokec5  \cf4 \strokec4 line\cf5 \strokec5  \cf7 \strokec7 of\cf5 \strokec5  \cf4 \strokec4 lines\cf5 \strokec5 ) \{\cb1 \
+\cb3     
+\f2\b \cf10 \strokec10 const
+\f0\b0 \cf5 \strokec5  \cf4 \strokec4 titleType\cf5 \strokec5  \cf7 \strokec7 =\cf5 \strokec5  \cf4 \strokec4 classifyTitle\cf5 \strokec5 (\cf4 \strokec4 line\cf5 \strokec5 );\cb1 \
+\cb3     \cf7 \strokec7 if\cf5 \strokec5  (\cf4 \strokec4 titleType\cf5 \strokec5  \cf7 \strokec7 !==\cf5 \strokec5  \cf12 \strokec12 null\cf5 \strokec5 ) \{\cb1 \
+\cb3       \cf4 \strokec4 currentSection\cf5 \strokec5  \cf7 \strokec7 =\cf5 \strokec5  \cf4 \strokec4 titleType\cf5 \strokec5 ;\cb1 \
+\cb3       \cf7 \strokec7 continue\cf5 \strokec5 ;  
+\f1\i \cf2 \strokec2 // \uc0\u26631 \u39064 \u26412 \u36523 \u19981 \u36827 \u20869 \u23481 
+\f0\i0 \cf5 \cb1 \strokec5 \
+\cb3     \}\cb1 \
+\cb3     \cf7 \strokec7 if\cf5 \strokec5  (\cf4 \strokec4 currentSection\cf5 \strokec5  \cf7 \strokec7 ===\cf5 \strokec5  \cf6 \strokec6 'skip'\cf5 \strokec5 ) \cf7 \strokec7 continue\cf5 \strokec5 ;\cb1 \
+\cb3     \cb1 \
+\cb3     
+\f1\i \cf2 \strokec2 // \uc0\u22788 \u29702 \u20004 \u34892 \u24335 \u26684 \u24335 \u65288 \u22914 "1. \u26680 \u24515 \u20869 \u23481 \u22522 \u26412 \u20934 \u30830 \\n\u23545 ...\u26159 \u21040 \u20301 \u30340 "\u65289 
+\f0\i0 \cf5 \cb1 \strokec5 \
+\cb3     
+\f1\i \cf2 \strokec2 // \uc0\u24403 \u21069 \u34892 \u22914 \u26524 \u26159  "\u25968 \u23383 . \u30701 \u21477 "\u65292 \u19979 \u19968 \u34892 \u36890 \u24120 \u26159 \u35828 \u26126  \'97\'97 \u20294 \u25105 \u20204 \u24050 \u32463 \u19968 \u34892 \u34892 \u22788 \u29702 
+\f0\i0 \cf5 \cb1 \strokec5 \
+\cb3     
+\f1\i \cf2 \strokec2 // \uc0\u25152 \u20197 \u30452 \u25509 \u25226 \u20869 \u23481 \u34892 \u21152 \u20837 \u24403 \u21069 \u26742 \u21363 \u21487 
+\f0\i0 \cf5 \cb1 \strokec5 \
+\cb3     \cb1 \
+\cb3     
+\f1\i \cf2 \strokec2 // \uc0\u21435 \u25481 \u34892 \u39318 \u30340  bullet \u26631 \u35760 \u65288 -\u12289 \'95\u12289 *\u12289 \u25968 \u23383 .\u65289 \u21644 \u21152 \u31895 
+\f0\i0 \cf5 \cb1 \strokec5 \
+\cb3     
+\f2\b \cf10 \strokec10 let
+\f0\b0 \cf5 \strokec5  \cf4 \strokec4 cleaned\cf5 \strokec5  \cf7 \strokec7 =\cf5 \strokec5  \cf4 \strokec4 line\cf5 \cb1 \strokec5 \
+\cb3       .\cf4 \strokec4 replace\cf5 \strokec5 (\cf11 \strokec11 /\cf9 \strokec9 \\*\cf7 \strokec7 +\cf11 \strokec11 /\cf7 \strokec7 g\cf5 \strokec5 , \cf6 \strokec6 ''\cf5 \strokec5 )\cb1 \
+\cb3       .\cf4 \strokec4 replace\cf5 \strokec5 (\cf11 \strokec11 /\cf7 \strokec7 ^\cf9 \strokec9 [\\-\'95\'b7*]\\s\cf7 \strokec7 *\cf11 \strokec11 /\cf5 \strokec5 , \cf6 \strokec6 ''\cf5 \strokec5 )\cb1 \
+\cb3       .\cf4 \strokec4 replace\cf5 \strokec5 (\cf11 \strokec11 /\cf7 \strokec7 ^\cf9 \strokec9 \\d\cf7 \strokec7 +\cf9 \strokec9 [\\.\\\uc0\u12289 ]\\s\cf7 \strokec7 *\cf11 \strokec11 /\cf5 \strokec5 , \cf6 \strokec6 ''\cf5 \strokec5 )\cb1 \
+\cb3       .\cf4 \strokec4 trim\cf5 \strokec5 ();\cb1 \
+\cb3     \cf7 \strokec7 if\cf5 \strokec5  (\cf7 \strokec7 !\cf4 \strokec4 cleaned\cf5 \strokec5 ) \cf7 \strokec7 continue\cf5 \strokec5 ;\cb1 \
+\cb3     \cb1 \
+\cb3     \cf4 \strokec4 buckets\cf5 \strokec5 [\cf4 \strokec4 currentSection\cf5 \strokec5 ].\cf4 \strokec4 push\cf5 \strokec5 (\cf4 \strokec4 cleaned\cf5 \strokec5 );\cb1 \
+\cb3   \}\cb1 \
+\cb3   \cb1 \
+\cb3   
+\f1\i \cf2 \strokec2 // \uc0\u31532  3 \u27493 \u65306 \u21512 \u24182 \u30456 \u37051 "\u30701 \u26631 \u39064 +\u35828 \u26126 "\u24418 \u24335 \u65288 \u28966 \u25991 \u38597 \u29256 \u65289 
+\f0\i0 \cf5 \cb1 \strokec5 \
+\cb3   
+\f1\i \cf2 \strokec2 // \uc0\u28966 \u25991 \u38597 \u29256 \u26412 \u65306 \u27599 \u26465 \u26159  "1. \u27969 \u30021 \u24230 \u26126 \u26174 \u19981 \u36275 " + "\u32763 \u35793 \u26102 \u20572 \u39039 \u36739 \u22810 \'85\'85" \u20004 \u34892 
+\f0\i0 \cf5 \cb1 \strokec5 \
+\cb3   
+\f1\i \cf2 \strokec2 // \uc0\u32463 \u36807 \u19978 \u38754  cleaned \u22788 \u29702 \u21518 \u36825 \u20004 \u34892 \u24050 \u32463 \u25104 \u20026 \u20004 \u20010 \u29420 \u31435 \u26465 \u30446 \u65292 \u20294 \u23427 \u20204 \u36923 \u36753 \u19978 \u26159 \u19968 \u26465 
+\f0\i0 \cf5 \cb1 \strokec5 \
+\cb3   
+\f1\i \cf2 \strokec2 // \uc0\u21551 \u21457 \u24335 \u65306 \u22914 \u26524 \u21069 \u19968 \u26465 \u24456 \u30701 \u65288 <22\u23383 \u65289 \u19988 \u21518 \u19968 \u26465 \u20559 \u38271 \u65292 \u21512 \u24182 
+\f0\i0 \cf5 \cb1 \strokec5 \
+\cb3   
+\f2\b \cf10 \strokec10 function
+\f0\b0 \cf5 \strokec5  \cf4 \strokec4 mergeShortAndLong\cf5 \strokec5 (arr) \{\cb1 \
+\cb3     \cf7 \strokec7 if\cf5 \strokec5  (\cf4 \strokec4 arr\cf5 \strokec5 .length \cf7 \strokec7 <\cf5 \strokec5  \cf8 \strokec8 2\cf5 \strokec5 ) \cf7 \strokec7 return\cf5 \strokec5  \cf4 \strokec4 arr\cf5 \strokec5 ;\cb1 \
+\cb3     
+\f2\b \cf10 \strokec10 const
+\f0\b0 \cf5 \strokec5  \cf4 \strokec4 merged\cf5 \strokec5  \cf7 \strokec7 =\cf5 \strokec5  [];\cb1 \
+\cb3     
+\f2\b \cf10 \strokec10 let
+\f0\b0 \cf5 \strokec5  \cf4 \strokec4 i\cf5 \strokec5  \cf7 \strokec7 =\cf5 \strokec5  \cf8 \strokec8 0\cf5 \strokec5 ;\cb1 \
+\cb3     \cf7 \strokec7 while\cf5 \strokec5  (\cf4 \strokec4 i\cf5 \strokec5  \cf7 \strokec7 <\cf5 \strokec5  \cf4 \strokec4 arr\cf5 \strokec5 .length) \{\cb1 \
+\cb3       
+\f2\b \cf10 \strokec10 const
+\f0\b0 \cf5 \strokec5  \cf4 \strokec4 cur\cf5 \strokec5  \cf7 \strokec7 =\cf5 \strokec5  \cf4 \strokec4 arr\cf5 \strokec5 [\cf4 \strokec4 i\cf5 \strokec5 ];\cb1 \
+\cb3       
+\f2\b \cf10 \strokec10 const
+\f0\b0 \cf5 \strokec5  \cf4 \strokec4 next\cf5 \strokec5  \cf7 \strokec7 =\cf5 \strokec5  \cf4 \strokec4 arr\cf5 \strokec5 [\cf4 \strokec4 i\cf5 \strokec5  \cf7 \strokec7 +\cf5 \strokec5  \cf8 \strokec8 1\cf5 \strokec5 ];\cb1 \
+\cb3       
+\f1\i \cf2 \strokec2 // \uc0\u24403 \u21069 \u26465 \u30446 \u24456 \u30701 \u65288 \u26631 \u39064 \u24863 \u65289 \u19988 \u19979 \u19968 \u26465 \u20559 \u38271 \u65288 \u35828 \u26126 \u24863 \u65289 \u8594  \u21512 \u24182 
+\f0\i0 \cf5 \cb1 \strokec5 \
+\cb3       \cf7 \strokec7 if\cf5 \strokec5  (\cf4 \strokec4 next\cf5 \strokec5  \cf7 \strokec7 &&\cf5 \strokec5  \cf4 \strokec4 cur\cf5 \strokec5 .length \cf7 \strokec7 <\cf5 \strokec5  \cf8 \strokec8 22\cf5 \strokec5  \cf7 \strokec7 &&\cf5 \strokec5  \cf4 \strokec4 next\cf5 \strokec5 .length \cf7 \strokec7 >\cf5 \strokec5  \cf4 \strokec4 cur\cf5 \strokec5 .length \cf7 \strokec7 *\cf5 \strokec5  \cf8 \strokec8 1.5\cf5 \strokec5  \cf7 \strokec7 &&\cf5 \strokec5  \cf7 \strokec7 !\cf4 \strokec4 next\cf5 \strokec5 .\cf4 \strokec4 match\cf5 \strokec5 (\cf11 \strokec11 /\cf7 \strokec7 ^\cf9 \strokec9 [A-Za-z\\d]\cf11 \strokec11 /\cf5 \strokec5 )) \{\cb1 \
+\cb3         \cf4 \strokec4 merged\cf5 \strokec5 .\cf4 \strokec4 push\cf5 \strokec5 (\cf4 \strokec4 cur\cf5 \strokec5  \cf7 \strokec7 +\cf5 \strokec5  \cf6 \strokec6 '\'97\'97'\cf5 \strokec5  \cf7 \strokec7 +\cf5 \strokec5  \cf4 \strokec4 next\cf5 \strokec5 );\cb1 \
+\cb3         \cf4 \strokec4 i\cf5 \strokec5  \cf7 \strokec7 +=\cf5 \strokec5  \cf8 \strokec8 2\cf5 \strokec5 ;\cb1 \
+\cb3       \} \cf7 \strokec7 else\cf5 \strokec5  \{\cb1 \
+\cb3         \cf4 \strokec4 merged\cf5 \strokec5 .\cf4 \strokec4 push\cf5 \strokec5 (\cf4 \strokec4 cur\cf5 \strokec5 );\cb1 \
+\cb3         \cf4 \strokec4 i\cf5 \strokec5  \cf7 \strokec7 +=\cf5 \strokec5  \cf8 \strokec8 1\cf5 \strokec5 ;\cb1 \
+\cb3       \}\cb1 \
+\cb3     \}\cb1 \
+\cb3     \cf7 \strokec7 return\cf5 \strokec5  \cf4 \strokec4 merged\cf5 \strokec5 ;\cb1 \
+\cb3   \}\cb1 \
+\cb3   \cb1 \
+\cb3   \cf4 \strokec4 buckets\cf5 \strokec5 .\cf4 \strokec4 pros\cf5 \strokec5  \cf7 \strokec7 =\cf5 \strokec5  \cf4 \strokec4 mergeShortAndLong\cf5 \strokec5 (\cf4 \strokec4 buckets\cf5 \strokec5 .\cf4 \strokec4 pros\cf5 \strokec5 );\cb1 \
+\cb3   \cf4 \strokec4 buckets\cf5 \strokec5 .\cf4 \strokec4 cons\cf5 \strokec5  \cf7 \strokec7 =\cf5 \strokec5  \cf4 \strokec4 mergeShortAndLong\cf5 \strokec5 (\cf4 \strokec4 buckets\cf5 \strokec5 .\cf4 \strokec4 cons\cf5 \strokec5 );\cb1 \
+\cb3   \cf4 \strokec4 buckets\cf5 \strokec5 .\cf4 \strokec4 sugg\cf5 \strokec5  \cf7 \strokec7 =\cf5 \strokec5  \cf4 \strokec4 mergeShortAndLong\cf5 \strokec5 (\cf4 \strokec4 buckets\cf5 \strokec5 .\cf4 \strokec4 sugg\cf5 \strokec5 );\cb1 \
+\cb3   \cb1 \
+\cb3   
+\f1\i \cf2 \strokec2 // \uc0\u31532  4 \u27493 \u65306 \u22788 \u29702 "\u27809 \u26377 \u20219 \u20309 \u31456 \u33410 \u26631 \u39064 "\u30340 \u36864 \u21270 \u24773 \u20917 
+\f0\i0 \cf5 \cb1 \strokec5 \
+\cb3   
+\f2\b \cf10 \strokec10 const
+\f0\b0 \cf5 \strokec5  \cf4 \strokec4 totalSectioned\cf5 \strokec5  \cf7 \strokec7 =\cf5 \strokec5  \cf4 \strokec4 buckets\cf5 \strokec5 .\cf4 \strokec4 pros\cf5 \strokec5 .\cf4 \strokec4 length\cf5 \strokec5  \cf7 \strokec7 +\cf5 \strokec5  \cf4 \strokec4 buckets\cf5 \strokec5 .\cf4 \strokec4 cons\cf5 \strokec5 .\cf4 \strokec4 length\cf5 \strokec5  \cf7 \strokec7 +\cf5 \strokec5  \cf4 \strokec4 buckets\cf5 \strokec5 .\cf4 \strokec4 sugg\cf5 \strokec5 .\cf4 \strokec4 length\cf5 \strokec5 ;\cb1 \
+\cb3   \cf7 \strokec7 if\cf5 \strokec5  (\cf4 \strokec4 totalSectioned\cf5 \strokec5  \cf7 \strokec7 ===\cf5 \strokec5  \cf8 \strokec8 0\cf5 \strokec5  \cf7 \strokec7 &&\cf5 \strokec5  \cf4 \strokec4 buckets\cf5 \strokec5 .\cf4 \strokec4 overall\cf5 \strokec5 .\cf4 \strokec4 length\cf5 \strokec5  \cf7 \strokec7 >\cf5 \strokec5  \cf8 \strokec8 0\cf5 \strokec5 ) \{\cb1 \
+\cb3     
+\f1\i \cf2 \strokec2 // \uc0\u27809 \u26377 \u20219 \u20309 \u35782 \u21035 \u21040 \u30340 \u31456 \u33410 \u65292 \u20294 \u26377 \u20869 \u23481 \'97\'97\u38477 \u32423 \u20026 \u20851 \u38190 \u35789 \u21453 \u25512 
+\f0\i0 \cf5 \cb1 \strokec5 \
+\cb3     
+\f2\b \cf10 \strokec10 const
+\f0\b0 \cf5 \strokec5  \cf4 \strokec4 recovered\cf5 \strokec5  \cf7 \strokec7 =\cf5 \strokec5  \{ \cf4 \strokec4 pros\cf5 \strokec5 : [], \cf4 \strokec4 cons\cf5 \strokec5 : [], \cf4 \strokec4 sugg\cf5 \strokec5 : [], \cf4 \strokec4 overall\cf5 \strokec5 : [] \};\cb1 \
+\cb3     \cf7 \strokec7 for\cf5 \strokec5  (
+\f2\b \cf10 \strokec10 const
+\f0\b0 \cf5 \strokec5  \cf4 \strokec4 item\cf5 \strokec5  \cf7 \strokec7 of\cf5 \strokec5  \cf4 \strokec4 buckets\cf5 \strokec5 .\cf4 \strokec4 overall\cf5 \strokec5 ) \{\cb1 \
+\cb3       \cf7 \strokec7 if\cf5 \strokec5  (\cf11 \strokec11 /\uc0\u24314 \u35758 \cf7 \strokec7 |\cf11 \strokec11 \uc0\u24212 \u35813 \cf7 \strokec7 |\cf11 \strokec11 \uc0\u21487 \u20197 \cf7 \strokec7 |\cf11 \strokec11 \uc0\u38656 \u35201 \cf7 \strokec7 |\cf11 \strokec11 \uc0\u24076 \u26395 \cf7 \strokec7 |\cf11 \strokec11 \uc0\u20170 \u21518 \cf7 \strokec7 |\cf11 \strokec11 \uc0\u19979 \u27425 \cf7 \strokec7 |\cf11 \strokec11 \uc0\u21152 \u24378 \cf7 \strokec7 |\cf11 \strokec11 \uc0\u25913 \u21892 \cf7 \strokec7 |\cf11 \strokec11 \uc0\u25552 \u21319 /\cf5 \strokec5 .\cf4 \strokec4 test\cf5 \strokec5 (\cf4 \strokec4 item\cf5 \strokec5 )) \{\cb1 \
+\cb3         \cf4 \strokec4 recovered\cf5 \strokec5 .\cf4 \strokec4 sugg\cf5 \strokec5 .\cf4 \strokec4 push\cf5 \strokec5 (\cf4 \strokec4 item\cf5 \strokec5 );\cb1 \
+\cb3       \} \cf7 \strokec7 else\cf5 \strokec5  \cf7 \strokec7 if\cf5 \strokec5  (\cf11 \strokec11 /\uc0\u19981 \u36275 \cf7 \strokec7 |\cf11 \strokec11 \uc0\u20559 \u24046 \cf7 \strokec7 |\cf11 \strokec11 \uc0\u36951 \u28431 \cf7 \strokec7 |\cf11 \strokec11 \uc0\u28151 \u20081 \cf7 \strokec7 |\cf11 \strokec11 \uc0\u32570 \u22833 \cf7 \strokec7 |\cf11 \strokec11 \uc0\u26377 \u24453 \cf7 \strokec7 |\cf11 \strokec11 \uc0\u34180 \u24369 \cf7 \strokec7 |\cf11 \strokec11 \uc0\u20005 \u37325 \cf7 \strokec7 |\cf11 \strokec11 \uc0\u19981 \u22815 \cf7 \strokec7 |\cf11 \strokec11 \uc0\u38169 \u35823 /\cf5 \strokec5 .\cf4 \strokec4 test\cf5 \strokec5 (\cf4 \strokec4 item\cf5 \strokec5 )) \{\cb1 \
+\cb3         \cf4 \strokec4 recovered\cf5 \strokec5 .\cf4 \strokec4 cons\cf5 \strokec5 .\cf4 \strokec4 push\cf5 \strokec5 (\cf4 \strokec4 item\cf5 \strokec5 );\cb1 \
+\cb3       \} \cf7 \strokec7 else\cf5 \strokec5  \cf7 \strokec7 if\cf5 \strokec5  (\cf11 \strokec11 /\uc0\u33391 \u22909 \cf7 \strokec7 |\cf11 \strokec11 \uc0\u20934 \u30830 \cf7 \strokec7 |\cf11 \strokec11 \uc0\u21040 \u20301 \cf7 \strokec7 |\cf11 \strokec11 \uc0\u19981 \u38169 \cf7 \strokec7 |\cf11 \strokec11 \uc0\u23436 \u25104 \u24230 \cf7 \strokec7 |\cf11 \strokec11 \uc0\u20027 \u21160 \cf7 \strokec7 |\cf11 \strokec11 \uc0\u23436 \u25972 \cf7 \strokec7 |\cf11 \strokec11 \uc0\u20855 \u22791 \cf7 \strokec7 |\cf11 \strokec11 \uc0\u34920 \u29616 \u31283 \u23450 /\cf5 \strokec5 .\cf4 \strokec4 test\cf5 \strokec5 (\cf4 \strokec4 item\cf5 \strokec5 )) \{\cb1 \
+\cb3         \cf4 \strokec4 recovered\cf5 \strokec5 .\cf4 \strokec4 pros\cf5 \strokec5 .\cf4 \strokec4 push\cf5 \strokec5 (\cf4 \strokec4 item\cf5 \strokec5 );\cb1 \
+\cb3       \} \cf7 \strokec7 else\cf5 \strokec5  \{\cb1 \
+\cb3         \cf4 \strokec4 recovered\cf5 \strokec5 .\cf4 \strokec4 overall\cf5 \strokec5 .\cf4 \strokec4 push\cf5 \strokec5 (\cf4 \strokec4 item\cf5 \strokec5 );\cb1 \
+\cb3       \}\cb1 \
+\cb3     \}\cb1 \
+\cb3     \cf4 \strokec4 buckets\cf5 \strokec5 .\cf4 \strokec4 pros\cf5 \strokec5  \cf7 \strokec7 =\cf5 \strokec5  \cf4 \strokec4 recovered\cf5 \strokec5 .\cf4 \strokec4 pros\cf5 \strokec5 ;\cb1 \
+\cb3     \cf4 \strokec4 buckets\cf5 \strokec5 .\cf4 \strokec4 cons\cf5 \strokec5  \cf7 \strokec7 =\cf5 \strokec5  \cf4 \strokec4 recovered\cf5 \strokec5 .\cf4 \strokec4 cons\cf5 \strokec5 ;\cb1 \
+\cb3     \cf4 \strokec4 buckets\cf5 \strokec5 .\cf4 \strokec4 sugg\cf5 \strokec5  \cf7 \strokec7 =\cf5 \strokec5  \cf4 \strokec4 recovered\cf5 \strokec5 .\cf4 \strokec4 sugg\cf5 \strokec5 ;\cb1 \
+\cb3     \cf4 \strokec4 buckets\cf5 \strokec5 .\cf4 \strokec4 overall\cf5 \strokec5  \cf7 \strokec7 =\cf5 \strokec5  \cf4 \strokec4 recovered\cf5 \strokec5 .\cf4 \strokec4 overall\cf5 \strokec5 ;\cb1 \
+\cb3   \}\cb1 \
+\cb3   \cb1 \
+\cb3   
+\f1\i \cf2 \strokec2 // \uc0\u31532  5 \u27493 \u65306 \u20889 \u20837 \u30028 \u38754 
+\f0\i0 \cf5 \cb1 \strokec5 \
+\cb3   \cf4 \strokec4 els\cf5 \strokec5 .\cf4 \strokec4 pros\cf5 \strokec5 .\cf4 \strokec4 value\cf5 \strokec5  \cf7 \strokec7 =\cf5 \strokec5  \cf4 \strokec4 buckets\cf5 \strokec5 .\cf4 \strokec4 pros\cf5 \strokec5 .\cf4 \strokec4 map\cf5 \strokec5 (l 
+\f2\b \cf10 \strokec10 =>
+\f0\b0 \cf5 \strokec5  \cf6 \strokec6 '\'95 '\cf5 \strokec5  \cf7 \strokec7 +\cf5 \strokec5  \cf4 \strokec4 l\cf5 \strokec5 ).\cf4 \strokec4 join\cf5 \strokec5 (\cf6 \strokec6 '\cf9 \strokec9 \\n\cf6 \strokec6 '\cf5 \strokec5 );\cb1 \
+\cb3   \cf4 \strokec4 els\cf5 \strokec5 .\cf4 \strokec4 cons\cf5 \strokec5 .\cf4 \strokec4 value\cf5 \strokec5  \cf7 \strokec7 =\cf5 \strokec5  \cf4 \strokec4 buckets\cf5 \strokec5 .\cf4 \strokec4 cons\cf5 \strokec5 .\cf4 \strokec4 map\cf5 \strokec5 (l 
+\f2\b \cf10 \strokec10 =>
+\f0\b0 \cf5 \strokec5  \cf6 \strokec6 '\'95 '\cf5 \strokec5  \cf7 \strokec7 +\cf5 \strokec5  \cf4 \strokec4 l\cf5 \strokec5 ).\cf4 \strokec4 join\cf5 \strokec5 (\cf6 \strokec6 '\cf9 \strokec9 \\n\cf6 \strokec6 '\cf5 \strokec5 );\cb1 \
+\cb3   \cf4 \strokec4 els\cf5 \strokec5 .\cf4 \strokec4 suggestions\cf5 \strokec5 .\cf4 \strokec4 value\cf5 \strokec5  \cf7 \strokec7 =\cf5 \strokec5  \cf4 \strokec4 buckets\cf5 \strokec5 .\cf4 \strokec4 sugg\cf5 \strokec5 .\cf4 \strokec4 map\cf5 \strokec5 (l 
+\f2\b \cf10 \strokec10 =>
+\f0\b0 \cf5 \strokec5  \cf6 \strokec6 '\'95 '\cf5 \strokec5  \cf7 \strokec7 +\cf5 \strokec5  \cf4 \strokec4 l\cf5 \strokec5 ).\cf4 \strokec4 join\cf5 \strokec5 (\cf6 \strokec6 '\cf9 \strokec9 \\n\cf6 \strokec6 '\cf5 \strokec5 );\cb1 \
+\cb3   \cf4 \strokec4 els\cf5 \strokec5 .\cf4 \strokec4 overall\cf5 \strokec5 .\cf4 \strokec4 value\cf5 \strokec5  \cf7 \strokec7 =\cf5 \strokec5  \cf4 \strokec4 buckets\cf5 \strokec5 .\cf4 \strokec4 overall\cf5 \strokec5 .\cf4 \strokec4 join\cf5 \strokec5 (\cf6 \strokec6 '\cf9 \strokec9 \\n\\n\cf6 \strokec6 '\cf5 \strokec5 );\cb1 \
+\cb3   \cb1 \
+\cb3   \cf4 \strokec4 updateStats\cf5 \strokec5 ();\cb1 \
+\cb3   
+\f2\b \cf10 \strokec10 const
+\f0\b0 \cf5 \strokec5  \cf4 \strokec4 total\cf5 \strokec5  \cf7 \strokec7 =\cf5 \strokec5  \cf4 \strokec4 buckets\cf5 \strokec5 .\cf4 \strokec4 pros\cf5 \strokec5 .\cf4 \strokec4 length\cf5 \strokec5  \cf7 \strokec7 +\cf5 \strokec5  \cf4 \strokec4 buckets\cf5 \strokec5 .\cf4 \strokec4 cons\cf5 \strokec5 .\cf4 \strokec4 length\cf5 \strokec5  \cf7 \strokec7 +\cf5 \strokec5  \cf4 \strokec4 buckets\cf5 \strokec5 .\cf4 \strokec4 sugg\cf5 \strokec5 .\cf4 \strokec4 length\cf5 \strokec5 ;\cb1 \
+\cb3   \cf7 \strokec7 if\cf5 \strokec5  (\cf4 \strokec4 total\cf5 \strokec5  \cf7 \strokec7 ===\cf5 \strokec5  \cf8 \strokec8 0\cf5 \strokec5 ) \{\cb1 \
+\cb3     \cf4 \strokec4 showToast\cf5 \strokec5 (\cf6 \strokec6 '\uc0\u26410 \u33021 \u35782 \u21035 \u21040 \u32467 \u26500 \u21270 \u31456 \u33410 \u65292 \u35831 \u26816 \u26597 \u25110 \u25163 \u21160 \u35843 \u25972 '\cf5 \strokec5 , \cf6 \strokec6 'error'\cf5 \strokec5 );\cb1 \
+\cb3   \} \cf7 \strokec7 else\cf5 \strokec5  \{\cb1 \
+\cb3     \cf4 \strokec4 showToast\cf5 \strokec5 (\cf6 \strokec6 '\uc0\u24050 \u25286 \u20998 \u20026  '\cf5 \strokec5  \cf7 \strokec7 +\cf5 \strokec5  \cf4 \strokec4 total\cf5 \strokec5  \cf7 \strokec7 +\cf5 \strokec5  \cf6 \strokec6 ' \uc0\u26465 \u35760 \u24405 \u65288 \u20248 '\cf5 \strokec5  \cf7 \strokec7 +\cf5 \strokec5  \cf4 \strokec4 buckets\cf5 \strokec5 .\cf4 \strokec4 pros\cf5 \strokec5 .\cf4 \strokec4 length\cf5 \strokec5  \cf7 \strokec7 +\cf5 \strokec5  \cf6 \strokec6 '/\uc0\u38382 '\cf5 \strokec5  \cf7 \strokec7 +\cf5 \strokec5  \cf4 \strokec4 buckets\cf5 \strokec5 .\cf4 \strokec4 cons\cf5 \strokec5 .\cf4 \strokec4 length\cf5 \strokec5  \cf7 \strokec7 +\cf5 \strokec5  \cf6 \strokec6 '/\uc0\u24314 '\cf5 \strokec5  \cf7 \strokec7 +\cf5 \strokec5  \cf4 \strokec4 buckets\cf5 \strokec5 .\cf4 \strokec4 sugg\cf5 \strokec5 .\cf4 \strokec4 length\cf5 \strokec5  \cf7 \strokec7 +\cf5 \strokec5  \cf6 \strokec6 '\uc0\u65289 '\cf5 \strokec5 );\cb1 \
+\cb3   \}\cb1 \
+\cb3 \}\cb1 \
+\
+\pard\pardeftab720\partightenfactor0
+
+\f2\b \cf10 \cb3 \strokec10 function
+\f0\b0 \cf5 \strokec5  \cf4 \strokec4 updateStats\cf5 \strokec5 () \{\cb1 \
+\pard\pardeftab720\partightenfactor0
+\cf5 \cb3   
+\f2\b \cf10 \strokec10 const
+\f0\b0 \cf5 \strokec5  \cf4 \strokec4 countLines\cf5 \strokec5  \cf7 \strokec7 =\cf5 \strokec5  (s) 
+\f2\b \cf10 \strokec10 =>
+\f0\b0 \cf5 \strokec5  \cf4 \strokec4 s\cf5 \strokec5 .\cf4 \strokec4 split\cf5 \strokec5 (\cf6 \strokec6 '\cf9 \strokec9 \\n\cf6 \strokec6 '\cf5 \strokec5 ).\cf4 \strokec4 filter\cf5 \strokec5 (l 
+\f2\b \cf10 \strokec10 =>
+\f0\b0 \cf5 \strokec5  \cf4 \strokec4 l\cf5 \strokec5 .\cf4 \strokec4 trim\cf5 \strokec5 () \cf7 \strokec7 &&\cf5 \strokec5  \cf4 \strokec4 l\cf5 \strokec5 .\cf4 \strokec4 trim\cf5 \strokec5 () \cf7 \strokec7 !==\cf5 \strokec5  \cf6 \strokec6 '\'95'\cf5 \strokec5 ).length;\cb1 \
+\cb3   
+\f2\b \cf10 \strokec10 const
+\f0\b0 \cf5 \strokec5  \cf4 \strokec4 pn\cf5 \strokec5  \cf7 \strokec7 =\cf5 \strokec5  \cf4 \strokec4 countLines\cf5 \strokec5 (\cf4 \strokec4 els\cf5 \strokec5 .\cf4 \strokec4 pros\cf5 \strokec5 .\cf4 \strokec4 value\cf5 \strokec5 );\cb1 \
+\cb3   
+\f2\b \cf10 \strokec10 const
+\f0\b0 \cf5 \strokec5  \cf4 \strokec4 cn\cf5 \strokec5  \cf7 \strokec7 =\cf5 \strokec5  \cf4 \strokec4 countLines\cf5 \strokec5 (\cf4 \strokec4 els\cf5 \strokec5 .\cf4 \strokec4 cons\cf5 \strokec5 .\cf4 \strokec4 value\cf5 \strokec5 );\cb1 \
+\cb3   
+\f2\b \cf10 \strokec10 const
+\f0\b0 \cf5 \strokec5  \cf4 \strokec4 sn\cf5 \strokec5  \cf7 \strokec7 =\cf5 \strokec5  \cf4 \strokec4 countLines\cf5 \strokec5 (\cf4 \strokec4 els\cf5 \strokec5 .\cf4 \strokec4 suggestions\cf5 \strokec5 .\cf4 \strokec4 value\cf5 \strokec5 );\cb1 \
+\cb3   \cf4 \strokec4 document\cf5 \strokec5 .\cf4 \strokec4 getElementById\cf5 \strokec5 (\cf6 \strokec6 'prosCount'\cf5 \strokec5 ).\cf4 \strokec4 textContent\cf5 \strokec5  \cf7 \strokec7 =\cf5 \strokec5  \cf4 \strokec4 pn\cf5 \strokec5  \cf7 \strokec7 +\cf5 \strokec5  \cf6 \strokec6 ' \uc0\u26465 '\cf5 \strokec5 ;\cb1 \
+\cb3   \cf4 \strokec4 document\cf5 \strokec5 .\cf4 \strokec4 getElementById\cf5 \strokec5 (\cf6 \strokec6 'consCount'\cf5 \strokec5 ).\cf4 \strokec4 textContent\cf5 \strokec5  \cf7 \strokec7 =\cf5 \strokec5  \cf4 \strokec4 cn\cf5 \strokec5  \cf7 \strokec7 +\cf5 \strokec5  \cf6 \strokec6 ' \uc0\u26465 '\cf5 \strokec5 ;\cb1 \
+\cb3   \cf4 \strokec4 document\cf5 \strokec5 .\cf4 \strokec4 getElementById\cf5 \strokec5 (\cf6 \strokec6 'suggCount'\cf5 \strokec5 ).\cf4 \strokec4 textContent\cf5 \strokec5  \cf7 \strokec7 =\cf5 \strokec5  \cf4 \strokec4 sn\cf5 \strokec5  \cf7 \strokec7 +\cf5 \strokec5  \cf6 \strokec6 ' \uc0\u26465 '\cf5 \strokec5 ;\cb1 \
+\cb3   \cf4 \strokec4 document\cf5 \strokec5 .\cf4 \strokec4 getElementById\cf5 \strokec5 (\cf6 \strokec6 'totalChars'\cf5 \strokec5 ).\cf4 \strokec4 textContent\cf5 \strokec5  \cf7 \strokec7 =\cf5 \strokec5  \cf4 \strokec4 els\cf5 \strokec5 .\cf4 \strokec4 raw\cf5 \strokec5 .\cf4 \strokec4 value\cf5 \strokec5 .length;\cb1 \
+\cb3   \cf4 \strokec4 document\cf5 \strokec5 .\cf4 \strokec4 getElementById\cf5 \strokec5 (\cf6 \strokec6 'totalAdvice'\cf5 \strokec5 ).\cf4 \strokec4 textContent\cf5 \strokec5  \cf7 \strokec7 =\cf5 \strokec5  \cf4 \strokec4 pn\cf5 \strokec5  \cf7 \strokec7 +\cf5 \strokec5  \cf4 \strokec4 cn\cf5 \strokec5  \cf7 \strokec7 +\cf5 \strokec5  \cf4 \strokec4 sn\cf5 \strokec5 ;\cb1 \
+\cb3   \cf4 \strokec4 document\cf5 \strokec5 .\cf4 \strokec4 getElementById\cf5 \strokec5 (\cf6 \strokec6 'prosNum'\cf5 \strokec5 ).\cf4 \strokec4 textContent\cf5 \strokec5  \cf7 \strokec7 =\cf5 \strokec5  \cf4 \strokec4 pn\cf5 \strokec5 ;\cb1 \
+\cb3   \cf4 \strokec4 document\cf5 \strokec5 .\cf4 \strokec4 getElementById\cf5 \strokec5 (\cf6 \strokec6 'consNum'\cf5 \strokec5 ).\cf4 \strokec4 textContent\cf5 \strokec5  \cf7 \strokec7 =\cf5 \strokec5  \cf4 \strokec4 cn\cf5 \strokec5 ;\cb1 \
+\cb3 \}\cb1 \
+\
+\pard\pardeftab720\partightenfactor0
+
+\f1\i \cf2 \cb3 \strokec2 // \uc0\u30417 \u21548 \u36755 \u20837 \u26356 \u26032 \u32479 \u35745 
+\f0\i0 \cf5 \cb1 \strokec5 \
+\pard\pardeftab720\partightenfactor0
+\cf5 \cb3 [\cf6 \strokec6 'pros'\cf5 \strokec5 ,\cf6 \strokec6 'cons'\cf5 \strokec5 ,\cf6 \strokec6 'suggestions'\cf5 \strokec5 ,\cf6 \strokec6 'raw'\cf5 \strokec5 ].\cf4 \strokec4 forEach\cf5 \strokec5 (k 
+\f2\b \cf10 \strokec10 =>
+\f0\b0 \cf5 \strokec5  \{\cb1 \
+\cb3   \cf4 \strokec4 els\cf5 \strokec5 [\cf4 \strokec4 k\cf5 \strokec5 ].\cf4 \strokec4 addEventListener\cf5 \strokec5 (\cf6 \strokec6 'input'\cf5 \strokec5 , \cf4 \strokec4 updateStats\cf5 \strokec5 );\cb1 \
+\cb3 \});\cb1 \
+\
+\pard\pardeftab720\partightenfactor0
+
+\f1\i \cf2 \cb3 \strokec2 // ===== \uc0\u21382 \u21490 \u35760 \u24405 \u65288 localStorage\u65289 =====
+\f0\i0 \cf5 \cb1 \strokec5 \
+\pard\pardeftab720\partightenfactor0
+
+\f2\b \cf10 \cb3 \strokec10 const
+\f0\b0 \cf5 \strokec5  \cf4 \strokec4 HISTORY_KEY\cf5 \strokec5  \cf7 \strokec7 =\cf5 \strokec5  \cf6 \strokec6 'doubao_logger_records'\cf5 \strokec5 ;\cb1 \
+\
+
+\f2\b \cf10 \cb3 \strokec10 function
+\f0\b0 \cf5 \strokec5  \cf4 \strokec4 loadHistory\cf5 \strokec5 () \{\cb1 \
+\pard\pardeftab720\partightenfactor0
+\cf5 \cb3   \cf7 \strokec7 try\cf5 \strokec5  \{\cb1 \
+\cb3     \cf7 \strokec7 return\cf5 \strokec5  \cf4 \strokec4 JSON\cf5 \strokec5 .\cf4 \strokec4 parse\cf5 \strokec5 (\cf4 \strokec4 localStorage\cf5 \strokec5 .\cf4 \strokec4 getItem\cf5 \strokec5 (\cf4 \strokec4 HISTORY_KEY\cf5 \strokec5 ) \cf7 \strokec7 ||\cf5 \strokec5  \cf6 \strokec6 '[]'\cf5 \strokec5 );\cb1 \
+\cb3   \} \cf7 \strokec7 catch\cf5 \strokec5  (\cf4 \strokec4 e\cf5 \strokec5 ) \{ \cf7 \strokec7 return\cf5 \strokec5  []; \}\cb1 \
+\cb3 \}\cb1 \
+\
+\pard\pardeftab720\partightenfactor0
+
+\f2\b \cf10 \cb3 \strokec10 function
+\f0\b0 \cf5 \strokec5  \cf4 \strokec4 saveHistory\cf5 \strokec5 (records) \{\cb1 \
+\pard\pardeftab720\partightenfactor0
+\cf5 \cb3   \cf4 \strokec4 localStorage\cf5 \strokec5 .\cf4 \strokec4 setItem\cf5 \strokec5 (\cf4 \strokec4 HISTORY_KEY\cf5 \strokec5 , \cf4 \strokec4 JSON\cf5 \strokec5 .\cf4 \strokec4 stringify\cf5 \strokec5 (\cf4 \strokec4 records\cf5 \strokec5 ));\cb1 \
+\cb3 \}\cb1 \
+\
+\pard\pardeftab720\partightenfactor0
+
+\f2\b \cf10 \cb3 \strokec10 function
+\f0\b0 \cf5 \strokec5  \cf4 \strokec4 renderHistory\cf5 \strokec5 () \{\cb1 \
+\pard\pardeftab720\partightenfactor0
+\cf5 \cb3   
+\f2\b \cf10 \strokec10 const
+\f0\b0 \cf5 \strokec5  \cf4 \strokec4 records\cf5 \strokec5  \cf7 \strokec7 =\cf5 \strokec5  \cf4 \strokec4 loadHistory\cf5 \strokec5 ();\cb1 \
+\cb3   
+\f2\b \cf10 \strokec10 const
+\f0\b0 \cf5 \strokec5  \cf4 \strokec4 container\cf5 \strokec5  \cf7 \strokec7 =\cf5 \strokec5  \cf4 \strokec4 document\cf5 \strokec5 .\cf4 \strokec4 getElementById\cf5 \strokec5 (\cf6 \strokec6 'historyList'\cf5 \strokec5 );\cb1 \
+\cb3   \cf7 \strokec7 if\cf5 \strokec5  (\cf7 \strokec7 !\cf4 \strokec4 records\cf5 \strokec5 .length) \{\cb1 \
+\cb3     \cf4 \strokec4 container\cf5 \strokec5 .\cf4 \strokec4 innerHTML\cf5 \strokec5  \cf7 \strokec7 =\cf5 \strokec5  \cf6 \strokec6 '<span style="color:#95a5a6;">\uc0\u23578 \u26080 \u35760 \u24405 </span>'\cf5 \strokec5 ;\cb1 \
+\cb3     \cf7 \strokec7 return\cf5 \strokec5 ;\cb1 \
+\cb3   \}\cb1 \
+\cb3   \cf4 \strokec4 container\cf5 \strokec5 .\cf4 \strokec4 innerHTML\cf5 \strokec5  \cf7 \strokec7 =\cf5 \strokec5  \cf4 \strokec4 records\cf5 \strokec5 .\cf4 \strokec4 map\cf5 \strokec5 ((r, i) 
+\f2\b \cf10 \strokec10 =>
+\f0\b0 \cf5 \cb1 \strokec5 \
+\cb3     \cf6 \strokec6 '<span class="history-item" data-idx="'\cf5 \strokec5  \cf7 \strokec7 +\cf5 \strokec5  \cf4 \strokec4 i\cf5 \strokec5  \cf7 \strokec7 +\cf5 \strokec5  \cf6 \strokec6 '">'\cf5 \cb1 \strokec5 \
+\cb3     \cf7 \strokec7 +\cf5 \strokec5  (\cf4 \strokec4 r\cf5 \strokec5 .\cf4 \strokec4 studentId\cf5 \strokec5  \cf7 \strokec7 ||\cf5 \strokec5  \cf6 \strokec6 '\uc0\u21311 \u21517 '\cf5 \strokec5 ) \cf7 \strokec7 +\cf5 \strokec5  \cf6 \strokec6 ' \'b7 '\cf5 \strokec5  \cf7 \strokec7 +\cf5 \strokec5  (\cf4 \strokec4 r\cf5 \strokec5 .\cf4 \strokec4 taskId\cf5 \strokec5  \cf7 \strokec7 ||\cf5 \strokec5  \cf6 \strokec6 'T?'\cf5 \strokec5 ) \cf7 \strokec7 +\cf5 \strokec5  \cf6 \strokec6 ' \'b7 '\cf5 \strokec5  \cf7 \strokec7 +\cf5 \strokec5  \cf4 \strokec4 r\cf5 \strokec5 .\cf4 \strokec4 date\cf5 \cb1 \strokec5 \
+\cb3     \cf7 \strokec7 +\cf5 \strokec5  \cf6 \strokec6 '<span class="del" data-del="'\cf5 \strokec5  \cf7 \strokec7 +\cf5 \strokec5  \cf4 \strokec4 i\cf5 \strokec5  \cf7 \strokec7 +\cf5 \strokec5  \cf6 \strokec6 '">\'d7</span>'\cf5 \cb1 \strokec5 \
+\cb3     \cf7 \strokec7 +\cf5 \strokec5  \cf6 \strokec6 '</span>'\cf5 \cb1 \strokec5 \
+\cb3   ).\cf4 \strokec4 join\cf5 \strokec5 (\cf6 \strokec6 ''\cf5 \strokec5 );\cb1 \
+\cb3   \cb1 \
+\cb3   \cf4 \strokec4 container\cf5 \strokec5 .\cf4 \strokec4 querySelectorAll\cf5 \strokec5 (\cf6 \strokec6 '.history-item'\cf5 \strokec5 ).\cf4 \strokec4 forEach\cf5 \strokec5 (el 
+\f2\b \cf10 \strokec10 =>
+\f0\b0 \cf5 \strokec5  \{\cb1 \
+\cb3     \cf4 \strokec4 el\cf5 \strokec5 .\cf4 \strokec4 addEventListener\cf5 \strokec5 (\cf6 \strokec6 'click'\cf5 \strokec5 , (e) 
+\f2\b \cf10 \strokec10 =>
+\f0\b0 \cf5 \strokec5  \{\cb1 \
+\cb3       \cf7 \strokec7 if\cf5 \strokec5  (\cf4 \strokec4 e\cf5 \strokec5 .\cf4 \strokec4 target\cf5 \strokec5 .\cf4 \strokec4 dataset\cf5 \strokec5 .\cf4 \strokec4 del\cf5 \strokec5 ) \cf7 \strokec7 return\cf5 \strokec5 ;\cb1 \
+\cb3       
+\f2\b \cf10 \strokec10 const
+\f0\b0 \cf5 \strokec5  \cf4 \strokec4 idx\cf5 \strokec5  \cf7 \strokec7 =\cf5 \strokec5  \cf4 \strokec4 parseInt\cf5 \strokec5 (\cf4 \strokec4 el\cf5 \strokec5 .\cf4 \strokec4 dataset\cf5 \strokec5 .\cf4 \strokec4 idx\cf5 \strokec5 );\cb1 \
+\cb3       
+\f2\b \cf10 \strokec10 const
+\f0\b0 \cf5 \strokec5  \cf4 \strokec4 r\cf5 \strokec5  \cf7 \strokec7 =\cf5 \strokec5  \cf4 \strokec4 records\cf5 \strokec5 [\cf4 \strokec4 idx\cf5 \strokec5 ];\cb1 \
+\cb3       \cf4 \strokec4 els\cf5 \strokec5 .\cf4 \strokec4 studentId\cf5 \strokec5 .\cf4 \strokec4 value\cf5 \strokec5  \cf7 \strokec7 =\cf5 \strokec5  \cf4 \strokec4 r\cf5 \strokec5 .\cf4 \strokec4 studentId\cf5 \strokec5 ;\cb1 \
+\cb3       \cf4 \strokec4 els\cf5 \strokec5 .\cf4 \strokec4 taskId\cf5 \strokec5 .\cf4 \strokec4 value\cf5 \strokec5  \cf7 \strokec7 =\cf5 \strokec5  \cf4 \strokec4 r\cf5 \strokec5 .\cf4 \strokec4 taskId\cf5 \strokec5 ;\cb1 \
+\cb3       \cf4 \strokec4 els\cf5 \strokec5 .\cf4 \strokec4 feedbackType\cf5 \strokec5 .\cf4 \strokec4 value\cf5 \strokec5  \cf7 \strokec7 =\cf5 \strokec5  \cf4 \strokec4 r\cf5 \strokec5 .\cf4 \strokec4 feedbackType\cf5 \strokec5 ;\cb1 \
+\cb3       \cf4 \strokec4 els\cf5 \strokec5 .\cf4 \strokec4 date\cf5 \strokec5 .\cf4 \strokec4 value\cf5 \strokec5  \cf7 \strokec7 =\cf5 \strokec5  \cf4 \strokec4 r\cf5 \strokec5 .\cf4 \strokec4 date\cf5 \strokec5 ;\cb1 \
+\cb3       \cf4 \strokec4 els\cf5 \strokec5 .\cf4 \strokec4 raw\cf5 \strokec5 .\cf4 \strokec4 value\cf5 \strokec5  \cf7 \strokec7 =\cf5 \strokec5  \cf4 \strokec4 r\cf5 \strokec5 .\cf4 \strokec4 raw\cf5 \strokec5 ;\cb1 \
+\cb3       \cf4 \strokec4 els\cf5 \strokec5 .\cf4 \strokec4 pros\cf5 \strokec5 .\cf4 \strokec4 value\cf5 \strokec5  \cf7 \strokec7 =\cf5 \strokec5  \cf4 \strokec4 r\cf5 \strokec5 .\cf4 \strokec4 pros\cf5 \strokec5 ;\cb1 \
+\cb3       \cf4 \strokec4 els\cf5 \strokec5 .\cf4 \strokec4 cons\cf5 \strokec5 .\cf4 \strokec4 value\cf5 \strokec5  \cf7 \strokec7 =\cf5 \strokec5  \cf4 \strokec4 r\cf5 \strokec5 .\cf4 \strokec4 cons\cf5 \strokec5 ;\cb1 \
+\cb3       \cf4 \strokec4 els\cf5 \strokec5 .\cf4 \strokec4 suggestions\cf5 \strokec5 .\cf4 \strokec4 value\cf5 \strokec5  \cf7 \strokec7 =\cf5 \strokec5  \cf4 \strokec4 r\cf5 \strokec5 .\cf4 \strokec4 suggestions\cf5 \strokec5 ;\cb1 \
+\cb3       \cf4 \strokec4 els\cf5 \strokec5 .\cf4 \strokec4 overall\cf5 \strokec5 .\cf4 \strokec4 value\cf5 \strokec5  \cf7 \strokec7 =\cf5 \strokec5  \cf4 \strokec4 r\cf5 \strokec5 .\cf4 \strokec4 overall\cf5 \strokec5 ;\cb1 \
+\cb3       \cf4 \strokec4 updateStats\cf5 \strokec5 ();\cb1 \
+\cb3       \cf4 \strokec4 showToast\cf5 \strokec5 (\cf6 \strokec6 '\uc0\u24050 \u21152 \u36733 \u35760 \u24405 '\cf5 \strokec5 );\cb1 \
+\cb3     \});\cb1 \
+\cb3   \});\cb1 \
+\cb3   \cb1 \
+\cb3   \cf4 \strokec4 container\cf5 \strokec5 .\cf4 \strokec4 querySelectorAll\cf5 \strokec5 (\cf6 \strokec6 '[data-del]'\cf5 \strokec5 ).\cf4 \strokec4 forEach\cf5 \strokec5 (el 
+\f2\b \cf10 \strokec10 =>
+\f0\b0 \cf5 \strokec5  \{\cb1 \
+\cb3     \cf4 \strokec4 el\cf5 \strokec5 .\cf4 \strokec4 addEventListener\cf5 \strokec5 (\cf6 \strokec6 'click'\cf5 \strokec5 , (e) 
+\f2\b \cf10 \strokec10 =>
+\f0\b0 \cf5 \strokec5  \{\cb1 \
+\cb3       \cf4 \strokec4 e\cf5 \strokec5 .\cf4 \strokec4 stopPropagation\cf5 \strokec5 ();\cb1 \
+\cb3       
+\f2\b \cf10 \strokec10 const
+\f0\b0 \cf5 \strokec5  \cf4 \strokec4 idx\cf5 \strokec5  \cf7 \strokec7 =\cf5 \strokec5  \cf4 \strokec4 parseInt\cf5 \strokec5 (\cf4 \strokec4 el\cf5 \strokec5 .\cf4 \strokec4 dataset\cf5 \strokec5 .\cf4 \strokec4 del\cf5 \strokec5 );\cb1 \
+\cb3       
+\f2\b \cf10 \strokec10 const
+\f0\b0 \cf5 \strokec5  \cf4 \strokec4 records\cf5 \strokec5  \cf7 \strokec7 =\cf5 \strokec5  \cf4 \strokec4 loadHistory\cf5 \strokec5 ();\cb1 \
+\cb3       \cf4 \strokec4 records\cf5 \strokec5 .\cf4 \strokec4 splice\cf5 \strokec5 (\cf4 \strokec4 idx\cf5 \strokec5 , \cf8 \strokec8 1\cf5 \strokec5 );\cb1 \
+\cb3       \cf4 \strokec4 saveHistory\cf5 \strokec5 (\cf4 \strokec4 records\cf5 \strokec5 );\cb1 \
+\cb3       \cf4 \strokec4 renderHistory\cf5 \strokec5 ();\cb1 \
+\cb3       \cf4 \strokec4 showToast\cf5 \strokec5 (\cf6 \strokec6 '\uc0\u24050 \u21024 \u38500 '\cf5 \strokec5 );\cb1 \
+\cb3     \});\cb1 \
+\cb3   \});\cb1 \
+\cb3 \}\cb1 \
+\
+\pard\pardeftab720\partightenfactor0
+
+\f1\i \cf2 \cb3 \strokec2 // \uc0\u20445 \u23384 
+\f0\i0 \cf5 \cb1 \strokec5 \
+\pard\pardeftab720\partightenfactor0
+\cf4 \cb3 \strokec4 document\cf5 \strokec5 .\cf4 \strokec4 getElementById\cf5 \strokec5 (\cf6 \strokec6 'saveBtn'\cf5 \strokec5 ).\cf4 \strokec4 addEventListener\cf5 \strokec5 (\cf6 \strokec6 'click'\cf5 \strokec5 , () 
+\f2\b \cf10 \strokec10 =>
+\f0\b0 \cf5 \strokec5  \{\cb1 \
+\pard\pardeftab720\partightenfactor0
+\cf5 \cb3   \cf7 \strokec7 if\cf5 \strokec5  (\cf7 \strokec7 !\cf4 \strokec4 els\cf5 \strokec5 .\cf4 \strokec4 studentId\cf5 \strokec5 .\cf4 \strokec4 value\cf5 \strokec5 .\cf4 \strokec4 trim\cf5 \strokec5 ()) \{\cb1 \
+\cb3     \cf4 \strokec4 showToast\cf5 \strokec5 (\cf6 \strokec6 '\uc0\u35831 \u22635 \u20889 \u23398 \u29983 \u32534 \u21495 '\cf5 \strokec5 , \cf6 \strokec6 'error'\cf5 \strokec5 );\cb1 \
+\cb3     \cf7 \strokec7 return\cf5 \strokec5 ;\cb1 \
+\cb3   \}\cb1 \
+\cb3   
+\f2\b \cf10 \strokec10 const
+\f0\b0 \cf5 \strokec5  \cf4 \strokec4 record\cf5 \strokec5  \cf7 \strokec7 =\cf5 \strokec5  \{\cb1 \
+\cb3     \cf4 \strokec4 studentId\cf5 \strokec5 : \cf4 \strokec4 els\cf5 \strokec5 .\cf4 \strokec4 studentId\cf5 \strokec5 .\cf4 \strokec4 value\cf5 \strokec5 .\cf4 \strokec4 trim\cf5 \strokec5 (),\cb1 \
+\cb3     \cf4 \strokec4 taskId\cf5 \strokec5 : \cf4 \strokec4 els\cf5 \strokec5 .\cf4 \strokec4 taskId\cf5 \strokec5 .\cf4 \strokec4 value\cf5 \strokec5 .\cf4 \strokec4 trim\cf5 \strokec5 (),\cb1 \
+\cb3     \cf4 \strokec4 feedbackType\cf5 \strokec5 : \cf4 \strokec4 els\cf5 \strokec5 .\cf4 \strokec4 feedbackType\cf5 \strokec5 .\cf4 \strokec4 value\cf5 \strokec5 ,\cb1 \
+\cb3     \cf4 \strokec4 date\cf5 \strokec5 : \cf4 \strokec4 els\cf5 \strokec5 .\cf4 \strokec4 date\cf5 \strokec5 .\cf4 \strokec4 value\cf5 \strokec5 ,\cb1 \
+\cb3     \cf4 \strokec4 raw\cf5 \strokec5 : \cf4 \strokec4 els\cf5 \strokec5 .\cf4 \strokec4 raw\cf5 \strokec5 .\cf4 \strokec4 value\cf5 \strokec5 ,\cb1 \
+\cb3     \cf4 \strokec4 pros\cf5 \strokec5 : \cf4 \strokec4 els\cf5 \strokec5 .\cf4 \strokec4 pros\cf5 \strokec5 .\cf4 \strokec4 value\cf5 \strokec5 ,\cb1 \
+\cb3     \cf4 \strokec4 cons\cf5 \strokec5 : \cf4 \strokec4 els\cf5 \strokec5 .\cf4 \strokec4 cons\cf5 \strokec5 .\cf4 \strokec4 value\cf5 \strokec5 ,\cb1 \
+\cb3     \cf4 \strokec4 suggestions\cf5 \strokec5 : \cf4 \strokec4 els\cf5 \strokec5 .\cf4 \strokec4 suggestions\cf5 \strokec5 .\cf4 \strokec4 value\cf5 \strokec5 ,\cb1 \
+\cb3     \cf4 \strokec4 overall\cf5 \strokec5 : \cf4 \strokec4 els\cf5 \strokec5 .\cf4 \strokec4 overall\cf5 \strokec5 .\cf4 \strokec4 value\cf5 \strokec5 ,\cb1 \
+\cb3     \cf4 \strokec4 savedAt\cf5 \strokec5 : \cf7 \strokec7 new\cf5 \strokec5  \cf7 \strokec7 Date\cf5 \strokec5 ().\cf4 \strokec4 toISOString\cf5 \strokec5 (),\cb1 \
+\cb3   \};\cb1 \
+\cb3   
+\f2\b \cf10 \strokec10 const
+\f0\b0 \cf5 \strokec5  \cf4 \strokec4 records\cf5 \strokec5  \cf7 \strokec7 =\cf5 \strokec5  \cf4 \strokec4 loadHistory\cf5 \strokec5 ();\cb1 \
+\cb3   \cf4 \strokec4 records\cf5 \strokec5 .\cf4 \strokec4 push\cf5 \strokec5 (\cf4 \strokec4 record\cf5 \strokec5 );\cb1 \
+\cb3   \cf4 \strokec4 saveHistory\cf5 \strokec5 (\cf4 \strokec4 records\cf5 \strokec5 );\cb1 \
+\cb3   \cf4 \strokec4 renderHistory\cf5 \strokec5 ();\cb1 \
+\cb3   \cf4 \strokec4 showToast\cf5 \strokec5 (\cf6 \strokec6 '\uc0\u24050 \u20445 \u23384 \u21040 \u26412 \u22320 \u65288 '\cf5 \strokec5  \cf7 \strokec7 +\cf5 \strokec5  \cf4 \strokec4 records\cf5 \strokec5 .length \cf7 \strokec7 +\cf5 \strokec5  \cf6 \strokec6 ' \uc0\u26465 \u35760 \u24405 \u65289 '\cf5 \strokec5 );\cb1 \
+\cb3 \});\cb1 \
+\
+\pard\pardeftab720\partightenfactor0
+
+\f1\i \cf2 \cb3 \strokec2 // \uc0\u23548 \u20986  CSV
+\f0\i0 \cf5 \cb1 \strokec5 \
+\pard\pardeftab720\partightenfactor0
+\cf4 \cb3 \strokec4 document\cf5 \strokec5 .\cf4 \strokec4 getElementById\cf5 \strokec5 (\cf6 \strokec6 'exportBtn'\cf5 \strokec5 ).\cf4 \strokec4 addEventListener\cf5 \strokec5 (\cf6 \strokec6 'click'\cf5 \strokec5 , () 
+\f2\b \cf10 \strokec10 =>
+\f0\b0 \cf5 \strokec5  \{\cb1 \
+\pard\pardeftab720\partightenfactor0
+\cf5 \cb3   
+\f2\b \cf10 \strokec10 const
+\f0\b0 \cf5 \strokec5  \cf4 \strokec4 records\cf5 \strokec5  \cf7 \strokec7 =\cf5 \strokec5  \cf4 \strokec4 loadHistory\cf5 \strokec5 ();\cb1 \
+\cb3   \cf7 \strokec7 if\cf5 \strokec5  (\cf7 \strokec7 !\cf4 \strokec4 records\cf5 \strokec5 .length) \{\cb1 \
+\cb3     \cf4 \strokec4 showToast\cf5 \strokec5 (\cf6 \strokec6 '\uc0\u26242 \u26080 \u35760 \u24405 \u21487 \u23548 \u20986 \u65292 \u35831 \u20808 \u20445 \u23384 '\cf5 \strokec5 , \cf6 \strokec6 'error'\cf5 \strokec5 );\cb1 \
+\cb3     \cf7 \strokec7 return\cf5 \strokec5 ;\cb1 \
+\cb3   \}\cb1 \
+\cb3   
+\f2\b \cf10 \strokec10 const
+\f0\b0 \cf5 \strokec5  \cf4 \strokec4 headers\cf5 \strokec5  \cf7 \strokec7 =\cf5 \strokec5  [\cf6 \strokec6 '\uc0\u23398 \u29983 \u32534 \u21495 '\cf5 \strokec5 ,\cf6 \strokec6 '\uc0\u20219 \u21153 \u32534 \u21495 '\cf5 \strokec5 ,\cf6 \strokec6 '\uc0\u21453 \u39304 \u31867 \u22411 '\cf5 \strokec5 ,\cf6 \strokec6 '\uc0\u26085 \u26399 '\cf5 \strokec5 ,\cf6 \strokec6 '\uc0\u21407 \u25991 \u23383 \u25968 '\cf5 \strokec5 ,\cf6 \strokec6 '\uc0\u24314 \u35758 \u24635 \u26465 \u25968 '\cf5 \strokec5 ,\cf6 \strokec6 '\uc0\u20248 \u28857 \u26465 \u25968 '\cf5 \strokec5 ,\cf6 \strokec6 '\uc0\u38382 \u39064 \u26465 \u25968 '\cf5 \strokec5 ,\cf6 \strokec6 '\uc0\u24314 \u35758 \u26465 \u25968 '\cf5 \strokec5 ,\cf6 \strokec6 '\uc0\u20248 \u28857 \u35814 \u24773 '\cf5 \strokec5 ,\cf6 \strokec6 '\uc0\u38382 \u39064 \u35814 \u24773 '\cf5 \strokec5 ,\cf6 \strokec6 '\uc0\u24314 \u35758 \u35814 \u24773 '\cf5 \strokec5 ,\cf6 \strokec6 '\uc0\u24635 \u35780 '\cf5 \strokec5 ,\cf6 \strokec6 '\uc0\u20445 \u23384 \u26102 \u38388 '\cf5 \strokec5 ];\cb1 \
+\cb3   
+\f2\b \cf10 \strokec10 const
+\f0\b0 \cf5 \strokec5  \cf4 \strokec4 rows\cf5 \strokec5  \cf7 \strokec7 =\cf5 \strokec5  \cf4 \strokec4 records\cf5 \strokec5 .\cf4 \strokec4 map\cf5 \strokec5 (r 
+\f2\b \cf10 \strokec10 =>
+\f0\b0 \cf5 \strokec5  \{\cb1 \
+\cb3     
+\f2\b \cf10 \strokec10 const
+\f0\b0 \cf5 \strokec5  \cf4 \strokec4 cnt\cf5 \strokec5  \cf7 \strokec7 =\cf5 \strokec5  (s) 
+\f2\b \cf10 \strokec10 =>
+\f0\b0 \cf5 \strokec5  \cf4 \strokec4 s\cf5 \strokec5 .\cf4 \strokec4 split\cf5 \strokec5 (\cf6 \strokec6 '\cf9 \strokec9 \\n\cf6 \strokec6 '\cf5 \strokec5 ).\cf4 \strokec4 filter\cf5 \strokec5 (l 
+\f2\b \cf10 \strokec10 =>
+\f0\b0 \cf5 \strokec5  \cf4 \strokec4 l\cf5 \strokec5 .\cf4 \strokec4 trim\cf5 \strokec5 () \cf7 \strokec7 &&\cf5 \strokec5  \cf4 \strokec4 l\cf5 \strokec5 .\cf4 \strokec4 trim\cf5 \strokec5 () \cf7 \strokec7 !==\cf5 \strokec5  \cf6 \strokec6 '\'95'\cf5 \strokec5 ).length;\cb1 \
+\cb3     \cf7 \strokec7 return\cf5 \strokec5  [\cb1 \
+\cb3       \cf4 \strokec4 r\cf5 \strokec5 .\cf4 \strokec4 studentId\cf5 \strokec5 ,\cb1 \
+\cb3       \cf4 \strokec4 r\cf5 \strokec5 .\cf4 \strokec4 taskId\cf5 \strokec5 ,\cb1 \
+\cb3       \cf4 \strokec4 r\cf5 \strokec5 .\cf4 \strokec4 feedbackType\cf5 \strokec5 ,\cb1 \
+\cb3       \cf4 \strokec4 r\cf5 \strokec5 .\cf4 \strokec4 date\cf5 \strokec5 ,\cb1 \
+\cb3       \cf4 \strokec4 r\cf5 \strokec5 .\cf4 \strokec4 raw\cf5 \strokec5 .length,\cb1 \
+\cb3       \cf4 \strokec4 cnt\cf5 \strokec5 (\cf4 \strokec4 r\cf5 \strokec5 .\cf4 \strokec4 pros\cf5 \strokec5 ) \cf7 \strokec7 +\cf5 \strokec5  \cf4 \strokec4 cnt\cf5 \strokec5 (\cf4 \strokec4 r\cf5 \strokec5 .\cf4 \strokec4 cons\cf5 \strokec5 ) \cf7 \strokec7 +\cf5 \strokec5  \cf4 \strokec4 cnt\cf5 \strokec5 (\cf4 \strokec4 r\cf5 \strokec5 .\cf4 \strokec4 suggestions\cf5 \strokec5 ),\cb1 \
+\cb3       \cf4 \strokec4 cnt\cf5 \strokec5 (\cf4 \strokec4 r\cf5 \strokec5 .\cf4 \strokec4 pros\cf5 \strokec5 ),\cb1 \
+\cb3       \cf4 \strokec4 cnt\cf5 \strokec5 (\cf4 \strokec4 r\cf5 \strokec5 .\cf4 \strokec4 cons\cf5 \strokec5 ),\cb1 \
+\cb3       \cf4 \strokec4 cnt\cf5 \strokec5 (\cf4 \strokec4 r\cf5 \strokec5 .\cf4 \strokec4 suggestions\cf5 \strokec5 ),\cb1 \
+\cb3       \cf4 \strokec4 r\cf5 \strokec5 .\cf4 \strokec4 pros\cf5 \strokec5 .\cf4 \strokec4 replace\cf5 \strokec5 (\cf11 \strokec11 /\cf9 \strokec9 \\n\cf11 \strokec11 /\cf7 \strokec7 g\cf5 \strokec5 , \cf6 \strokec6 ' | '\cf5 \strokec5 ),\cb1 \
+\cb3       \cf4 \strokec4 r\cf5 \strokec5 .\cf4 \strokec4 cons\cf5 \strokec5 .\cf4 \strokec4 replace\cf5 \strokec5 (\cf11 \strokec11 /\cf9 \strokec9 \\n\cf11 \strokec11 /\cf7 \strokec7 g\cf5 \strokec5 , \cf6 \strokec6 ' | '\cf5 \strokec5 ),\cb1 \
+\cb3       \cf4 \strokec4 r\cf5 \strokec5 .\cf4 \strokec4 suggestions\cf5 \strokec5 .\cf4 \strokec4 replace\cf5 \strokec5 (\cf11 \strokec11 /\cf9 \strokec9 \\n\cf11 \strokec11 /\cf7 \strokec7 g\cf5 \strokec5 , \cf6 \strokec6 ' | '\cf5 \strokec5 ),\cb1 \
+\cb3       \cf4 \strokec4 r\cf5 \strokec5 .\cf4 \strokec4 overall\cf5 \strokec5 .\cf4 \strokec4 replace\cf5 \strokec5 (\cf11 \strokec11 /\cf9 \strokec9 \\n\cf11 \strokec11 /\cf7 \strokec7 g\cf5 \strokec5 , \cf6 \strokec6 ' | '\cf5 \strokec5 ),\cb1 \
+\cb3       \cf4 \strokec4 r\cf5 \strokec5 .\cf4 \strokec4 savedAt\cf5 \strokec5 ,\cb1 \
+\cb3     ];\cb1 \
+\cb3   \});\cb1 \
+\cb3   \cb1 \
+\cb3   
+\f1\i \cf2 \strokec2 // CSV\uc0\u36716 \u20041 
+\f0\i0 \cf5 \cb1 \strokec5 \
+\cb3   
+\f2\b \cf10 \strokec10 const
+\f0\b0 \cf5 \strokec5  \cf4 \strokec4 escape\cf5 \strokec5  \cf7 \strokec7 =\cf5 \strokec5  (v) 
+\f2\b \cf10 \strokec10 =>
+\f0\b0 \cf5 \strokec5  \cf6 \strokec6 '"'\cf5 \strokec5  \cf7 \strokec7 +\cf5 \strokec5  \cf7 \strokec7 String\cf5 \strokec5 (\cf4 \strokec4 v\cf5 \strokec5 ).\cf4 \strokec4 replace\cf5 \strokec5 (\cf11 \strokec11 /"/\cf7 \strokec7 g\cf5 \strokec5 , \cf6 \strokec6 '""'\cf5 \strokec5 ) \cf7 \strokec7 +\cf5 \strokec5  \cf6 \strokec6 '"'\cf5 \strokec5 ;\cb1 \
+\cb3   
+\f2\b \cf10 \strokec10 let
+\f0\b0 \cf5 \strokec5  \cf4 \strokec4 csv\cf5 \strokec5  \cf7 \strokec7 =\cf5 \strokec5  \cf6 \strokec6 '\cf9 \strokec9 \\ufeff\cf6 \strokec6 '\cf5 \strokec5  \cf7 \strokec7 +\cf5 \strokec5  \cf4 \strokec4 headers\cf5 \strokec5 .\cf4 \strokec4 map\cf5 \strokec5 (\cf4 \strokec4 escape\cf5 \strokec5 ).\cf4 \strokec4 join\cf5 \strokec5 (\cf6 \strokec6 ','\cf5 \strokec5 ) \cf7 \strokec7 +\cf5 \strokec5  \cf6 \strokec6 '\cf9 \strokec9 \\n\cf6 \strokec6 '\cf5 \strokec5 ;  
+\f1\i \cf2 \strokec2 // BOM for Excel
+\f0\i0 \cf5 \cb1 \strokec5 \
+\cb3   \cf4 \strokec4 rows\cf5 \strokec5 .\cf4 \strokec4 forEach\cf5 \strokec5 (row 
+\f2\b \cf10 \strokec10 =>
+\f0\b0 \cf5 \strokec5  \{ \cf4 \strokec4 csv\cf5 \strokec5  \cf7 \strokec7 +=\cf5 \strokec5  \cf4 \strokec4 row\cf5 \strokec5 .\cf4 \strokec4 map\cf5 \strokec5 (\cf4 \strokec4 escape\cf5 \strokec5 ).\cf4 \strokec4 join\cf5 \strokec5 (\cf6 \strokec6 ','\cf5 \strokec5 ) \cf7 \strokec7 +\cf5 \strokec5  \cf6 \strokec6 '\cf9 \strokec9 \\n\cf6 \strokec6 '\cf5 \strokec5 ; \});\cb1 \
+\cb3   \cb1 \
+\cb3   
+\f2\b \cf10 \strokec10 const
+\f0\b0 \cf5 \strokec5  \cf4 \strokec4 blob\cf5 \strokec5  \cf7 \strokec7 =\cf5 \strokec5  \cf7 \strokec7 new\cf5 \strokec5  \cf7 \strokec7 Blob\cf5 \strokec5 ([\cf4 \strokec4 csv\cf5 \strokec5 ], \{ \cf4 \strokec4 type\cf5 \strokec5 : \cf6 \strokec6 'text/csv;charset=utf-8;'\cf5 \strokec5  \});\cb1 \
+\cb3   
+\f2\b \cf10 \strokec10 const
+\f0\b0 \cf5 \strokec5  \cf4 \strokec4 url\cf5 \strokec5  \cf7 \strokec7 =\cf5 \strokec5  \cf7 \strokec7 URL\cf5 \strokec5 .\cf4 \strokec4 createObjectURL\cf5 \strokec5 (\cf4 \strokec4 blob\cf5 \strokec5 );\cb1 \
+\cb3   
+\f2\b \cf10 \strokec10 const
+\f0\b0 \cf5 \strokec5  \cf4 \strokec4 a\cf5 \strokec5  \cf7 \strokec7 =\cf5 \strokec5  \cf4 \strokec4 document\cf5 \strokec5 .\cf4 \strokec4 createElement\cf5 \strokec5 (\cf6 \strokec6 'a'\cf5 \strokec5 );\cb1 \
+\cb3   \cf4 \strokec4 a\cf5 \strokec5 .\cf4 \strokec4 href\cf5 \strokec5  \cf7 \strokec7 =\cf5 \strokec5  \cf4 \strokec4 url\cf5 \strokec5 ;\cb1 \
+\cb3   \cf4 \strokec4 a\cf5 \strokec5 .\cf4 \strokec4 download\cf5 \strokec5  \cf7 \strokec7 =\cf5 \strokec5  \cf6 \strokec6 '\uc0\u35910 \u21253 \u21453 \u39304 \u24402 \u26723 _'\cf5 \strokec5  \cf7 \strokec7 +\cf5 \strokec5  \cf7 \strokec7 new\cf5 \strokec5  \cf7 \strokec7 Date\cf5 \strokec5 ().\cf4 \strokec4 toISOString\cf5 \strokec5 ().\cf4 \strokec4 split\cf5 \strokec5 (\cf6 \strokec6 'T'\cf5 \strokec5 )[\cf8 \strokec8 0\cf5 \strokec5 ] \cf7 \strokec7 +\cf5 \strokec5  \cf6 \strokec6 '.csv'\cf5 \strokec5 ;\cb1 \
+\cb3   \cf4 \strokec4 a\cf5 \strokec5 .\cf4 \strokec4 click\cf5 \strokec5 ();\cb1 \
+\cb3   \cf7 \strokec7 URL\cf5 \strokec5 .\cf4 \strokec4 revokeObjectURL\cf5 \strokec5 (\cf4 \strokec4 url\cf5 \strokec5 );\cb1 \
+\cb3   \cf4 \strokec4 showToast\cf5 \strokec5 (\cf6 \strokec6 '\uc0\u24050 \u23548 \u20986  '\cf5 \strokec5  \cf7 \strokec7 +\cf5 \strokec5  \cf4 \strokec4 records\cf5 \strokec5 .length \cf7 \strokec7 +\cf5 \strokec5  \cf6 \strokec6 ' \uc0\u26465 \u35760 \u24405 '\cf5 \strokec5 );\cb1 \
+\cb3 \});\cb1 \
+\
+\pard\pardeftab720\partightenfactor0
+
+\f1\i \cf2 \cb3 \strokec2 // \uc0\u25286 \u20998 \u25353 \u38062 
+\f0\i0 \cf5 \cb1 \strokec5 \
+\pard\pardeftab720\partightenfactor0
+\cf4 \cb3 \strokec4 document\cf5 \strokec5 .\cf4 \strokec4 getElementById\cf5 \strokec5 (\cf6 \strokec6 'parseBtn'\cf5 \strokec5 ).\cf4 \strokec4 addEventListener\cf5 \strokec5 (\cf6 \strokec6 'click'\cf5 \strokec5 , \cf4 \strokec4 parseText\cf5 \strokec5 );\cb1 \
+\
+\pard\pardeftab720\partightenfactor0
+
+\f1\i \cf2 \cb3 \strokec2 // \uc0\u28165 \u31354 
+\f0\i0 \cf5 \cb1 \strokec5 \
+\pard\pardeftab720\partightenfactor0
+\cf4 \cb3 \strokec4 document\cf5 \strokec5 .\cf4 \strokec4 getElementById\cf5 \strokec5 (\cf6 \strokec6 'clearBtn'\cf5 \strokec5 ).\cf4 \strokec4 addEventListener\cf5 \strokec5 (\cf6 \strokec6 'click'\cf5 \strokec5 , () 
+\f2\b \cf10 \strokec10 =>
+\f0\b0 \cf5 \strokec5  \{\cb1 \
+\pard\pardeftab720\partightenfactor0
+\cf5 \cb3   [\cf6 \strokec6 'raw'\cf5 \strokec5 ,\cf6 \strokec6 'pros'\cf5 \strokec5 ,\cf6 \strokec6 'cons'\cf5 \strokec5 ,\cf6 \strokec6 'suggestions'\cf5 \strokec5 ,\cf6 \strokec6 'overall'\cf5 \strokec5 ].\cf4 \strokec4 forEach\cf5 \strokec5 (k 
+\f2\b \cf10 \strokec10 =>
+\f0\b0 \cf5 \strokec5  \cf4 \strokec4 els\cf5 \strokec5 [\cf4 \strokec4 k\cf5 \strokec5 ].\cf4 \strokec4 value\cf5 \strokec5  \cf7 \strokec7 =\cf5 \strokec5  \cf6 \strokec6 ''\cf5 \strokec5 );\cb1 \
+\cb3   \cf4 \strokec4 updateStats\cf5 \strokec5 ();\cb1 \
+\cb3 \});\cb1 \
+\
+\pard\pardeftab720\partightenfactor0
+
+\f1\i \cf2 \cb3 \strokec2 // \uc0\u31034 \u20363 
+\f0\i0 \cf5 \cb1 \strokec5 \
+\pard\pardeftab720\partightenfactor0
+
+\f2\b \cf10 \cb3 \strokec10 const
+\f0\b0 \cf5 \strokec5  \cf4 \strokec4 SAMPLE\cf5 \strokec5  \cf7 \strokec7 =\cf5 \strokec5  \cf6 \strokec6 `\uc0\u23436 \u25972 \u35780 \u20215  + \u26631 \u20934 \u21442 \u32771 \u35793 \u25991 \cf5 \cb1 \strokec5 \
+\
+\pard\pardeftab720\partightenfactor0
+\cf6 \cb3 \strokec6 \uc0\u19968 \u12289 \u25972 \u20307 \u35780 \u20215 \cf5 \cb1 \strokec5 \
+\
+\cf6 \cb3 \strokec6 1. \uc0\u20248 \u28857 \cf5 \cb1 \strokec5 \
+\cf6 \cb3 \strokec6 - \uc0\u26680 \u24515 \u25919 \u27835 \u26415 \u35821 \u22522 \u26412 \u27491 \u30830 \u65292 \u21477 \u24847 \u23436 \u25972 \u21487 \u25026 \u12290 \cf5 \cb1 \strokec5 \
+\cf6 \cb3 \strokec6 - \uc0\u21477 \u24335 \u32467 \u26500 \u31526 \u21512 \u26085 \u35821 \u34920 \u36798 \u20064 \u24815 \u65292 \u26080 \u20005 \u37325 \u35821 \u27861 \u38169 \u35823 \u12290 \cf5 \cb1 \strokec5 \
+\cf6 \cb3 \strokec6 - \uc0\u24577 \u24230 \u35748 \u30495 \u65292 \u23436 \u25104 \u24230 \u39640 \u12290 \cf5 \cb1 \strokec5 \
+\
+\cf6 \cb3 \strokec6 2. \uc0\u20027 \u35201 \u38382 \u39064 \cf5 \cb1 \strokec5 \
+\cf6 \cb3 \strokec6 - \uc0\u12300 \u65374 \u12375 \u12363 \u65374 \u12394 \u12356 \u12301 \u21477 \u24335 \u35823 \u29992 \u65306 \u26085 \u35821 \u21482 \u26377 \'85\u25165 \'85 \u26631 \u20934 \u32467 \u26500 \u26159 \u65374 \u12390 \u12399 \u12376 \u12417 \u12390 \u65374 \u65292 \u19981 \u33021 \u29992 \u12300 \u12375 \u12363 \u12301 \u12290 \cf5 \cb1 \strokec5 \
+\cf6 \cb3 \strokec6 - \uc0\u12300 \u26368 \u22823 \u30340 \u12289 \u26368 \u39640 \u30340 \u12289 \u37325 \u35201 \u30340 \u12301 \u65306 \u26085 \u35821 \u19981 \u29992 \u12300 \u30340 \u12301 \u65292 \u30452 \u25509 \u29992 \u12300 \u26368 \u22823 \u12398 \u12289 \u26368 \u39640 \u12398 \u12289 \u37325 \u35201 \u12394 \u12301 \u12290 \cf5 \cb1 \strokec5 \
+\cf6 \cb3 \strokec6 - \uc0\u37096 \u20998 \u21160 \u35789 \u25645 \u37197 \u12289 \u21161 \u35789 \u12289 \u29992 \u35789 \u19981 \u22815 \u22320 \u36947 \u12290 \cf5 \cb1 \strokec5 \
+\
+\cf6 \cb3 \strokec6 \uc0\u20108 \u12289 \u25913 \u36827 \u24314 \u35758 \cf5 \cb1 \strokec5 \
+\cf6 \cb3 \strokec6 - \uc0\u31995 \u32479 \u23398 \u20064 \u25919 \u27835 \u25991 \u29486 \u30340 \u22266 \u23450 \u21477 \u24335 \u32467 \u26500 \u12290 \cf5 \cb1 \strokec5 \
+\cf6 \cb3 \strokec6 - \uc0\u21152 \u24378 \u20013 \u26085 \u35821 \u23545 \u29031 \u34920 \u36798 \u30340 \u23545 \u27604 \u35760 \u24518 \u12290 \cf5 \cb1 \strokec5 \
+\cf6 \cb3 \strokec6 - \uc0\u24314 \u35758 \u27599 \u22825 \u36827 \u34892 \u26415 \u35821 \u26391 \u35835 \u25171 \u21345 \u65292 \u32416 \u27491 \u21457 \u38899 \u20559 \u24046 \u12290 \cf5 \cb1 \strokec5 \
+\
+\cf6 \cb3 \strokec6 \uc0\u19977 \u12289 \u24635 \u35780 \cf5 \cb1 \strokec5 \
+\cf6 \cb3 \strokec6 \uc0\u26412 \u27425 \u21475 \u35793 \u25972 \u20307 \u22788 \u20110 \u23398 \u20064 \u25552 \u21319 \u38454 \u27573 \u65292 \u33021 \u22815 \u23436 \u25972 \u23436 \u25104 \u20219 \u21153 \u65292 \u20294 \u26415 \u35821 \u35268 \u33539 \u24615 \u21644 \u21477 \u24335 \u20934 \u30830 \u24615 \u26377 \u36739 \u22823 \u25552 \u21319 \u31354 \u38388 \u12290 `\cf5 \strokec5 ;\cb1 \
+\
+\pard\pardeftab720\partightenfactor0
+\cf4 \cb3 \strokec4 document\cf5 \strokec5 .\cf4 \strokec4 getElementById\cf5 \strokec5 (\cf6 \strokec6 'sampleBtn'\cf5 \strokec5 ).\cf4 \strokec4 addEventListener\cf5 \strokec5 (\cf6 \strokec6 'click'\cf5 \strokec5 , () 
+\f2\b \cf10 \strokec10 =>
+\f0\b0 \cf5 \strokec5  \{\cb1 \
+\pard\pardeftab720\partightenfactor0
+\cf5 \cb3   \cf4 \strokec4 els\cf5 \strokec5 .\cf4 \strokec4 raw\cf5 \strokec5 .\cf4 \strokec4 value\cf5 \strokec5  \cf7 \strokec7 =\cf5 \strokec5  \cf4 \strokec4 SAMPLE\cf5 \strokec5 ;\cb1 \
+\cb3   \cf4 \strokec4 els\cf5 \strokec5 .\cf4 \strokec4 studentId\cf5 \strokec5 .\cf4 \strokec4 value\cf5 \strokec5  \cf7 \strokec7 =\cf5 \strokec5  \cf6 \strokec6 '\uc0\u31034 \u20363 \u32534 \u21495 '\cf5 \strokec5 ;\cb1 \
+\cb3   \cf4 \strokec4 els\cf5 \strokec5 .\cf4 \strokec4 taskId\cf5 \strokec5 .\cf4 \strokec4 value\cf5 \strokec5  \cf7 \strokec7 =\cf5 \strokec5  \cf6 \strokec6 'Demo-01'\cf5 \strokec5 ;\cb1 \
+\cb3   \cf4 \strokec4 parseText\cf5 \strokec5 ();\cb1 \
+\cb3 \});\cb1 \
+\
+\pard\pardeftab720\partightenfactor0
+
+\f2\b \cf10 \cb3 \strokec10 function
+\f0\b0 \cf5 \strokec5  \cf4 \strokec4 showToast\cf5 \strokec5 (msg, type) \{\cb1 \
+\pard\pardeftab720\partightenfactor0
+\cf5 \cb3   
+\f2\b \cf10 \strokec10 const
+\f0\b0 \cf5 \strokec5  \cf4 \strokec4 t\cf5 \strokec5  \cf7 \strokec7 =\cf5 \strokec5  \cf4 \strokec4 document\cf5 \strokec5 .\cf4 \strokec4 getElementById\cf5 \strokec5 (\cf6 \strokec6 'toast'\cf5 \strokec5 );\cb1 \
+\cb3   \cf4 \strokec4 t\cf5 \strokec5 .\cf4 \strokec4 textContent\cf5 \strokec5  \cf7 \strokec7 =\cf5 \strokec5  \cf4 \strokec4 msg\cf5 \strokec5 ;\cb1 \
+\cb3   \cf4 \strokec4 t\cf5 \strokec5 .\cf4 \strokec4 classList\cf5 \strokec5 .\cf4 \strokec4 toggle\cf5 \strokec5 (\cf6 \strokec6 'error'\cf5 \strokec5 , \cf4 \strokec4 type\cf5 \strokec5  \cf7 \strokec7 ===\cf5 \strokec5  \cf6 \strokec6 'error'\cf5 \strokec5 );\cb1 \
+\cb3   \cf4 \strokec4 t\cf5 \strokec5 .\cf4 \strokec4 classList\cf5 \strokec5 .\cf4 \strokec4 add\cf5 \strokec5 (\cf6 \strokec6 'show'\cf5 \strokec5 );\cb1 \
+\cb3   \cf4 \strokec4 setTimeout\cf5 \strokec5 (() 
+\f2\b \cf10 \strokec10 =>
+\f0\b0 \cf5 \strokec5  \cf4 \strokec4 t\cf5 \strokec5 .\cf4 \strokec4 classList\cf5 \strokec5 .\cf4 \strokec4 remove\cf5 \strokec5 (\cf6 \strokec6 'show'\cf5 \strokec5 ), \cf8 \strokec8 2000\cf5 \strokec5 );\cb1 \
+\cb3 \}\cb1 \
+\
+\pard\pardeftab720\partightenfactor0
+
+\f1\i \cf2 \cb3 \strokec2 // \uc0\u21021 \u22987 \u21270 
+\f0\i0 \cf5 \cb1 \strokec5 \
+\pard\pardeftab720\partightenfactor0
+\cf4 \cb3 \strokec4 renderHistory\cf5 \strokec5 ();\cb1 \
+\cf4 \cb3 \strokec4 updateStats\cf5 \strokec5 ();\cb1 \
+\pard\pardeftab720\partightenfactor0
+\cf2 \cb3 \strokec2 </\cf4 \strokec4 script\cf2 \strokec2 >\cf5 \cb1 \strokec5 \
+\cf2 \cb3 \strokec2 </\cf4 \strokec4 body\cf2 \strokec2 >\cf5 \cb1 \strokec5 \
+\cf2 \cb3 \strokec2 </\cf4 \strokec4 html\cf2 \strokec2 >\cf5 \cb1 \strokec5 \
+\
+}

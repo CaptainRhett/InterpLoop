@@ -1,0 +1,552 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>北理工数字轰炸 - 中日双语口译测试工具</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Microsoft YaHei', 'PingFang SC', sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+        }
+
+        .container {
+            background: white;
+            border-radius: 20px;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+            padding: 40px;
+            max-width: 950px;
+            width: 100%;
+        }
+
+        h1 {
+            text-align: center;
+            color: #333;
+            font-size: 32px;
+            margin-bottom: 30px;
+            font-weight: 600;
+        }
+
+        .subtitle {
+            font-size: 24px;
+            font-weight: 400;
+            color: #666;
+            margin-top: 10px;
+        }
+
+        .control-panel {
+            background: #f8f9fa;
+            border-radius: 12px;
+            padding: 25px;
+            margin-bottom: 40px;
+        }
+
+        .control-section {
+            margin-bottom: 20px;
+        }
+
+        .control-section:last-child {
+            margin-bottom: 0;
+        }
+
+        .control-section label {
+            display: block;
+            color: #555;
+            font-size: 16px;
+            margin-bottom: 10px;
+            font-weight: 500;
+        }
+
+        .radio-group {
+            display: flex;
+            gap: 20px;
+            flex-wrap: wrap;
+        }
+
+        .radio-option {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            cursor: pointer;
+        }
+
+        .radio-option input[type="radio"] {
+            width: 18px;
+            height: 18px;
+            cursor: pointer;
+        }
+
+        .radio-option span {
+            font-size: 15px;
+            color: #666;
+        }
+
+        select {
+            width: 100%;
+            padding: 10px;
+            font-size: 15px;
+            border: 2px solid #ddd;
+            border-radius: 8px;
+            background: white;
+            cursor: pointer;
+            font-family: inherit;
+        }
+
+        select:focus {
+            outline: none;
+            border-color: #667eea;
+        }
+
+        .button-group {
+            display: flex;
+            gap: 15px;
+            justify-content: center;
+            margin-top: 25px;
+            flex-wrap: wrap;
+        }
+
+        button {
+            padding: 12px 30px;
+            font-size: 16px;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            font-weight: 500;
+            transition: all 0.3s ease;
+            font-family: inherit;
+        }
+
+        .btn-start {
+            background: linear-gradient(135deg, #00b894 0%, #00a085 100%);
+            color: white;
+        }
+
+        .btn-start:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 20px rgba(0, 184, 148, 0.4);
+        }
+
+        .btn-stop {
+            background: linear-gradient(135deg, #d63031 0%, #c0392b 100%);
+            color: white;
+        }
+
+        .btn-stop:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 20px rgba(214, 48, 49, 0.4);
+        }
+
+        .btn-clear {
+            background: linear-gradient(135deg, #636e72 0%, #576574 100%);
+            color: white;
+        }
+
+        .btn-clear:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 20px rgba(99, 110, 114, 0.4);
+        }
+
+        .btn-test {
+            background: linear-gradient(135deg, #0984e3 0%, #0770c4 100%);
+            color: white;
+        }
+
+        .btn-test:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 20px rgba(9, 132, 227, 0.4);
+        }
+
+        button:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+            transform: none !important;
+        }
+
+        .input-section {
+            margin-top: 60px;
+            padding-top: 30px;
+            border-top: 2px dashed #e0e0e0;
+        }
+
+        .input-section h3 {
+            color: #555;
+            font-size: 18px;
+            margin-bottom: 15px;
+            font-weight: 500;
+        }
+
+        textarea {
+            width: 100%;
+            min-height: 150px;
+            padding: 15px;
+            font-size: 16px;
+            border: 2px solid #ddd;
+            border-radius: 10px;
+            resize: vertical;
+            font-family: 'Microsoft YaHei', 'PingFang SC', sans-serif;
+            line-height: 1.6;
+        }
+
+        textarea:focus {
+            outline: none;
+            border-color: #667eea;
+            box-shadow: 0 0 10px rgba(102, 126, 234, 0.2);
+        }
+
+        .status-bar {
+            background: #fff9e6;
+            border-left: 4px solid #ffc107;
+            padding: 15px;
+            margin-top: 20px;
+            border-radius: 6px;
+            min-height: 50px;
+        }
+
+        .status-bar p {
+            color: #666;
+            font-size: 15px;
+            line-height: 1.6;
+        }
+
+        .sentence-display {
+            background: #e3f2fd;
+            padding: 20px;
+            margin-top: 20px;
+            border-radius: 10px;
+            min-height: 80px;
+            border-left: 4px solid #2196f3;
+        }
+
+        .sentence-display p {
+            font-size: 18px;
+            color: #333;
+            line-height: 1.8;
+        }
+
+        .hint {
+            font-size: 13px;
+            color: #999;
+            margin-top: 8px;
+        }
+
+        .warning {
+            background: #fff3cd;
+            border: 1px solid #ffc107;
+            border-radius: 8px;
+            padding: 15px;
+            margin-bottom: 20px;
+            color: #856404;
+            font-size: 14px;
+        }
+
+        .info-box {
+            background: #e7f3ff;
+            border-left: 4px solid #2196f3;
+            padding: 15px;
+            margin-top: 15px;
+            border-radius: 6px;
+            font-size: 14px;
+            color: #555;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>
+            北理工数字轰炸
+            <div class="subtitle">中日双语口译测试工具</div>
+        </h1>
+        
+        <!-- 控制面板区域 -->
+        <div class="control-panel">
+            <div class="control-section">
+                <label>朗读语言：</label>
+                <div class="radio-group">
+                    <label class="radio-option">
+                        <input type="radio" name="language" value="zh-CN" checked onchange="updateVoiceList()">
+                        <span>中文朗读</span>
+                    </label>
+                    <label class="radio-option">
+                        <input type="radio" name="language" value="ja-JP" onchange="updateVoiceList()">
+                        <span>日文朗读</span>
+                    </label>
+                </div>
+            </div>
+
+            <div class="control-section">
+                <label>语音引擎（重要）：</label>
+                <select id="voiceSelect"></select>
+                <div class="info-box">
+                    💡 提示：Mac用户请选择包含"Kyoko"、"Otoya"或"Siri"的日语语音<br>
+                    如果没有日语选项，请点击下方"测试语音"按钮
+                </div>
+            </div>
+
+            <div class="control-section">
+                <label>句子间停顿时间：</label>
+                <div class="radio-group">
+                    <label class="radio-option">
+                        <input type="radio" name="pause" value="5" checked>
+                        <span>5秒</span>
+                    </label>
+                    <label class="radio-option">
+                        <input type="radio" name="pause" value="10">
+                        <span>10秒</span>
+                    </label>
+                    <label class="radio-option">
+                        <input type="radio" name="pause" value="20">
+                        <span>20秒</span>
+                    </label>
+                </div>
+            </div>
+
+            <div class="button-group">
+                <button class="btn-test" onclick="testVoice()">测试语音</button>
+                <button class="btn-start" onclick="startReading()">开始朗读</button>
+                <button class="btn-stop" onclick="stopReading()" disabled>停止朗读</button>
+                <button class="btn-clear" onclick="clearText()">清空文本</button>
+            </div>
+        </div>
+
+        <!-- 当前朗读句子显示 -->
+        <div class="sentence-display">
+            <p id="currentSentence" style="color: #666;">等待朗读...</p>
+        </div>
+
+        <!-- 状态栏 -->
+        <div class="status-bar">
+            <p id="statusText">准备就绪</p>
+        </div>
+
+        <!-- 输入区域 - 放在下方，与学生视线隔离 -->
+        <div class="input-section">
+            <h3>📝 输入文本（教师区域）</h3>
+            <textarea id="inputText" placeholder="在此输入要朗读的中文或日语文本...&#10;&#10;示例：&#10;中文：这是第一句话。这是第二句话。这是第三句话。&#10;日文：これは最初の文です。これは二番目の文です。"></textarea>
+            <p class="hint">提示：文本将以句号（。）为分隔符进行分段朗读</p>
+        </div>
+    </div>
+
+    <script>
+        let isReading = false;
+        let currentSentenceIndex = 0;
+        let sentences = [];
+        let pauseTimeout = null;
+        let currentUtterance = null;
+        let voices = [];
+        let selectedVoice = null;
+
+        // 初始化语音列表
+        function loadVoices() {
+            voices = speechSynthesis.getVoices();
+            updateVoiceList();
+        }
+
+        // 更新语音选择列表
+        function updateVoiceList() {
+            const language = document.querySelector('input[name="language"]:checked').value;
+            const voiceSelect = document.getElementById('voiceSelect');
+            voiceSelect.innerHTML = '';
+
+            let defaultVoice = null;
+            const langPrefix = language.substring(0, 2);
+
+            voices.forEach((voice, index) => {
+                const option = document.createElement('option');
+                option.value = index;
+                option.textContent = `${voice.name} (${voice.lang})`;
+                
+                if (voice.lang.startsWith(langPrefix)) {
+                    voiceSelect.appendChild(option);
+                    
+                    // 设置默认语音
+                    if (!defaultVoice || voice.name.includes('Siri') || voice.name.includes('Kyoko') || voice.name.includes('Otoya')) {
+                        defaultVoice = index;
+                    }
+                }
+            });
+
+            if (voiceSelect.options.length === 0) {
+                const option = document.createElement('option');
+                option.value = '';
+                option.textContent = '⚠️ 未找到合适的语音引擎';
+                voiceSelect.appendChild(option);
+            } else if (defaultVoice !== null) {
+                voiceSelect.value = defaultVoice;
+            }
+        }
+
+        // 测试语音
+        function testVoice() {
+            const language = document.querySelector('input[name="language"]:checked').value;
+            const voiceSelect = document.getElementById('voiceSelect');
+            
+            if (voiceSelect.value === '') {
+                alert('请先选择一个语音引擎！');
+                return;
+            }
+
+            const selectedVoiceIndex = voiceSelect.value;
+            const voice = voices[selectedVoiceIndex];
+
+            const testText = language === 'ja-JP' 
+                ? 'こんにちは、これはテストです。' 
+                : '你好，这是一个测试。';
+
+            const utterance = new SpeechSynthesisUtterance(testText);
+            utterance.voice = voice;
+            utterance.lang = language;
+            utterance.rate = 0.9;
+
+            document.getElementById('statusText').textContent = `正在测试语音：${voice.name}`;
+
+            utterance.onend = function() {
+                document.getElementById('statusText').textContent = '测试完成，如果声音正常可以开始使用';
+            };
+
+            speechSynthesis.speak(utterance);
+        }
+
+        function startReading() {
+            const text = document.getElementById('inputText').value.trim();
+            
+            if (!text) {
+                alert('请输入要朗读的文本！');
+                return;
+            }
+
+            // 按句号切分文本
+            sentences = text.split('。').filter(s => s.trim() !== '');
+            
+            if (sentences.length === 0) {
+                alert('文本中没有有效的句子！');
+                return;
+            }
+
+            const voiceSelect = document.getElementById('voiceSelect');
+            if (voiceSelect.value === '') {
+                alert('请先选择语音引擎！');
+                return;
+            }
+
+            isReading = true;
+            currentSentenceIndex = 0;
+            
+            // 更新按钮状态
+            document.querySelector('.btn-start').disabled = true;
+            document.querySelector('.btn-stop').disabled = false;
+            
+            readNextSentence();
+        }
+
+        function readNextSentence() {
+            if (!isReading || currentSentenceIndex >= sentences.length) {
+                finishReading();
+                return;
+            }
+
+            const language = document.querySelector('input[name="language"]:checked').value;
+            const sentence = sentences[currentSentenceIndex].trim();
+            const voiceSelect = document.getElementById('voiceSelect');
+            
+            // 显示当前句子
+            document.getElementById('currentSentence').textContent = sentence + '。';
+            document.getElementById('statusText').textContent = `正在朗读第 ${currentSentenceIndex + 1} 句，共 ${sentences.length} 句`;
+
+            // 创建语音合成
+            currentUtterance = new SpeechSynthesisUtterance(sentence);
+            
+            const selectedVoiceIndex = voiceSelect.value;
+            if (selectedVoiceIndex !== '') {
+                currentUtterance.voice = voices[selectedVoiceIndex];
+            }
+            
+            currentUtterance.lang = language;
+            currentUtterance.rate = 0.9;
+            
+            // 朗读结束后停顿
+            currentUtterance.onend = function() {
+                if (isReading && currentSentenceIndex < sentences.length - 1) {
+                    const pauseTime = parseInt(document.querySelector('input[name="pause"]:checked').value) * 1000;
+                    document.getElementById('statusText').textContent = `停顿 ${pauseTime/1000} 秒后继续...`;
+                    
+                    pauseTimeout = setTimeout(function() {
+                        currentSentenceIndex++;
+                        readNextSentence();
+                    }, pauseTime);
+                } else {
+                    finishReading();
+                }
+            };
+
+            speechSynthesis.speak(currentUtterance);
+        }
+
+        function stopReading() {
+            isReading = false;
+            speechSynthesis.cancel();
+            
+            if (pauseTimeout) {
+                clearTimeout(pauseTimeout);
+                pauseTimeout = null;
+            }
+
+            // 更新按钮状态
+            document.querySelector('.btn-start').disabled = false;
+            document.querySelector('.btn-stop').disabled = true;
+            
+            document.getElementById('statusText').textContent = '朗读已停止';
+            document.getElementById('currentSentence').textContent = '等待朗读...';
+        }
+
+        function finishReading() {
+            isReading = false;
+            
+            // 更新按钮状态
+            document.querySelector('.btn-start').disabled = false;
+            document.querySelector('.btn-stop').disabled = true;
+            
+            document.getElementById('statusText').textContent = '朗读完成！';
+            document.getElementById('currentSentence').textContent = '朗读结束';
+        }
+
+        function clearText() {
+            if (isReading) {
+                stopReading();
+            }
+            document.getElementById('inputText').value = '';
+            document.getElementById('statusText').textContent = '文本已清空';
+            document.getElementById('currentSentence').textContent = '等待朗读...';
+        }
+
+        // 页面加载时初始化
+        window.onload = function() {
+            if (!('speechSynthesis' in window)) {
+                alert('您的浏览器不支持语音合成功能，请使用Chrome、Edge或Safari浏览器。');
+                return;
+            }
+
+            // 加载语音列表（某些浏览器需要异步加载）
+            loadVoices();
+            
+            // 某些浏览器需要等待voiceschanged事件
+            if (speechSynthesis.onvoiceschanged !== undefined) {
+                speechSynthesis.onvoiceschanged = loadVoices;
+            }
+
+            // 延迟加载，确保语音列表完全加载
+            setTimeout(loadVoices, 1000);
+        };
+    </script>
+</body>
+</html>

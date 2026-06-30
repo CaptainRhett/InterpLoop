@@ -1,0 +1,755 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>DoubaoLogger 豆包反馈归档器</title>
+<style>
+* { box-sizing: border-box; margin: 0; padding: 0; }
+body {
+  font-family: "PingFang SC", "Microsoft YaHei", "Hiragino Sans GB", sans-serif;
+  background: #f0f4f8;
+  color: #2c3e50;
+  padding: 20px;
+  line-height: 1.6;
+}
+.container {
+  max-width: 1200px;
+  margin: 0 auto;
+  background: white;
+  border-radius: 12px;
+  box-shadow: 0 4px 20px rgba(0,0,0,0.08);
+  overflow: hidden;
+}
+header {
+  background: linear-gradient(135deg, #e67e22, #c0392b);
+  color: white;
+  padding: 30px 40px;
+}
+header h1 { font-size: 26px; margin-bottom: 6px; }
+header .subtitle { font-size: 14px; opacity: 0.9; }
+header .badge {
+  display: inline-block;
+  background: rgba(255,255,255,0.2);
+  padding: 3px 10px;
+  border-radius: 12px;
+  font-size: 12px;
+  margin-top: 8px;
+}
+.meta-bar {
+  background: #fafbfc;
+  padding: 20px 40px;
+  border-bottom: 1px solid #e1e8ed;
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 15px;
+}
+.meta-bar .field label {
+  display: block;
+  font-size: 12px;
+  font-weight: 600;
+  color: #7f8c8d;
+  margin-bottom: 4px;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+.meta-bar input, .meta-bar select {
+  width: 100%;
+  padding: 8px 10px;
+  border: 1px solid #d0d7de;
+  border-radius: 5px;
+  font-size: 13px;
+  background: white;
+  font-family: inherit;
+}
+.main {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 0;
+  min-height: 500px;
+}
+.left {
+  padding: 25px 30px;
+  border-right: 1px solid #e1e8ed;
+  background: #fafbfc;
+}
+.right {
+  padding: 25px 30px;
+  background: white;
+}
+.section-title {
+  font-size: 12px;
+  font-weight: 700;
+  color: #7f8c8d;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  margin-bottom: 12px;
+  padding-bottom: 8px;
+  border-bottom: 2px solid #ecf0f1;
+}
+textarea#rawInput {
+  width: 100%;
+  min-height: 380px;
+  padding: 15px;
+  border: 1px solid #d0d7de;
+  border-radius: 6px;
+  font-size: 13px;
+  font-family: inherit;
+  line-height: 1.7;
+  resize: vertical;
+}
+textarea#rawInput:focus {
+  outline: none;
+  border-color: #e67e22;
+}
+.btn-row {
+  display: flex;
+  gap: 10px;
+  margin-top: 15px;
+}
+button {
+  padding: 10px 18px;
+  border: none;
+  border-radius: 6px;
+  font-size: 13px;
+  font-weight: 600;
+  cursor: pointer;
+  font-family: inherit;
+  transition: all 0.2s;
+}
+.btn-primary { background: #e67e22; color: white; }
+.btn-primary:hover { background: #d35400; }
+.btn-success { background: #27ae60; color: white; }
+.btn-success:hover { background: #229954; }
+.btn-secondary { background: #ecf0f1; color: #2c3e50; }
+.btn-secondary:hover { background: #d5dbdb; }
+.btn-info { background: #3498db; color: white; }
+.btn-info:hover { background: #2980b9; }
+.tip {
+  background: #fff8e1;
+  border-left: 3px solid #f39c12;
+  padding: 10px 12px;
+  font-size: 12px;
+  color: #7d6608;
+  margin-top: 12px;
+  border-radius: 4px;
+  line-height: 1.6;
+}
+.parsed-section {
+  margin-bottom: 18px;
+}
+.parsed-section .head {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 6px;
+}
+.parsed-section .head .label {
+  font-weight: 600;
+  font-size: 13px;
+  color: #34495e;
+}
+.parsed-section .head .count {
+  font-size: 11px;
+  color: #95a5a6;
+  background: #ecf0f1;
+  padding: 2px 8px;
+  border-radius: 10px;
+}
+.parsed-section textarea {
+  width: 100%;
+  min-height: 80px;
+  padding: 10px;
+  border: 1px solid #d0d7de;
+  border-radius: 5px;
+  font-size: 12px;
+  font-family: inherit;
+  line-height: 1.6;
+  resize: vertical;
+  background: white;
+}
+.tag-pros { border-left: 3px solid #27ae60; padding-left: 8px; }
+.tag-cons { border-left: 3px solid #e74c3c; padding-left: 8px; }
+.tag-sugg { border-left: 3px solid #3498db; padding-left: 8px; }
+.tag-meta { border-left: 3px solid #95a5a6; padding-left: 8px; }
+.stats {
+  background: #f8f9fa;
+  border: 1px solid #e1e8ed;
+  border-radius: 6px;
+  padding: 12px 15px;
+  margin-top: 15px;
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 12px;
+}
+.stat-item {
+  text-align: center;
+}
+.stat-item .num {
+  font-size: 20px;
+  font-weight: 700;
+  color: #2c3e50;
+}
+.stat-item .lbl {
+  font-size: 11px;
+  color: #7f8c8d;
+  margin-top: 2px;
+}
+.toast {
+  position: fixed;
+  bottom: 30px;
+  left: 50%;
+  transform: translateX(-50%) translateY(100px);
+  background: #27ae60;
+  color: white;
+  padding: 12px 24px;
+  border-radius: 6px;
+  font-size: 14px;
+  font-weight: 500;
+  opacity: 0;
+  transition: all 0.3s;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+  z-index: 1000;
+}
+.toast.show {
+  opacity: 1;
+  transform: translateX(-50%) translateY(0);
+}
+.toast.error { background: #e74c3c; }
+footer {
+  padding: 14px 40px;
+  background: #f8f9fa;
+  border-top: 1px solid #e1e8ed;
+  font-size: 11px;
+  color: #95a5a6;
+  text-align: center;
+}
+.history-bar {
+  padding: 15px 40px;
+  background: #f8f9fa;
+  border-top: 1px solid #e1e8ed;
+  font-size: 12px;
+}
+.history-bar .label {
+  font-weight: 600;
+  color: #34495e;
+  margin-right: 10px;
+}
+.history-item {
+  display: inline-block;
+  background: white;
+  border: 1px solid #d0d7de;
+  border-radius: 12px;
+  padding: 3px 12px;
+  margin: 3px;
+  font-size: 11px;
+  color: #34495e;
+  cursor: pointer;
+}
+.history-item:hover { background: #ecf0f1; }
+.history-item .del {
+  margin-left: 6px;
+  color: #95a5a6;
+  cursor: pointer;
+}
+.history-item .del:hover { color: #e74c3c; }
+@media (max-width: 768px) {
+  .main { grid-template-columns: 1fr; }
+  .left { border-right: none; border-bottom: 1px solid #e1e8ed; }
+  .meta-bar { grid-template-columns: repeat(2, 1fr); }
+  .stats { grid-template-columns: repeat(2, 1fr); }
+}
+</style>
+</head>
+<body>
+<div class="container">
+  <header>
+    <h1>DoubaoLogger · 豆包反馈归档器</h1>
+    <div class="subtitle">自动拆分豆包反馈文本 → 结构化为研究表B4字段 → 一键导出CSV</div>
+    <span class="badge">对接 AI 口译研究数据收集工具包</span>
+  </header>
+
+  <div class="meta-bar">
+    <div class="field">
+      <label>学生编号</label>
+      <input type="text" id="studentId" placeholder="如 1120230120">
+    </div>
+    <div class="field">
+      <label>任务编号</label>
+      <input type="text" id="taskId" placeholder="如 W5-T2">
+    </div>
+    <div class="field">
+      <label>反馈类型</label>
+      <select id="feedbackType">
+        <option value="AI反馈（豆包）">AI反馈（豆包）</option>
+        <option value="教师反馈">教师反馈</option>
+        <option value="同伴反馈">同伴反馈</option>
+      </select>
+    </div>
+    <div class="field">
+      <label>日期</label>
+      <input type="date" id="date">
+    </div>
+  </div>
+
+  <div class="main">
+    <!-- 左：粘贴原始文本 -->
+    <div class="left">
+      <div class="section-title">第一步：粘贴豆包反馈原文</div>
+      <textarea id="rawInput" placeholder="把豆包给学生的反馈内容粘贴到此处，例如：
+
+一、整体评价
+1. 优点
+- 核心政治术语基本正确，句意完整可懂。
+- 句式结构符合日语表达习惯。
+2. 主要问题
+- 「～しか～ない」句式误用。
+- 「最大的」直译为「最大的」（日语不用「的」）。
+二、改进建议
+- 系统学习『～てはじめて～』句式...
+- 加强政治术语固定译法记忆..."></textarea>
+      <div class="btn-row">
+        <button class="btn-primary" id="parseBtn">🔍 自动拆分</button>
+        <button class="btn-secondary" id="sampleBtn">载入示例</button>
+        <button class="btn-secondary" id="clearBtn">清空</button>
+      </div>
+      <div class="tip">
+        💡 <strong>提示</strong>：本工具识别"优点 / 问题 / 缺点 / 改进 / 建议 / 评价"等关键词进行自动归类。如自动拆分不准，可在右侧手动调整。
+      </div>
+    </div>
+
+    <!-- 右：拆分结果 -->
+    <div class="right">
+      <div class="section-title">第二步：核对结构化字段（可手动调整）</div>
+
+      <div class="parsed-section">
+        <div class="head">
+          <span class="label tag-pros">✓ 优点（Pros）</span>
+          <span class="count" id="prosCount">0 条</span>
+        </div>
+        <textarea id="pros" placeholder="豆包指出的优点……"></textarea>
+      </div>
+
+      <div class="parsed-section">
+        <div class="head">
+          <span class="label tag-cons">✗ 主要问题（Cons）</span>
+          <span class="count" id="consCount">0 条</span>
+        </div>
+        <textarea id="cons" placeholder="豆包指出的问题……"></textarea>
+      </div>
+
+      <div class="parsed-section">
+        <div class="head">
+          <span class="label tag-sugg">→ 改进建议（Suggestions）</span>
+          <span class="count" id="suggCount">0 条</span>
+        </div>
+        <textarea id="suggestions" placeholder="豆包给出的改进建议……"></textarea>
+      </div>
+
+      <div class="parsed-section">
+        <div class="head">
+          <span class="label tag-meta">⚙ 综合评语 / 总评</span>
+        </div>
+        <textarea id="overall" placeholder="豆包给出的总评（可选）……"></textarea>
+      </div>
+
+      <div class="stats">
+        <div class="stat-item">
+          <div class="num" id="totalChars">0</div>
+          <div class="lbl">原文字数</div>
+        </div>
+        <div class="stat-item">
+          <div class="num" id="totalAdvice">0</div>
+          <div class="lbl">建议总条数</div>
+        </div>
+        <div class="stat-item">
+          <div class="num" id="prosNum">0</div>
+          <div class="lbl">优点数</div>
+        </div>
+        <div class="stat-item">
+          <div class="num" id="consNum">0</div>
+          <div class="lbl">问题数</div>
+        </div>
+      </div>
+
+      <div class="btn-row">
+        <button class="btn-success" id="saveBtn">💾 保存到本地</button>
+        <button class="btn-info" id="exportBtn">📊 导出CSV（对接表B4）</button>
+      </div>
+    </div>
+  </div>
+
+  <div class="history-bar">
+    <span class="label">已保存记录：</span>
+    <span id="historyList"><span style="color:#95a5a6;">尚无记录</span></span>
+  </div>
+
+  <footer>
+    DoubaoLogger v1.0 · 数据全部保存在浏览器本地，不上传服务器 · 配合『AI口译研究数据收集工具包』表B4使用
+  </footer>
+</div>
+
+<div id="toast" class="toast">操作成功</div>
+
+<script>
+// ===== 元素引用 =====
+const els = {
+  raw: document.getElementById('rawInput'),
+  pros: document.getElementById('pros'),
+  cons: document.getElementById('cons'),
+  suggestions: document.getElementById('suggestions'),
+  overall: document.getElementById('overall'),
+  studentId: document.getElementById('studentId'),
+  taskId: document.getElementById('taskId'),
+  feedbackType: document.getElementById('feedbackType'),
+  date: document.getElementById('date'),
+};
+
+// 日期默认今天
+els.date.value = new Date().toISOString().split('T')[0];
+
+// ===== 拆分逻辑（v2 重写：基于章节边界识别）=====
+function parseText() {
+  const text = els.raw.value.trim();
+  if (!text) {
+    showToast('请先粘贴豆包反馈文本', 'error');
+    return;
+  }
+
+  // 把原文按行切分（保留换行作为段落标记）
+  const rawLines = text.split('\n').map(l => l.trim());
+  const lines = rawLines.filter(l => l !== '');
+  
+  // 章节关键词（用于识别"标题行"分别归属哪个桶）
+  const SECTION_PATTERNS = {
+    pros: /(优点|亮点|可取之处|做得好|做的好|强项|核心优点|主要优点|表现良好)/,
+    cons: /(缺点|不足|问题|主要问题|短板|薄弱|弱项|需要改进的地方|改进点|主要不足|可改进点)/,
+    sugg: /(建议|改进建议|提升方向|针对性提升方向|改进方向|今后方向|后续方向|改进措施|提升路径)/,
+    overall: /(总评|整体评价|综合评价|整体来看|总体来看|整体表现|总结|结论)/,
+    skip: /(标准参考译文|参考译文|标准译法|参考答案|译文对照)/,  // 跳过这种章节
+  };
+  
+  // 第 1 步：识别章节标题行
+  // 标题行特征：（短行 < 35 字）且（含罗马数字/阿拉伯数字+顿号/全为关键词）
+  function classifyTitle(line) {
+    // 去掉 markdown 加粗、空格
+    const clean = line.replace(/\*+/g, '').replace(/\s+/g, '').trim();
+    if (clean.length > 35) return null;  // 太长不是标题
+    
+    // 必须含有章节起始标记（一、/ 1. / 优点（独立成行）等）
+    const hasRoman = /^[一二三四五六七八九十]、/.test(clean);
+    const hasArabic = /^\d+[\.\、]/.test(clean);
+    const hasMarker = /^[【\[（(].{1,15}[】\]）)]/.test(clean);
+    // 或者整行就是单一关键词（如"优点"独立成行）
+    const isPureKeyword = clean.length <= 12 && Object.values(SECTION_PATTERNS).some(p => p.test(clean));
+    // 或者整行是关键词为核心的短标题（"需要改进的地方（温和真实版）"这种）
+    // 条件：≤25字 且 含强关键词 且 不含分隔标点（无逗号、句号，避免把句子误判为标题）
+    const isShortHeaderLike = clean.length <= 25
+        && !/[，,。；;：:]/.test(clean)
+        && (SECTION_PATTERNS.pros.test(clean) || SECTION_PATTERNS.cons.test(clean) 
+            || SECTION_PATTERNS.sugg.test(clean) || SECTION_PATTERNS.overall.test(clean));
+    
+    if (!hasRoman && !hasArabic && !hasMarker && !isPureKeyword && !isShortHeaderLike) return null;
+    
+    // 判断属于哪个章节
+    if (SECTION_PATTERNS.skip.test(clean)) return 'skip';
+    if (SECTION_PATTERNS.pros.test(clean) && !SECTION_PATTERNS.cons.test(clean)) return 'pros';
+    if (SECTION_PATTERNS.cons.test(clean)) return 'cons';
+    if (SECTION_PATTERNS.sugg.test(clean)) return 'sugg';
+    if (SECTION_PATTERNS.overall.test(clean)) return 'overall';
+    
+    // 罗马数字开头但没匹配上关键词——可能是子标题，不切换章节
+    return null;
+  }
+  
+  // 第 2 步：按章节标题切分文本块
+  // 关键修改：所有非标题行都归当前 section，不再用关键词反推
+  const buckets = { pros: [], cons: [], sugg: [], overall: [], skip: [] };
+  let currentSection = 'overall';  // 默认进总评（开头描述类语句）
+  
+  for (const line of lines) {
+    const titleType = classifyTitle(line);
+    if (titleType !== null) {
+      currentSection = titleType;
+      continue;  // 标题本身不进内容
+    }
+    if (currentSection === 'skip') continue;
+    
+    // 处理两行式格式（如"1. 核心内容基本准确\n对...是到位的"）
+    // 当前行如果是 "数字. 短句"，下一行通常是说明 —— 但我们已经一行行处理
+    // 所以直接把内容行加入当前桶即可
+    
+    // 去掉行首的 bullet 标记（-、•、*、数字.）和加粗
+    let cleaned = line
+      .replace(/\*+/g, '')
+      .replace(/^[\-•·*]\s*/, '')
+      .replace(/^\d+[\.\、]\s*/, '')
+      .trim();
+    if (!cleaned) continue;
+    
+    buckets[currentSection].push(cleaned);
+  }
+  
+  // 第 3 步：合并相邻"短标题+说明"形式（焦文雅版）
+  // 焦文雅版本：每条是 "1. 流畅度明显不足" + "翻译时停顿较多……" 两行
+  // 经过上面 cleaned 处理后这两行已经成为两个独立条目，但它们逻辑上是一条
+  // 启发式：如果前一条很短（<22字）且后一条偏长，合并
+  function mergeShortAndLong(arr) {
+    if (arr.length < 2) return arr;
+    const merged = [];
+    let i = 0;
+    while (i < arr.length) {
+      const cur = arr[i];
+      const next = arr[i + 1];
+      // 当前条目很短（标题感）且下一条偏长（说明感）→ 合并
+      if (next && cur.length < 22 && next.length > cur.length * 1.5 && !next.match(/^[A-Za-z\d]/)) {
+        merged.push(cur + '——' + next);
+        i += 2;
+      } else {
+        merged.push(cur);
+        i += 1;
+      }
+    }
+    return merged;
+  }
+  
+  buckets.pros = mergeShortAndLong(buckets.pros);
+  buckets.cons = mergeShortAndLong(buckets.cons);
+  buckets.sugg = mergeShortAndLong(buckets.sugg);
+  
+  // 第 4 步：处理"没有任何章节标题"的退化情况
+  const totalSectioned = buckets.pros.length + buckets.cons.length + buckets.sugg.length;
+  if (totalSectioned === 0 && buckets.overall.length > 0) {
+    // 没有任何识别到的章节，但有内容——降级为关键词反推
+    const recovered = { pros: [], cons: [], sugg: [], overall: [] };
+    for (const item of buckets.overall) {
+      if (/建议|应该|可以|需要|希望|今后|下次|加强|改善|提升/.test(item)) {
+        recovered.sugg.push(item);
+      } else if (/不足|偏差|遗漏|混乱|缺失|有待|薄弱|严重|不够|错误/.test(item)) {
+        recovered.cons.push(item);
+      } else if (/良好|准确|到位|不错|完成度|主动|完整|具备|表现稳定/.test(item)) {
+        recovered.pros.push(item);
+      } else {
+        recovered.overall.push(item);
+      }
+    }
+    buckets.pros = recovered.pros;
+    buckets.cons = recovered.cons;
+    buckets.sugg = recovered.sugg;
+    buckets.overall = recovered.overall;
+  }
+  
+  // 第 5 步：写入界面
+  els.pros.value = buckets.pros.map(l => '• ' + l).join('\n');
+  els.cons.value = buckets.cons.map(l => '• ' + l).join('\n');
+  els.suggestions.value = buckets.sugg.map(l => '• ' + l).join('\n');
+  els.overall.value = buckets.overall.join('\n\n');
+  
+  updateStats();
+  const total = buckets.pros.length + buckets.cons.length + buckets.sugg.length;
+  if (total === 0) {
+    showToast('未能识别到结构化章节，请检查或手动调整', 'error');
+  } else {
+    showToast('已拆分为 ' + total + ' 条记录（优' + buckets.pros.length + '/问' + buckets.cons.length + '/建' + buckets.sugg.length + '）');
+  }
+}
+
+function updateStats() {
+  const countLines = (s) => s.split('\n').filter(l => l.trim() && l.trim() !== '•').length;
+  const pn = countLines(els.pros.value);
+  const cn = countLines(els.cons.value);
+  const sn = countLines(els.suggestions.value);
+  document.getElementById('prosCount').textContent = pn + ' 条';
+  document.getElementById('consCount').textContent = cn + ' 条';
+  document.getElementById('suggCount').textContent = sn + ' 条';
+  document.getElementById('totalChars').textContent = els.raw.value.length;
+  document.getElementById('totalAdvice').textContent = pn + cn + sn;
+  document.getElementById('prosNum').textContent = pn;
+  document.getElementById('consNum').textContent = cn;
+}
+
+// 监听输入更新统计
+['pros','cons','suggestions','raw'].forEach(k => {
+  els[k].addEventListener('input', updateStats);
+});
+
+// ===== 历史记录（localStorage）=====
+const HISTORY_KEY = 'doubao_logger_records';
+
+function loadHistory() {
+  try {
+    return JSON.parse(localStorage.getItem(HISTORY_KEY) || '[]');
+  } catch (e) { return []; }
+}
+
+function saveHistory(records) {
+  localStorage.setItem(HISTORY_KEY, JSON.stringify(records));
+}
+
+function renderHistory() {
+  const records = loadHistory();
+  const container = document.getElementById('historyList');
+  if (!records.length) {
+    container.innerHTML = '<span style="color:#95a5a6;">尚无记录</span>';
+    return;
+  }
+  container.innerHTML = records.map((r, i) =>
+    '<span class="history-item" data-idx="' + i + '">'
+    + (r.studentId || '匿名') + ' · ' + (r.taskId || 'T?') + ' · ' + r.date
+    + '<span class="del" data-del="' + i + '">×</span>'
+    + '</span>'
+  ).join('');
+  
+  container.querySelectorAll('.history-item').forEach(el => {
+    el.addEventListener('click', (e) => {
+      if (e.target.dataset.del) return;
+      const idx = parseInt(el.dataset.idx);
+      const r = records[idx];
+      els.studentId.value = r.studentId;
+      els.taskId.value = r.taskId;
+      els.feedbackType.value = r.feedbackType;
+      els.date.value = r.date;
+      els.raw.value = r.raw;
+      els.pros.value = r.pros;
+      els.cons.value = r.cons;
+      els.suggestions.value = r.suggestions;
+      els.overall.value = r.overall;
+      updateStats();
+      showToast('已加载记录');
+    });
+  });
+  
+  container.querySelectorAll('[data-del]').forEach(el => {
+    el.addEventListener('click', (e) => {
+      e.stopPropagation();
+      const idx = parseInt(el.dataset.del);
+      const records = loadHistory();
+      records.splice(idx, 1);
+      saveHistory(records);
+      renderHistory();
+      showToast('已删除');
+    });
+  });
+}
+
+// 保存
+document.getElementById('saveBtn').addEventListener('click', () => {
+  if (!els.studentId.value.trim()) {
+    showToast('请填写学生编号', 'error');
+    return;
+  }
+  const record = {
+    studentId: els.studentId.value.trim(),
+    taskId: els.taskId.value.trim(),
+    feedbackType: els.feedbackType.value,
+    date: els.date.value,
+    raw: els.raw.value,
+    pros: els.pros.value,
+    cons: els.cons.value,
+    suggestions: els.suggestions.value,
+    overall: els.overall.value,
+    savedAt: new Date().toISOString(),
+  };
+  const records = loadHistory();
+  records.push(record);
+  saveHistory(records);
+  renderHistory();
+  showToast('已保存到本地（' + records.length + ' 条记录）');
+});
+
+// 导出 CSV
+document.getElementById('exportBtn').addEventListener('click', () => {
+  const records = loadHistory();
+  if (!records.length) {
+    showToast('暂无记录可导出，请先保存', 'error');
+    return;
+  }
+  const headers = ['学生编号','任务编号','反馈类型','日期','原文字数','建议总条数','优点条数','问题条数','建议条数','优点详情','问题详情','建议详情','总评','保存时间'];
+  const rows = records.map(r => {
+    const cnt = (s) => s.split('\n').filter(l => l.trim() && l.trim() !== '•').length;
+    return [
+      r.studentId,
+      r.taskId,
+      r.feedbackType,
+      r.date,
+      r.raw.length,
+      cnt(r.pros) + cnt(r.cons) + cnt(r.suggestions),
+      cnt(r.pros),
+      cnt(r.cons),
+      cnt(r.suggestions),
+      r.pros.replace(/\n/g, ' | '),
+      r.cons.replace(/\n/g, ' | '),
+      r.suggestions.replace(/\n/g, ' | '),
+      r.overall.replace(/\n/g, ' | '),
+      r.savedAt,
+    ];
+  });
+  
+  // CSV转义
+  const escape = (v) => '"' + String(v).replace(/"/g, '""') + '"';
+  let csv = '\ufeff' + headers.map(escape).join(',') + '\n';  // BOM for Excel
+  rows.forEach(row => { csv += row.map(escape).join(',') + '\n'; });
+  
+  const blob = new Blob([csv], { type: 'text/csv;charset=utf-8;' });
+  const url = URL.createObjectURL(blob);
+  const a = document.createElement('a');
+  a.href = url;
+  a.download = '豆包反馈归档_' + new Date().toISOString().split('T')[0] + '.csv';
+  a.click();
+  URL.revokeObjectURL(url);
+  showToast('已导出 ' + records.length + ' 条记录');
+});
+
+// 拆分按钮
+document.getElementById('parseBtn').addEventListener('click', parseText);
+
+// 清空
+document.getElementById('clearBtn').addEventListener('click', () => {
+  ['raw','pros','cons','suggestions','overall'].forEach(k => els[k].value = '');
+  updateStats();
+});
+
+// 示例
+const SAMPLE = `完整评价 + 标准参考译文
+
+一、整体评价
+
+1. 优点
+- 核心政治术语基本正确，句意完整可懂。
+- 句式结构符合日语表达习惯，无严重语法错误。
+- 态度认真，完成度高。
+
+2. 主要问题
+- 「～しか～ない」句式误用：日语只有…才… 标准结构是～てはじめて～，不能用「しか」。
+- 「最大的、最高的、重要的」：日语不用「的」，直接用「最大の、最高の、重要な」。
+- 部分动词搭配、助词、用词不够地道。
+
+二、改进建议
+- 系统学习政治文献的固定句式结构。
+- 加强中日语对照表达的对比记忆。
+- 建议每天进行术语朗读打卡，纠正发音偏差。
+
+三、总评
+本次口译整体处于学习提升阶段，能够完整完成任务，但术语规范性和句式准确性有较大提升空间。`;
+
+document.getElementById('sampleBtn').addEventListener('click', () => {
+  els.raw.value = SAMPLE;
+  els.studentId.value = '示例编号';
+  els.taskId.value = 'Demo-01';
+  parseText();
+});
+
+function showToast(msg, type) {
+  const t = document.getElementById('toast');
+  t.textContent = msg;
+  t.classList.toggle('error', type === 'error');
+  t.classList.add('show');
+  setTimeout(() => t.classList.remove('show'), 2000);
+}
+
+// 初始化
+renderHistory();
+updateStats();
+</script>
+</body>
+</html>

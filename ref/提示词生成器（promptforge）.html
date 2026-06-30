@@ -1,0 +1,497 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>PromptForge 口译提示词生成器</title>
+<style>
+* { box-sizing: border-box; margin: 0; padding: 0; }
+body {
+  font-family: "PingFang SC", "Microsoft YaHei", "Hiragino Sans GB", sans-serif;
+  background: #f0f4f8;
+  color: #2c3e50;
+  padding: 20px;
+  line-height: 1.6;
+}
+.container {
+  max-width: 1000px;
+  margin: 0 auto;
+  background: white;
+  border-radius: 12px;
+  box-shadow: 0 4px 20px rgba(0,0,0,0.08);
+  overflow: hidden;
+}
+header {
+  background: linear-gradient(135deg, #3498db, #2c5282);
+  color: white;
+  padding: 30px 40px;
+}
+header h1 { font-size: 26px; margin-bottom: 6px; }
+header .subtitle { font-size: 14px; opacity: 0.9; }
+header .badge {
+  display: inline-block;
+  background: rgba(255,255,255,0.2);
+  padding: 3px 10px;
+  border-radius: 12px;
+  font-size: 12px;
+  margin-top: 8px;
+}
+.main {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 0;
+  min-height: 500px;
+}
+.left {
+  padding: 30px;
+  border-right: 1px solid #e1e8ed;
+  background: #fafbfc;
+}
+.right {
+  padding: 30px;
+  background: white;
+}
+.field {
+  margin-bottom: 22px;
+}
+.field label {
+  display: block;
+  font-weight: 600;
+  font-size: 13px;
+  color: #34495e;
+  margin-bottom: 6px;
+  letter-spacing: 0.3px;
+}
+.field label .hint {
+  font-weight: normal;
+  color: #95a5a6;
+  font-size: 11px;
+  margin-left: 6px;
+}
+select, input[type="text"], textarea {
+  width: 100%;
+  padding: 10px 12px;
+  border: 1px solid #d0d7de;
+  border-radius: 6px;
+  font-size: 14px;
+  font-family: inherit;
+  background: white;
+  color: #2c3e50;
+  transition: border-color 0.2s;
+}
+select:focus, input[type="text"]:focus, textarea:focus {
+  outline: none;
+  border-color: #3498db;
+}
+textarea {
+  resize: vertical;
+  min-height: 60px;
+}
+.checkboxes {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 6px;
+}
+.checkboxes label {
+  display: flex;
+  align-items: center;
+  font-weight: normal;
+  font-size: 13px;
+  color: #2c3e50;
+  margin-bottom: 0;
+  cursor: pointer;
+  padding: 4px 8px;
+  border-radius: 4px;
+  transition: background 0.15s;
+}
+.checkboxes label:hover { background: #ecf0f1; }
+.checkboxes input { margin-right: 6px; }
+.preview-box {
+  position: relative;
+  background: #2c3e50;
+  color: #ecf0f1;
+  padding: 20px;
+  border-radius: 8px;
+  font-family: "SF Mono", "Consolas", Monaco, monospace;
+  font-size: 13px;
+  line-height: 1.7;
+  white-space: pre-wrap;
+  word-break: break-word;
+  min-height: 380px;
+  max-height: 600px;
+  overflow-y: auto;
+}
+.btn-row {
+  display: flex;
+  gap: 10px;
+  margin-top: 16px;
+}
+button {
+  flex: 1;
+  padding: 12px 16px;
+  border: none;
+  border-radius: 6px;
+  font-size: 14px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s;
+  font-family: inherit;
+}
+.btn-primary {
+  background: #27ae60;
+  color: white;
+}
+.btn-primary:hover { background: #229954; }
+.btn-secondary {
+  background: #ecf0f1;
+  color: #2c3e50;
+}
+.btn-secondary:hover { background: #d5dbdb; }
+.toast {
+  position: fixed;
+  bottom: 30px;
+  left: 50%;
+  transform: translateX(-50%) translateY(100px);
+  background: #27ae60;
+  color: white;
+  padding: 12px 24px;
+  border-radius: 6px;
+  font-size: 14px;
+  font-weight: 500;
+  opacity: 0;
+  transition: all 0.3s;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+  z-index: 1000;
+}
+.toast.show {
+  opacity: 1;
+  transform: translateX(-50%) translateY(0);
+}
+.section-title {
+  font-size: 12px;
+  font-weight: 700;
+  color: #7f8c8d;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  margin-bottom: 14px;
+  padding-bottom: 8px;
+  border-bottom: 2px solid #ecf0f1;
+}
+.preset-row {
+  display: flex;
+  gap: 6px;
+  flex-wrap: wrap;
+  margin-bottom: 18px;
+}
+.preset-btn {
+  flex: 0 0 auto;
+  padding: 5px 12px;
+  background: white;
+  border: 1px solid #d0d7de;
+  border-radius: 14px;
+  font-size: 12px;
+  cursor: pointer;
+  color: #34495e;
+  transition: all 0.15s;
+}
+.preset-btn:hover {
+  background: #3498db;
+  color: white;
+  border-color: #3498db;
+}
+footer {
+  padding: 16px 40px;
+  background: #f8f9fa;
+  border-top: 1px solid #e1e8ed;
+  font-size: 11px;
+  color: #95a5a6;
+  text-align: center;
+}
+@media (max-width: 768px) {
+  .main { grid-template-columns: 1fr; }
+  .left { border-right: none; border-bottom: 1px solid #e1e8ed; }
+}
+</style>
+</head>
+<body>
+<div class="container">
+  <header>
+    <h1>PromptForge · 口译反馈提示词生成器</h1>
+    <div class="subtitle">为日语口译课堂的"豆包反馈环节"快速生成结构化、可复制的提示词</div>
+    <span class="badge">中日口译教学专用 · 北理工自研</span>
+  </header>
+
+  <div class="main">
+    <!-- 左侧：参数选择 -->
+    <div class="left">
+      <div class="section-title">快速预设</div>
+      <div class="preset-row">
+        <button class="preset-btn" data-preset="political">理解当代中国·政治语篇</button>
+        <button class="preset-btn" data-preset="business">商务口译·研讨会</button>
+        <button class="preset-btn" data-preset="banquet">商务口译·宴会致辞</button>
+        <button class="preset-btn" data-preset="numeric">数字/术语训练</button>
+      </div>
+
+      <div class="section-title">参数配置</div>
+
+      <div class="field">
+        <label>① 角色设定 <span class="hint">AI 扮演谁</span></label>
+        <select id="role">
+          <option value="一位资深的中日口译评估教师，具有10年以上政府外事翻译经验">资深口译评估教师（政府外事方向）</option>
+          <option value="一位日语商务口译专家，熟悉中日商务礼仪与敬语规范">日语商务口译专家（商务礼仪方向）</option>
+          <option value="一位日本语言学博士，专长于中日语对比与翻译教学">日本语言学博士（翻译教学方向）</option>
+          <option value="一位日语口译陪练，以鼓励为主、温和地指出问题">鼓励型口译陪练（情感支持型）</option>
+          <option value="一位严格的口译考官，按全国翻译资格考试标准评分">严格的口译考官（CATTI 标准评分）</option>
+        </select>
+      </div>
+
+      <div class="field">
+        <label>② 任务类型</label>
+        <select id="taskType">
+          <option value="汉译日交替传译">汉译日交替传译</option>
+          <option value="日译汉交替传译">日译汉交替传译</option>
+          <option value="汉译日视译">汉译日视译</option>
+          <option value="日译汉视译">日译汉视译</option>
+          <option value="复述口译训练">复述口译训练</option>
+          <option value="数字口译训练">数字口译训练</option>
+        </select>
+      </div>
+
+      <div class="field">
+        <label>③ 材料类型</label>
+        <select id="material">
+          <option value="政治政论语篇（如党的领导、共同富裕、中国式现代化等议题）">政治政论语篇（理解当代中国系列）</option>
+          <option value="商务研讨会司仪致辞与议程宣布">商务研讨会司仪致辞</option>
+          <option value="商务宴会致辞与谢辞">商务宴会致辞与谢辞</option>
+          <option value="日常商务交流对话">日常商务交流对话</option>
+          <option value="外交礼仪与寒暄表达">外交礼仪与寒暄表达</option>
+          <option value="文化交流类语篇（包含成语、典故、《论语》引文等）">文化交流类语篇</option>
+          <option value="数字、年代、金额、统计数据">数字、年代、金额、统计数据</option>
+        </select>
+      </div>
+
+      <div class="field">
+        <label>④ 评估维度 <span class="hint">勾选 2-5 项</span></label>
+        <div class="checkboxes">
+          <label><input type="checkbox" value="发音准确性（含罗马音规范、长短音、清浊音）" checked> 发音准确性</label>
+          <label><input type="checkbox" value="信息完整性（关键信息是否遗漏）" checked> 信息完整性</label>
+          <label><input type="checkbox" value="句式与语法（助词、动词搭配、敬语层次）" checked> 句式与语法</label>
+          <label><input type="checkbox" value="术语规范性（专业术语是否使用标准译法）" checked> 术语规范性</label>
+          <label><input type="checkbox" value="表达流畅度（停顿、口头禅、填充词）" checked> 表达流畅度</label>
+          <label><input type="checkbox" value="语体匹配度（正式度、敬语级别）"> 语体匹配度</label>
+          <label><input type="checkbox" value="跨文化适配（中日思维差异处理）"> 跨文化适配</label>
+          <label><input type="checkbox" value="立场表达精准性（政治语篇专用）"> 立场表达精准性</label>
+        </div>
+      </div>
+
+      <div class="field">
+        <label>⑤ 输出格式</label>
+        <select id="format">
+          <option value="结构化反馈：分『优点』『主要问题』『改进建议』『参考译文』四部分，每部分列点说明">结构化四段式（优/缺/改/参考译文）</option>
+          <option value="逐句点评：对每一句译文按维度逐条点评，最后给出综合建议">逐句点评式</option>
+          <option value="评分+建议：先按各维度打分（1-5分），再给出综合改进建议">评分+建议（量化评估）</option>
+          <option value="鼓励式反馈：先充分肯定优点，温和指出问题，给出具体改进方向">鼓励式反馈（情感安全）</option>
+          <option value="对比式反馈：列出『学生译文』vs『参考译文』表格对照，逐项标注差异">对比式反馈（双栏对照）</option>
+        </select>
+      </div>
+
+      <div class="field">
+        <label>⑥ 学习者水平 <span class="hint">影响反馈深度</span></label>
+        <select id="level">
+          <option value="初学者（日语N3-N2水平，刚开始接触口译）">初学者（N3-N2，刚接触口译）</option>
+          <option value="中级学习者（日语N2-N1水平，已有一学期口译训练经验）" selected>中级学习者（N2-N1）</option>
+          <option value="高级学习者（日语N1以上，已有两学期以上口译训练）">高级学习者（N1以上）</option>
+        </select>
+      </div>
+
+      <div class="field">
+        <label>⑦ 补充说明 <span class="hint">选填</span></label>
+        <textarea id="extra" placeholder="例如：本次重点关注政治术语固定译法；请避免迎合性赞美；请用中文给出反馈……"></textarea>
+      </div>
+    </div>
+
+    <!-- 右侧：预览 -->
+    <div class="right">
+      <div class="section-title">生成结果 <span style="float:right; font-weight:normal; color:#95a5a6;">字数：<span id="charCount">0</span></span></div>
+      <div id="preview" class="preview-box">请在左侧配置参数，提示词将自动生成于此……</div>
+      <div class="btn-row">
+        <button class="btn-primary" id="copyBtn">📋 一键复制</button>
+        <button class="btn-secondary" id="resetBtn">重置</button>
+      </div>
+    </div>
+  </div>
+
+  <footer>
+    PromptForge v1.0 · 配合『豆包』『通义』『Kimi』等通用大模型使用 · 对应申报书"提示词门槛"概念的可操作工具支撑
+  </footer>
+</div>
+
+<div id="toast" class="toast">已复制到剪贴板</div>
+
+<script>
+// ===== 预设方案 =====
+const PRESETS = {
+  political: {
+    role: '一位资深的中日口译评估教师，具有10年以上政府外事翻译经验',
+    taskType: '汉译日交替传译',
+    material: '政治政论语篇（如党的领导、共同富裕、中国式现代化等议题）',
+    format: '结构化反馈：分『优点』『主要问题』『改进建议』『参考译文』四部分，每部分列点说明',
+    level: '中级学习者（日语N2-N1水平，已有一学期口译训练经验）',
+    dimensions: ['术语规范性（专业术语是否使用标准译法）', '信息完整性（关键信息是否遗漏）', '句式与语法（助词、动词搭配、敬语层次）', '立场表达精准性（政治语篇专用）'],
+    extra: '请特别关注政治术语的固定译法（如"两个确立""中国式现代化"），并避免对学生的迎合性赞美。'
+  },
+  business: {
+    role: '一位日语商务口译专家，熟悉中日商务礼仪与敬语规范',
+    taskType: '汉译日交替传译',
+    material: '商务研讨会司仪致辞与议程宣布',
+    format: '结构化反馈：分『优点』『主要问题』『改进建议』『参考译文』四部分，每部分列点说明',
+    level: '中级学习者（日语N2-N1水平，已有一学期口译训练经验）',
+    dimensions: ['句式与语法（助词、动词搭配、敬语层次）', '语体匹配度（正式度、敬语级别）', '表达流畅度（停顿、口头禅、填充词）', '术语规范性（专业术语是否使用标准译法）'],
+    extra: '请特别关注「ただいまより」「お話をいただきます」「より」等司仪固定句型的使用是否到位。'
+  },
+  banquet: {
+    role: '一位日语商务口译专家，熟悉中日商务礼仪与敬语规范',
+    taskType: '汉译日交替传译',
+    material: '商务宴会致辞与谢辞',
+    format: '鼓励式反馈：先充分肯定优点，温和指出问题，给出具体改进方向',
+    level: '中级学习者（日语N2-N1水平，已有一学期口译训练经验）',
+    dimensions: ['句式与语法（助词、动词搭配、敬语层次）', '语体匹配度（正式度、敬语级别）', '跨文化适配（中日思维差异处理）', '表达流畅度（停顿、口头禅、填充词）'],
+    extra: '请特别关注「お開き」「名残は尽きません」「存じます」等宴会闭幕固定表达；并留意《论语》引文等文化典故的处理。'
+  },
+  numeric: {
+    role: '一位严格的口译考官，按全国翻译资格考试标准评分',
+    taskType: '数字口译训练',
+    material: '数字、年代、金额、统计数据',
+    format: '评分+建议：先按各维度打分（1-5分），再给出综合改进建议',
+    level: '中级学习者（日语N2-N1水平，已有一学期口译训练经验）',
+    dimensions: ['信息完整性（关键信息是否遗漏）', '发音准确性（含罗马音规范、长短音、清浊音）', '表达流畅度（停顿、口头禅、填充词）'],
+    extra: '请逐个数字核对准确性，并指出反应速度问题。'
+  }
+};
+
+// ===== 元素引用 =====
+const els = {
+  role: document.getElementById('role'),
+  taskType: document.getElementById('taskType'),
+  material: document.getElementById('material'),
+  format: document.getElementById('format'),
+  level: document.getElementById('level'),
+  extra: document.getElementById('extra'),
+  preview: document.getElementById('preview'),
+  charCount: document.getElementById('charCount'),
+  copyBtn: document.getElementById('copyBtn'),
+  resetBtn: document.getElementById('resetBtn'),
+  toast: document.getElementById('toast'),
+};
+
+function getDimensions() {
+  return Array.from(document.querySelectorAll('.checkboxes input:checked')).map(el => el.value);
+}
+
+function buildPrompt() {
+  const role = els.role.value;
+  const taskType = els.taskType.value;
+  const material = els.material.value;
+  const format = els.format.value;
+  const level = els.level.value;
+  const dimensions = getDimensions();
+  const extra = els.extra.value.trim();
+
+  let prompt = '';
+  prompt += '【角色】\n你现在是' + role + '。\n\n';
+  prompt += '【任务背景】\n我是一名' + level + '，正在进行' + taskType + '训练，本次材料类型为：' + material + '。\n\n';
+  prompt += '【评估维度】\n请你从以下' + dimensions.length + '个维度对我的口译进行评估：\n';
+  dimensions.forEach((d, i) => { prompt += (i+1) + '. ' + d + '\n'; });
+  prompt += '\n';
+  prompt += '【输出格式】\n' + format + '\n\n';
+  prompt += '【评估原则】\n';
+  prompt += '1. 请保持客观，避免无依据的过度赞美（不要为了让我开心而虚构优点）；\n';
+  prompt += '2. 如果发现关键错误，请直接指出，不要回避；\n';
+  prompt += '3. 给出的建议必须具体、可操作、可立即执行；\n';
+  prompt += '4. 参考译文请使用标准书面体，符合该材料类型的正式度要求。\n';
+  if (extra) {
+    prompt += '\n【补充说明】\n' + extra + '\n';
+  }
+  prompt += '\n【我的口译内容】\n[在此粘贴你的口译录音转写文本，或直接上传录音]\n\n';
+  prompt += '【原文】\n[在此粘贴中文/日文原文]';
+
+  return prompt;
+}
+
+function render() {
+  const text = buildPrompt();
+  els.preview.textContent = text;
+  els.charCount.textContent = text.length;
+}
+
+// 监听所有输入
+['role','taskType','material','format','level','extra'].forEach(k => {
+  els[k].addEventListener('input', render);
+  els[k].addEventListener('change', render);
+});
+document.querySelectorAll('.checkboxes input').forEach(cb => {
+  cb.addEventListener('change', render);
+});
+
+// 预设
+document.querySelectorAll('.preset-btn').forEach(btn => {
+  btn.addEventListener('click', () => {
+    const p = PRESETS[btn.dataset.preset];
+    if (!p) return;
+    els.role.value = p.role;
+    els.taskType.value = p.taskType;
+    els.material.value = p.material;
+    els.format.value = p.format;
+    els.level.value = p.level;
+    els.extra.value = p.extra;
+    document.querySelectorAll('.checkboxes input').forEach(cb => {
+      cb.checked = p.dimensions.includes(cb.value);
+    });
+    render();
+    showToast('已加载预设：' + btn.textContent);
+  });
+});
+
+// 复制
+els.copyBtn.addEventListener('click', async () => {
+  const text = buildPrompt();
+  try {
+    await navigator.clipboard.writeText(text);
+    showToast('已复制到剪贴板');
+  } catch (e) {
+    // fallback
+    const ta = document.createElement('textarea');
+    ta.value = text;
+    document.body.appendChild(ta);
+    ta.select();
+    document.execCommand('copy');
+    document.body.removeChild(ta);
+    showToast('已复制到剪贴板');
+  }
+});
+
+// 重置
+els.resetBtn.addEventListener('click', () => {
+  els.role.selectedIndex = 0;
+  els.taskType.selectedIndex = 0;
+  els.material.selectedIndex = 0;
+  els.format.selectedIndex = 0;
+  els.level.selectedIndex = 1;
+  els.extra.value = '';
+  document.querySelectorAll('.checkboxes input').forEach((cb, i) => {
+    cb.checked = i < 5;
+  });
+  render();
+});
+
+function showToast(msg) {
+  els.toast.textContent = msg;
+  els.toast.classList.add('show');
+  setTimeout(() => els.toast.classList.remove('show'), 2000);
+}
+
+// 初始化
+render();
+</script>
+</body>
+</html>

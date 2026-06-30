@@ -1,0 +1,690 @@
+{\rtf1\ansi\ansicpg936\cocoartf2822
+\cocoatextscaling0\cocoaplatform0{\fonttbl\f0\fnil\fcharset0 Menlo-Regular;\f1\fnil\fcharset0 Menlo-Italic;\f2\fnil\fcharset0 Menlo-Bold;
+}
+{\colortbl;\red255\green255\blue255;\red129\green144\blue144;\red252\green244\blue220;\red33\green118\blue199;
+\red83\green104\blue112;\red37\green146\blue134;\red115\green138\blue4;\red198\green28\blue111;\red189\green54\blue19;
+\red71\green91\blue98;\red165\green119\blue5;}
+{\*\expandedcolortbl;;\cssrgb\c57647\c63137\c63137;\cssrgb\c99216\c96471\c89020;\cssrgb\c14902\c54510\c82353;
+\cssrgb\c39608\c48235\c51373;\cssrgb\c16471\c63137\c59608;\cssrgb\c52157\c60000\c0;\cssrgb\c82745\c21176\c50980;\cssrgb\c79608\c29412\c8627;
+\cssrgb\c34510\c43137\c45882;\cssrgb\c70980\c53725\c0;}
+\paperw11900\paperh16840\margl1440\margr1440\vieww11520\viewh8400\viewkind0
+\deftab720
+\pard\pardeftab720\partightenfactor0
+
+\f0\fs24 \cf2 \cb3 \expnd0\expndtw0\kerning0
+\outl0\strokewidth0 \strokec2 <!\cf4 \strokec4 DOCTYPE\cf5 \strokec5  \cf2 \strokec2 html>\cf5 \cb1 \strokec5 \
+\cf2 \cb3 \strokec2 <\cf4 \strokec4 html\cf5 \strokec5  \cf2 \strokec2 lang\cf5 \strokec5 =\cf6 \strokec6 "zh-CN"\cf2 \strokec2 >\cf5 \cb1 \strokec5 \
+\cf2 \cb3 \strokec2 <\cf4 \strokec4 head\cf2 \strokec2 >\cf5 \cb1 \strokec5 \
+\pard\pardeftab720\partightenfactor0
+\cf5 \cb3     \cf2 \strokec2 <\cf4 \strokec4 meta\cf5 \strokec5  \cf2 \strokec2 charset\cf5 \strokec5 =\cf6 \strokec6 "UTF-8"\cf2 \strokec2 >\cf5 \cb1 \strokec5 \
+\cb3     \cf2 \strokec2 <\cf4 \strokec4 meta\cf5 \strokec5  \cf2 \strokec2 name\cf5 \strokec5 =\cf6 \strokec6 "viewport"\cf5 \strokec5  \cf2 \strokec2 content\cf5 \strokec5 =\cf6 \strokec6 "width=device-width, initial-scale=1.0"\cf2 \strokec2 >\cf5 \cb1 \strokec5 \
+\cb3     \cf2 \strokec2 <\cf4 \strokec4 title\cf2 \strokec2 >\cf5 \strokec5 \uc0\u21271 \u29702 \u24037 \u25968 \u23383 \u36720 \u28856  - \u20013 \u26085 \u21452 \u35821 \u21475 \u35793 \u27979 \u35797 \u24037 \u20855 \cf2 \strokec2 </\cf4 \strokec4 title\cf2 \strokec2 >\cf5 \cb1 \strokec5 \
+\cb3     \cf2 \strokec2 <\cf4 \strokec4 style\cf2 \strokec2 >\cf5 \cb1 \strokec5 \
+\cb3         \cf4 \strokec4 *\cf5 \strokec5  \{\cb1 \
+\cb3             \cf7 \strokec7 margin\cf5 \strokec5 : \cf8 \strokec8 0\cf5 \strokec5 ;\cb1 \
+\cb3             \cf7 \strokec7 padding\cf5 \strokec5 : \cf8 \strokec8 0\cf5 \strokec5 ;\cb1 \
+\cb3             \cf7 \strokec7 box-sizing\cf5 \strokec5 : border-box;\cb1 \
+\cb3         \}\cb1 \
+\
+\cb3         \cf4 \strokec4 body\cf5 \strokec5  \{\cb1 \
+\cb3             \cf7 \strokec7 font-family\cf5 \strokec5 : \cf6 \strokec6 'Microsoft YaHei'\cf5 \strokec5 , \cf6 \strokec6 'PingFang SC'\cf5 \strokec5 , sans-serif;\cb1 \
+\cb3             \cf7 \strokec7 background\cf5 \strokec5 : \cf4 \strokec4 linear-gradient\cf5 \strokec5 (\cf8 \strokec8 135\cf7 \strokec7 deg\cf5 \strokec5 , \cf9 \strokec9 #667eea\cf5 \strokec5  \cf8 \strokec8 0\cf7 \strokec7 %\cf5 \strokec5 , \cf9 \strokec9 #764ba2\cf5 \strokec5  \cf8 \strokec8 100\cf7 \strokec7 %\cf5 \strokec5 );\cb1 \
+\cb3             \cf7 \strokec7 min-height\cf5 \strokec5 : \cf8 \strokec8 100\cf7 \strokec7 vh\cf5 \strokec5 ;\cb1 \
+\cb3             \cf7 \strokec7 display\cf5 \strokec5 : flex;\cb1 \
+\cb3             \cf7 \strokec7 justify-content\cf5 \strokec5 : center;\cb1 \
+\cb3             \cf7 \strokec7 align-items\cf5 \strokec5 : center;\cb1 \
+\cb3             \cf7 \strokec7 padding\cf5 \strokec5 : \cf8 \strokec8 20\cf7 \strokec7 px\cf5 \strokec5 ;\cb1 \
+\cb3         \}\cb1 \
+\
+\cb3         \cf2 \strokec2 .container\cf5 \strokec5  \{\cb1 \
+\cb3             \cf7 \strokec7 background\cf5 \strokec5 : white;\cb1 \
+\cb3             \cf7 \strokec7 border-radius\cf5 \strokec5 : \cf8 \strokec8 20\cf7 \strokec7 px\cf5 \strokec5 ;\cb1 \
+\cb3             \cf7 \strokec7 box-shadow\cf5 \strokec5 : \cf8 \strokec8 0\cf5 \strokec5  \cf8 \strokec8 20\cf7 \strokec7 px\cf5 \strokec5  \cf8 \strokec8 60\cf7 \strokec7 px\cf5 \strokec5  \cf4 \strokec4 rgba\cf5 \strokec5 (\cf8 \strokec8 0\cf5 \strokec5 , \cf8 \strokec8 0\cf5 \strokec5 , \cf8 \strokec8 0\cf5 \strokec5 , \cf8 \strokec8 0.3\cf5 \strokec5 );\cb1 \
+\cb3             \cf7 \strokec7 padding\cf5 \strokec5 : \cf8 \strokec8 40\cf7 \strokec7 px\cf5 \strokec5 ;\cb1 \
+\cb3             \cf7 \strokec7 max-width\cf5 \strokec5 : \cf8 \strokec8 950\cf7 \strokec7 px\cf5 \strokec5 ;\cb1 \
+\cb3             \cf7 \strokec7 width\cf5 \strokec5 : \cf8 \strokec8 100\cf7 \strokec7 %\cf5 \strokec5 ;\cb1 \
+\cb3         \}\cb1 \
+\
+\cb3         \cf4 \strokec4 h1\cf5 \strokec5  \{\cb1 \
+\cb3             \cf7 \strokec7 text-align\cf5 \strokec5 : center;\cb1 \
+\cb3             \cf7 \strokec7 color\cf5 \strokec5 : \cf9 \strokec9 #333\cf5 \strokec5 ;\cb1 \
+\cb3             \cf7 \strokec7 font-size\cf5 \strokec5 : \cf8 \strokec8 32\cf7 \strokec7 px\cf5 \strokec5 ;\cb1 \
+\cb3             \cf7 \strokec7 margin-bottom\cf5 \strokec5 : \cf8 \strokec8 30\cf7 \strokec7 px\cf5 \strokec5 ;\cb1 \
+\cb3             \cf7 \strokec7 font-weight\cf5 \strokec5 : \cf8 \strokec8 600\cf5 \strokec5 ;\cb1 \
+\cb3         \}\cb1 \
+\
+\cb3         \cf2 \strokec2 .subtitle\cf5 \strokec5  \{\cb1 \
+\cb3             \cf7 \strokec7 font-size\cf5 \strokec5 : \cf8 \strokec8 24\cf7 \strokec7 px\cf5 \strokec5 ;\cb1 \
+\cb3             \cf7 \strokec7 font-weight\cf5 \strokec5 : \cf8 \strokec8 400\cf5 \strokec5 ;\cb1 \
+\cb3             \cf7 \strokec7 color\cf5 \strokec5 : \cf9 \strokec9 #666\cf5 \strokec5 ;\cb1 \
+\cb3             \cf7 \strokec7 margin-top\cf5 \strokec5 : \cf8 \strokec8 10\cf7 \strokec7 px\cf5 \strokec5 ;\cb1 \
+\cb3         \}\cb1 \
+\
+\cb3         \cf2 \strokec2 .control-panel\cf5 \strokec5  \{\cb1 \
+\cb3             \cf7 \strokec7 background\cf5 \strokec5 : \cf9 \strokec9 #f8f9fa\cf5 \strokec5 ;\cb1 \
+\cb3             \cf7 \strokec7 border-radius\cf5 \strokec5 : \cf8 \strokec8 12\cf7 \strokec7 px\cf5 \strokec5 ;\cb1 \
+\cb3             \cf7 \strokec7 padding\cf5 \strokec5 : \cf8 \strokec8 25\cf7 \strokec7 px\cf5 \strokec5 ;\cb1 \
+\cb3             \cf7 \strokec7 margin-bottom\cf5 \strokec5 : \cf8 \strokec8 40\cf7 \strokec7 px\cf5 \strokec5 ;\cb1 \
+\cb3         \}\cb1 \
+\
+\cb3         \cf2 \strokec2 .control-section\cf5 \strokec5  \{\cb1 \
+\cb3             \cf7 \strokec7 margin-bottom\cf5 \strokec5 : \cf8 \strokec8 20\cf7 \strokec7 px\cf5 \strokec5 ;\cb1 \
+\cb3         \}\cb1 \
+\
+\cb3         \cf2 \strokec2 .control-section:last-child\cf5 \strokec5  \{\cb1 \
+\cb3             \cf7 \strokec7 margin-bottom\cf5 \strokec5 : \cf8 \strokec8 0\cf5 \strokec5 ;\cb1 \
+\cb3         \}\cb1 \
+\
+\cb3         \cf2 \strokec2 .control-section\cf5 \strokec5  \cf4 \strokec4 label\cf5 \strokec5  \{\cb1 \
+\cb3             \cf7 \strokec7 display\cf5 \strokec5 : block;\cb1 \
+\cb3             \cf7 \strokec7 color\cf5 \strokec5 : \cf9 \strokec9 #555\cf5 \strokec5 ;\cb1 \
+\cb3             \cf7 \strokec7 font-size\cf5 \strokec5 : \cf8 \strokec8 16\cf7 \strokec7 px\cf5 \strokec5 ;\cb1 \
+\cb3             \cf7 \strokec7 margin-bottom\cf5 \strokec5 : \cf8 \strokec8 10\cf7 \strokec7 px\cf5 \strokec5 ;\cb1 \
+\cb3             \cf7 \strokec7 font-weight\cf5 \strokec5 : \cf8 \strokec8 500\cf5 \strokec5 ;\cb1 \
+\cb3         \}\cb1 \
+\
+\cb3         \cf2 \strokec2 .radio-group\cf5 \strokec5  \{\cb1 \
+\cb3             \cf7 \strokec7 display\cf5 \strokec5 : flex;\cb1 \
+\cb3             \cf7 \strokec7 gap\cf5 \strokec5 : \cf8 \strokec8 20\cf7 \strokec7 px\cf5 \strokec5 ;\cb1 \
+\cb3             \cf7 \strokec7 flex-wrap\cf5 \strokec5 : wrap;\cb1 \
+\cb3         \}\cb1 \
+\
+\cb3         \cf2 \strokec2 .radio-option\cf5 \strokec5  \{\cb1 \
+\cb3             \cf7 \strokec7 display\cf5 \strokec5 : flex;\cb1 \
+\cb3             \cf7 \strokec7 align-items\cf5 \strokec5 : center;\cb1 \
+\cb3             \cf7 \strokec7 gap\cf5 \strokec5 : \cf8 \strokec8 8\cf7 \strokec7 px\cf5 \strokec5 ;\cb1 \
+\cb3             \cf7 \strokec7 cursor\cf5 \strokec5 : pointer;\cb1 \
+\cb3         \}\cb1 \
+\
+\cb3         \cf2 \strokec2 .radio-option\cf5 \strokec5  \cf4 \strokec4 input\cf5 \strokec5 [\cf2 \strokec2 type\cf7 \strokec7 =\cf6 \strokec6 "radio"\cf5 \strokec5 ] \{\cb1 \
+\cb3             \cf7 \strokec7 width\cf5 \strokec5 : \cf8 \strokec8 18\cf7 \strokec7 px\cf5 \strokec5 ;\cb1 \
+\cb3             \cf7 \strokec7 height\cf5 \strokec5 : \cf8 \strokec8 18\cf7 \strokec7 px\cf5 \strokec5 ;\cb1 \
+\cb3             \cf7 \strokec7 cursor\cf5 \strokec5 : pointer;\cb1 \
+\cb3         \}\cb1 \
+\
+\cb3         \cf2 \strokec2 .radio-option\cf5 \strokec5  \cf4 \strokec4 span\cf5 \strokec5  \{\cb1 \
+\cb3             \cf7 \strokec7 font-size\cf5 \strokec5 : \cf8 \strokec8 15\cf7 \strokec7 px\cf5 \strokec5 ;\cb1 \
+\cb3             \cf7 \strokec7 color\cf5 \strokec5 : \cf9 \strokec9 #666\cf5 \strokec5 ;\cb1 \
+\cb3         \}\cb1 \
+\
+\cb3         \cf4 \strokec4 select\cf5 \strokec5  \{\cb1 \
+\cb3             \cf7 \strokec7 width\cf5 \strokec5 : \cf8 \strokec8 100\cf7 \strokec7 %\cf5 \strokec5 ;\cb1 \
+\cb3             \cf7 \strokec7 padding\cf5 \strokec5 : \cf8 \strokec8 10\cf7 \strokec7 px\cf5 \strokec5 ;\cb1 \
+\cb3             \cf7 \strokec7 font-size\cf5 \strokec5 : \cf8 \strokec8 15\cf7 \strokec7 px\cf5 \strokec5 ;\cb1 \
+\cb3             \cf7 \strokec7 border\cf5 \strokec5 : \cf8 \strokec8 2\cf7 \strokec7 px\cf5 \strokec5  solid \cf9 \strokec9 #ddd\cf5 \strokec5 ;\cb1 \
+\cb3             \cf7 \strokec7 border-radius\cf5 \strokec5 : \cf8 \strokec8 8\cf7 \strokec7 px\cf5 \strokec5 ;\cb1 \
+\cb3             \cf7 \strokec7 background\cf5 \strokec5 : white;\cb1 \
+\cb3             \cf7 \strokec7 cursor\cf5 \strokec5 : pointer;\cb1 \
+\cb3             \cf7 \strokec7 font-family\cf5 \strokec5 : inherit;\cb1 \
+\cb3         \}\cb1 \
+\
+\cb3         \cf4 \strokec4 select\cf2 \strokec2 :focus\cf5 \strokec5  \{\cb1 \
+\cb3             \cf7 \strokec7 outline\cf5 \strokec5 : none;\cb1 \
+\cb3             \cf7 \strokec7 border-color\cf5 \strokec5 : \cf9 \strokec9 #667eea\cf5 \strokec5 ;\cb1 \
+\cb3         \}\cb1 \
+\
+\cb3         \cf2 \strokec2 .button-group\cf5 \strokec5  \{\cb1 \
+\cb3             \cf7 \strokec7 display\cf5 \strokec5 : flex;\cb1 \
+\cb3             \cf7 \strokec7 gap\cf5 \strokec5 : \cf8 \strokec8 15\cf7 \strokec7 px\cf5 \strokec5 ;\cb1 \
+\cb3             \cf7 \strokec7 justify-content\cf5 \strokec5 : center;\cb1 \
+\cb3             \cf7 \strokec7 margin-top\cf5 \strokec5 : \cf8 \strokec8 25\cf7 \strokec7 px\cf5 \strokec5 ;\cb1 \
+\cb3             \cf7 \strokec7 flex-wrap\cf5 \strokec5 : wrap;\cb1 \
+\cb3         \}\cb1 \
+\
+\cb3         \cf4 \strokec4 button\cf5 \strokec5  \{\cb1 \
+\cb3             \cf7 \strokec7 padding\cf5 \strokec5 : \cf8 \strokec8 12\cf7 \strokec7 px\cf5 \strokec5  \cf8 \strokec8 30\cf7 \strokec7 px\cf5 \strokec5 ;\cb1 \
+\cb3             \cf7 \strokec7 font-size\cf5 \strokec5 : \cf8 \strokec8 16\cf7 \strokec7 px\cf5 \strokec5 ;\cb1 \
+\cb3             \cf7 \strokec7 border\cf5 \strokec5 : none;\cb1 \
+\cb3             \cf7 \strokec7 border-radius\cf5 \strokec5 : \cf8 \strokec8 8\cf7 \strokec7 px\cf5 \strokec5 ;\cb1 \
+\cb3             \cf7 \strokec7 cursor\cf5 \strokec5 : pointer;\cb1 \
+\cb3             \cf7 \strokec7 font-weight\cf5 \strokec5 : \cf8 \strokec8 500\cf5 \strokec5 ;\cb1 \
+\cb3             \cf7 \strokec7 transition\cf5 \strokec5 : all \cf8 \strokec8 0.3\cf7 \strokec7 s\cf5 \strokec5  ease;\cb1 \
+\cb3             \cf7 \strokec7 font-family\cf5 \strokec5 : inherit;\cb1 \
+\cb3         \}\cb1 \
+\
+\cb3         \cf2 \strokec2 .btn-start\cf5 \strokec5  \{\cb1 \
+\cb3             \cf7 \strokec7 background\cf5 \strokec5 : \cf4 \strokec4 linear-gradient\cf5 \strokec5 (\cf8 \strokec8 135\cf7 \strokec7 deg\cf5 \strokec5 , \cf9 \strokec9 #00b894\cf5 \strokec5  \cf8 \strokec8 0\cf7 \strokec7 %\cf5 \strokec5 , \cf9 \strokec9 #00a085\cf5 \strokec5  \cf8 \strokec8 100\cf7 \strokec7 %\cf5 \strokec5 );\cb1 \
+\cb3             \cf7 \strokec7 color\cf5 \strokec5 : white;\cb1 \
+\cb3         \}\cb1 \
+\
+\cb3         \cf2 \strokec2 .btn-start:hover\cf5 \strokec5  \{\cb1 \
+\cb3             \cf7 \strokec7 transform\cf5 \strokec5 : \cf4 \strokec4 translateY\cf5 \strokec5 (\cf8 \strokec8 -2\cf7 \strokec7 px\cf5 \strokec5 );\cb1 \
+\cb3             \cf7 \strokec7 box-shadow\cf5 \strokec5 : \cf8 \strokec8 0\cf5 \strokec5  \cf8 \strokec8 8\cf7 \strokec7 px\cf5 \strokec5  \cf8 \strokec8 20\cf7 \strokec7 px\cf5 \strokec5  \cf4 \strokec4 rgba\cf5 \strokec5 (\cf8 \strokec8 0\cf5 \strokec5 , \cf8 \strokec8 184\cf5 \strokec5 , \cf8 \strokec8 148\cf5 \strokec5 , \cf8 \strokec8 0.4\cf5 \strokec5 );\cb1 \
+\cb3         \}\cb1 \
+\
+\cb3         \cf2 \strokec2 .btn-stop\cf5 \strokec5  \{\cb1 \
+\cb3             \cf7 \strokec7 background\cf5 \strokec5 : \cf4 \strokec4 linear-gradient\cf5 \strokec5 (\cf8 \strokec8 135\cf7 \strokec7 deg\cf5 \strokec5 , \cf9 \strokec9 #d63031\cf5 \strokec5  \cf8 \strokec8 0\cf7 \strokec7 %\cf5 \strokec5 , \cf9 \strokec9 #c0392b\cf5 \strokec5  \cf8 \strokec8 100\cf7 \strokec7 %\cf5 \strokec5 );\cb1 \
+\cb3             \cf7 \strokec7 color\cf5 \strokec5 : white;\cb1 \
+\cb3         \}\cb1 \
+\
+\cb3         \cf2 \strokec2 .btn-stop:hover\cf5 \strokec5  \{\cb1 \
+\cb3             \cf7 \strokec7 transform\cf5 \strokec5 : \cf4 \strokec4 translateY\cf5 \strokec5 (\cf8 \strokec8 -2\cf7 \strokec7 px\cf5 \strokec5 );\cb1 \
+\cb3             \cf7 \strokec7 box-shadow\cf5 \strokec5 : \cf8 \strokec8 0\cf5 \strokec5  \cf8 \strokec8 8\cf7 \strokec7 px\cf5 \strokec5  \cf8 \strokec8 20\cf7 \strokec7 px\cf5 \strokec5  \cf4 \strokec4 rgba\cf5 \strokec5 (\cf8 \strokec8 214\cf5 \strokec5 , \cf8 \strokec8 48\cf5 \strokec5 , \cf8 \strokec8 49\cf5 \strokec5 , \cf8 \strokec8 0.4\cf5 \strokec5 );\cb1 \
+\cb3         \}\cb1 \
+\
+\cb3         \cf2 \strokec2 .btn-clear\cf5 \strokec5  \{\cb1 \
+\cb3             \cf7 \strokec7 background\cf5 \strokec5 : \cf4 \strokec4 linear-gradient\cf5 \strokec5 (\cf8 \strokec8 135\cf7 \strokec7 deg\cf5 \strokec5 , \cf9 \strokec9 #636e72\cf5 \strokec5  \cf8 \strokec8 0\cf7 \strokec7 %\cf5 \strokec5 , \cf9 \strokec9 #576574\cf5 \strokec5  \cf8 \strokec8 100\cf7 \strokec7 %\cf5 \strokec5 );\cb1 \
+\cb3             \cf7 \strokec7 color\cf5 \strokec5 : white;\cb1 \
+\cb3         \}\cb1 \
+\
+\cb3         \cf2 \strokec2 .btn-clear:hover\cf5 \strokec5  \{\cb1 \
+\cb3             \cf7 \strokec7 transform\cf5 \strokec5 : \cf4 \strokec4 translateY\cf5 \strokec5 (\cf8 \strokec8 -2\cf7 \strokec7 px\cf5 \strokec5 );\cb1 \
+\cb3             \cf7 \strokec7 box-shadow\cf5 \strokec5 : \cf8 \strokec8 0\cf5 \strokec5  \cf8 \strokec8 8\cf7 \strokec7 px\cf5 \strokec5  \cf8 \strokec8 20\cf7 \strokec7 px\cf5 \strokec5  \cf4 \strokec4 rgba\cf5 \strokec5 (\cf8 \strokec8 99\cf5 \strokec5 , \cf8 \strokec8 110\cf5 \strokec5 , \cf8 \strokec8 114\cf5 \strokec5 , \cf8 \strokec8 0.4\cf5 \strokec5 );\cb1 \
+\cb3         \}\cb1 \
+\
+\cb3         \cf2 \strokec2 .btn-test\cf5 \strokec5  \{\cb1 \
+\cb3             \cf7 \strokec7 background\cf5 \strokec5 : \cf4 \strokec4 linear-gradient\cf5 \strokec5 (\cf8 \strokec8 135\cf7 \strokec7 deg\cf5 \strokec5 , \cf9 \strokec9 #0984e3\cf5 \strokec5  \cf8 \strokec8 0\cf7 \strokec7 %\cf5 \strokec5 , \cf9 \strokec9 #0770c4\cf5 \strokec5  \cf8 \strokec8 100\cf7 \strokec7 %\cf5 \strokec5 );\cb1 \
+\cb3             \cf7 \strokec7 color\cf5 \strokec5 : white;\cb1 \
+\cb3         \}\cb1 \
+\
+\cb3         \cf2 \strokec2 .btn-test:hover\cf5 \strokec5  \{\cb1 \
+\cb3             \cf7 \strokec7 transform\cf5 \strokec5 : \cf4 \strokec4 translateY\cf5 \strokec5 (\cf8 \strokec8 -2\cf7 \strokec7 px\cf5 \strokec5 );\cb1 \
+\cb3             \cf7 \strokec7 box-shadow\cf5 \strokec5 : \cf8 \strokec8 0\cf5 \strokec5  \cf8 \strokec8 8\cf7 \strokec7 px\cf5 \strokec5  \cf8 \strokec8 20\cf7 \strokec7 px\cf5 \strokec5  \cf4 \strokec4 rgba\cf5 \strokec5 (\cf8 \strokec8 9\cf5 \strokec5 , \cf8 \strokec8 132\cf5 \strokec5 , \cf8 \strokec8 227\cf5 \strokec5 , \cf8 \strokec8 0.4\cf5 \strokec5 );\cb1 \
+\cb3         \}\cb1 \
+\
+\cb3         \cf4 \strokec4 button\cf2 \strokec2 :disabled\cf5 \strokec5  \{\cb1 \
+\cb3             \cf7 \strokec7 opacity\cf5 \strokec5 : \cf8 \strokec8 0.5\cf5 \strokec5 ;\cb1 \
+\cb3             \cf7 \strokec7 cursor\cf5 \strokec5 : not-allowed;\cb1 \
+\cb3             \cf7 \strokec7 transform\cf5 \strokec5 : none \cf7 \strokec7 !important\cf5 \strokec5 ;\cb1 \
+\cb3         \}\cb1 \
+\
+\cb3         \cf2 \strokec2 .input-section\cf5 \strokec5  \{\cb1 \
+\cb3             \cf7 \strokec7 margin-top\cf5 \strokec5 : \cf8 \strokec8 60\cf7 \strokec7 px\cf5 \strokec5 ;\cb1 \
+\cb3             \cf7 \strokec7 padding-top\cf5 \strokec5 : \cf8 \strokec8 30\cf7 \strokec7 px\cf5 \strokec5 ;\cb1 \
+\cb3             \cf7 \strokec7 border-top\cf5 \strokec5 : \cf8 \strokec8 2\cf7 \strokec7 px\cf5 \strokec5  dashed \cf9 \strokec9 #e0e0e0\cf5 \strokec5 ;\cb1 \
+\cb3         \}\cb1 \
+\
+\cb3         \cf2 \strokec2 .input-section\cf5 \strokec5  \cf4 \strokec4 h3\cf5 \strokec5  \{\cb1 \
+\cb3             \cf7 \strokec7 color\cf5 \strokec5 : \cf9 \strokec9 #555\cf5 \strokec5 ;\cb1 \
+\cb3             \cf7 \strokec7 font-size\cf5 \strokec5 : \cf8 \strokec8 18\cf7 \strokec7 px\cf5 \strokec5 ;\cb1 \
+\cb3             \cf7 \strokec7 margin-bottom\cf5 \strokec5 : \cf8 \strokec8 15\cf7 \strokec7 px\cf5 \strokec5 ;\cb1 \
+\cb3             \cf7 \strokec7 font-weight\cf5 \strokec5 : \cf8 \strokec8 500\cf5 \strokec5 ;\cb1 \
+\cb3         \}\cb1 \
+\
+\cb3         \cf4 \strokec4 textarea\cf5 \strokec5  \{\cb1 \
+\cb3             \cf7 \strokec7 width\cf5 \strokec5 : \cf8 \strokec8 100\cf7 \strokec7 %\cf5 \strokec5 ;\cb1 \
+\cb3             \cf7 \strokec7 min-height\cf5 \strokec5 : \cf8 \strokec8 150\cf7 \strokec7 px\cf5 \strokec5 ;\cb1 \
+\cb3             \cf7 \strokec7 padding\cf5 \strokec5 : \cf8 \strokec8 15\cf7 \strokec7 px\cf5 \strokec5 ;\cb1 \
+\cb3             \cf7 \strokec7 font-size\cf5 \strokec5 : \cf8 \strokec8 16\cf7 \strokec7 px\cf5 \strokec5 ;\cb1 \
+\cb3             \cf7 \strokec7 border\cf5 \strokec5 : \cf8 \strokec8 2\cf7 \strokec7 px\cf5 \strokec5  solid \cf9 \strokec9 #ddd\cf5 \strokec5 ;\cb1 \
+\cb3             \cf7 \strokec7 border-radius\cf5 \strokec5 : \cf8 \strokec8 10\cf7 \strokec7 px\cf5 \strokec5 ;\cb1 \
+\cb3             \cf7 \strokec7 resize\cf5 \strokec5 : vertical;\cb1 \
+\cb3             \cf7 \strokec7 font-family\cf5 \strokec5 : \cf6 \strokec6 'Microsoft YaHei'\cf5 \strokec5 , \cf6 \strokec6 'PingFang SC'\cf5 \strokec5 , sans-serif;\cb1 \
+\cb3             \cf7 \strokec7 line-height\cf5 \strokec5 : \cf8 \strokec8 1.6\cf5 \strokec5 ;\cb1 \
+\cb3         \}\cb1 \
+\
+\cb3         \cf4 \strokec4 textarea\cf2 \strokec2 :focus\cf5 \strokec5  \{\cb1 \
+\cb3             \cf7 \strokec7 outline\cf5 \strokec5 : none;\cb1 \
+\cb3             \cf7 \strokec7 border-color\cf5 \strokec5 : \cf9 \strokec9 #667eea\cf5 \strokec5 ;\cb1 \
+\cb3             \cf7 \strokec7 box-shadow\cf5 \strokec5 : \cf8 \strokec8 0\cf5 \strokec5  \cf8 \strokec8 0\cf5 \strokec5  \cf8 \strokec8 10\cf7 \strokec7 px\cf5 \strokec5  \cf4 \strokec4 rgba\cf5 \strokec5 (\cf8 \strokec8 102\cf5 \strokec5 , \cf8 \strokec8 126\cf5 \strokec5 , \cf8 \strokec8 234\cf5 \strokec5 , \cf8 \strokec8 0.2\cf5 \strokec5 );\cb1 \
+\cb3         \}\cb1 \
+\
+\cb3         \cf2 \strokec2 .status-bar\cf5 \strokec5  \{\cb1 \
+\cb3             \cf7 \strokec7 background\cf5 \strokec5 : \cf9 \strokec9 #fff9e6\cf5 \strokec5 ;\cb1 \
+\cb3             \cf7 \strokec7 border-left\cf5 \strokec5 : \cf8 \strokec8 4\cf7 \strokec7 px\cf5 \strokec5  solid \cf9 \strokec9 #ffc107\cf5 \strokec5 ;\cb1 \
+\cb3             \cf7 \strokec7 padding\cf5 \strokec5 : \cf8 \strokec8 15\cf7 \strokec7 px\cf5 \strokec5 ;\cb1 \
+\cb3             \cf7 \strokec7 margin-top\cf5 \strokec5 : \cf8 \strokec8 20\cf7 \strokec7 px\cf5 \strokec5 ;\cb1 \
+\cb3             \cf7 \strokec7 border-radius\cf5 \strokec5 : \cf8 \strokec8 6\cf7 \strokec7 px\cf5 \strokec5 ;\cb1 \
+\cb3             \cf7 \strokec7 min-height\cf5 \strokec5 : \cf8 \strokec8 50\cf7 \strokec7 px\cf5 \strokec5 ;\cb1 \
+\cb3         \}\cb1 \
+\
+\cb3         \cf2 \strokec2 .status-bar\cf5 \strokec5  \cf4 \strokec4 p\cf5 \strokec5  \{\cb1 \
+\cb3             \cf7 \strokec7 color\cf5 \strokec5 : \cf9 \strokec9 #666\cf5 \strokec5 ;\cb1 \
+\cb3             \cf7 \strokec7 font-size\cf5 \strokec5 : \cf8 \strokec8 15\cf7 \strokec7 px\cf5 \strokec5 ;\cb1 \
+\cb3             \cf7 \strokec7 line-height\cf5 \strokec5 : \cf8 \strokec8 1.6\cf5 \strokec5 ;\cb1 \
+\cb3         \}\cb1 \
+\
+\cb3         \cf2 \strokec2 .sentence-display\cf5 \strokec5  \{\cb1 \
+\cb3             \cf7 \strokec7 background\cf5 \strokec5 : \cf9 \strokec9 #e3f2fd\cf5 \strokec5 ;\cb1 \
+\cb3             \cf7 \strokec7 padding\cf5 \strokec5 : \cf8 \strokec8 20\cf7 \strokec7 px\cf5 \strokec5 ;\cb1 \
+\cb3             \cf7 \strokec7 margin-top\cf5 \strokec5 : \cf8 \strokec8 20\cf7 \strokec7 px\cf5 \strokec5 ;\cb1 \
+\cb3             \cf7 \strokec7 border-radius\cf5 \strokec5 : \cf8 \strokec8 10\cf7 \strokec7 px\cf5 \strokec5 ;\cb1 \
+\cb3             \cf7 \strokec7 min-height\cf5 \strokec5 : \cf8 \strokec8 80\cf7 \strokec7 px\cf5 \strokec5 ;\cb1 \
+\cb3             \cf7 \strokec7 border-left\cf5 \strokec5 : \cf8 \strokec8 4\cf7 \strokec7 px\cf5 \strokec5  solid \cf9 \strokec9 #2196f3\cf5 \strokec5 ;\cb1 \
+\cb3         \}\cb1 \
+\
+\cb3         \cf2 \strokec2 .sentence-display\cf5 \strokec5  \cf4 \strokec4 p\cf5 \strokec5  \{\cb1 \
+\cb3             \cf7 \strokec7 font-size\cf5 \strokec5 : \cf8 \strokec8 18\cf7 \strokec7 px\cf5 \strokec5 ;\cb1 \
+\cb3             \cf7 \strokec7 color\cf5 \strokec5 : \cf9 \strokec9 #333\cf5 \strokec5 ;\cb1 \
+\cb3             \cf7 \strokec7 line-height\cf5 \strokec5 : \cf8 \strokec8 1.8\cf5 \strokec5 ;\cb1 \
+\cb3         \}\cb1 \
+\
+\cb3         \cf2 \strokec2 .hint\cf5 \strokec5  \{\cb1 \
+\cb3             \cf7 \strokec7 font-size\cf5 \strokec5 : \cf8 \strokec8 13\cf7 \strokec7 px\cf5 \strokec5 ;\cb1 \
+\cb3             \cf7 \strokec7 color\cf5 \strokec5 : \cf9 \strokec9 #999\cf5 \strokec5 ;\cb1 \
+\cb3             \cf7 \strokec7 margin-top\cf5 \strokec5 : \cf8 \strokec8 8\cf7 \strokec7 px\cf5 \strokec5 ;\cb1 \
+\cb3         \}\cb1 \
+\
+\cb3         \cf2 \strokec2 .warning\cf5 \strokec5  \{\cb1 \
+\cb3             \cf7 \strokec7 background\cf5 \strokec5 : \cf9 \strokec9 #fff3cd\cf5 \strokec5 ;\cb1 \
+\cb3             \cf7 \strokec7 border\cf5 \strokec5 : \cf8 \strokec8 1\cf7 \strokec7 px\cf5 \strokec5  solid \cf9 \strokec9 #ffc107\cf5 \strokec5 ;\cb1 \
+\cb3             \cf7 \strokec7 border-radius\cf5 \strokec5 : \cf8 \strokec8 8\cf7 \strokec7 px\cf5 \strokec5 ;\cb1 \
+\cb3             \cf7 \strokec7 padding\cf5 \strokec5 : \cf8 \strokec8 15\cf7 \strokec7 px\cf5 \strokec5 ;\cb1 \
+\cb3             \cf7 \strokec7 margin-bottom\cf5 \strokec5 : \cf8 \strokec8 20\cf7 \strokec7 px\cf5 \strokec5 ;\cb1 \
+\cb3             \cf7 \strokec7 color\cf5 \strokec5 : \cf9 \strokec9 #856404\cf5 \strokec5 ;\cb1 \
+\cb3             \cf7 \strokec7 font-size\cf5 \strokec5 : \cf8 \strokec8 14\cf7 \strokec7 px\cf5 \strokec5 ;\cb1 \
+\cb3         \}\cb1 \
+\
+\cb3         \cf2 \strokec2 .info-box\cf5 \strokec5  \{\cb1 \
+\cb3             \cf7 \strokec7 background\cf5 \strokec5 : \cf9 \strokec9 #e7f3ff\cf5 \strokec5 ;\cb1 \
+\cb3             \cf7 \strokec7 border-left\cf5 \strokec5 : \cf8 \strokec8 4\cf7 \strokec7 px\cf5 \strokec5  solid \cf9 \strokec9 #2196f3\cf5 \strokec5 ;\cb1 \
+\cb3             \cf7 \strokec7 padding\cf5 \strokec5 : \cf8 \strokec8 15\cf7 \strokec7 px\cf5 \strokec5 ;\cb1 \
+\cb3             \cf7 \strokec7 margin-top\cf5 \strokec5 : \cf8 \strokec8 15\cf7 \strokec7 px\cf5 \strokec5 ;\cb1 \
+\cb3             \cf7 \strokec7 border-radius\cf5 \strokec5 : \cf8 \strokec8 6\cf7 \strokec7 px\cf5 \strokec5 ;\cb1 \
+\cb3             \cf7 \strokec7 font-size\cf5 \strokec5 : \cf8 \strokec8 14\cf7 \strokec7 px\cf5 \strokec5 ;\cb1 \
+\cb3             \cf7 \strokec7 color\cf5 \strokec5 : \cf9 \strokec9 #555\cf5 \strokec5 ;\cb1 \
+\cb3         \}\cb1 \
+\cb3     \cf2 \strokec2 </\cf4 \strokec4 style\cf2 \strokec2 >\cf5 \cb1 \strokec5 \
+\pard\pardeftab720\partightenfactor0
+\cf2 \cb3 \strokec2 </\cf4 \strokec4 head\cf2 \strokec2 >\cf5 \cb1 \strokec5 \
+\cf2 \cb3 \strokec2 <\cf4 \strokec4 body\cf2 \strokec2 >\cf5 \cb1 \strokec5 \
+\pard\pardeftab720\partightenfactor0
+\cf5 \cb3     \cf2 \strokec2 <\cf4 \strokec4 div\cf5 \strokec5  \cf2 \strokec2 class\cf5 \strokec5 =\cf6 \strokec6 "container"\cf2 \strokec2 >\cf5 \cb1 \strokec5 \
+\cb3         \cf2 \strokec2 <\cf4 \strokec4 h1\cf2 \strokec2 >\cf5 \cb1 \strokec5 \
+\cb3             \uc0\u21271 \u29702 \u24037 \u25968 \u23383 \u36720 \u28856 \cb1 \
+\cb3             \cf2 \strokec2 <\cf4 \strokec4 div\cf5 \strokec5  \cf2 \strokec2 class\cf5 \strokec5 =\cf6 \strokec6 "subtitle"\cf2 \strokec2 >\cf5 \strokec5 \uc0\u20013 \u26085 \u21452 \u35821 \u21475 \u35793 \u27979 \u35797 \u24037 \u20855 \cf2 \strokec2 </\cf4 \strokec4 div\cf2 \strokec2 >\cf5 \cb1 \strokec5 \
+\cb3         \cf2 \strokec2 </\cf4 \strokec4 h1\cf2 \strokec2 >\cf5 \cb1 \strokec5 \
+\cb3         \cb1 \
+\cb3         
+\f1\i \cf2 \strokec2 <!-- \uc0\u25511 \u21046 \u38754 \u26495 \u21306 \u22495  -->
+\f0\i0 \cf5 \cb1 \strokec5 \
+\cb3         \cf2 \strokec2 <\cf4 \strokec4 div\cf5 \strokec5  \cf2 \strokec2 class\cf5 \strokec5 =\cf6 \strokec6 "control-panel"\cf2 \strokec2 >\cf5 \cb1 \strokec5 \
+\cb3             \cf2 \strokec2 <\cf4 \strokec4 div\cf5 \strokec5  \cf2 \strokec2 class\cf5 \strokec5 =\cf6 \strokec6 "control-section"\cf2 \strokec2 >\cf5 \cb1 \strokec5 \
+\cb3                 \cf2 \strokec2 <\cf4 \strokec4 label\cf2 \strokec2 >\cf5 \strokec5 \uc0\u26391 \u35835 \u35821 \u35328 \u65306 \cf2 \strokec2 </\cf4 \strokec4 label\cf2 \strokec2 >\cf5 \cb1 \strokec5 \
+\cb3                 \cf2 \strokec2 <\cf4 \strokec4 div\cf5 \strokec5  \cf2 \strokec2 class\cf5 \strokec5 =\cf6 \strokec6 "radio-group"\cf2 \strokec2 >\cf5 \cb1 \strokec5 \
+\cb3                     \cf2 \strokec2 <\cf4 \strokec4 label\cf5 \strokec5  \cf2 \strokec2 class\cf5 \strokec5 =\cf6 \strokec6 "radio-option"\cf2 \strokec2 >\cf5 \cb1 \strokec5 \
+\cb3                         \cf2 \strokec2 <\cf4 \strokec4 input\cf5 \strokec5  \cf2 \strokec2 type\cf5 \strokec5 =\cf6 \strokec6 "radio"\cf5 \strokec5  \cf2 \strokec2 name\cf5 \strokec5 =\cf6 \strokec6 "language"\cf5 \strokec5  \cf2 \strokec2 value\cf5 \strokec5 =\cf6 \strokec6 "zh-CN"\cf5 \strokec5  \cf2 \strokec2 checked\cf5 \strokec5  \cf2 \strokec2 onchange\cf5 \strokec5 =\cf6 \strokec6 "\cf4 \strokec4 updateVoiceList\cf6 \strokec6 ()"\cf2 \strokec2 >\cf5 \cb1 \strokec5 \
+\cb3                         \cf2 \strokec2 <\cf4 \strokec4 span\cf2 \strokec2 >\cf5 \strokec5 \uc0\u20013 \u25991 \u26391 \u35835 \cf2 \strokec2 </\cf4 \strokec4 span\cf2 \strokec2 >\cf5 \cb1 \strokec5 \
+\cb3                     \cf2 \strokec2 </\cf4 \strokec4 label\cf2 \strokec2 >\cf5 \cb1 \strokec5 \
+\cb3                     \cf2 \strokec2 <\cf4 \strokec4 label\cf5 \strokec5  \cf2 \strokec2 class\cf5 \strokec5 =\cf6 \strokec6 "radio-option"\cf2 \strokec2 >\cf5 \cb1 \strokec5 \
+\cb3                         \cf2 \strokec2 <\cf4 \strokec4 input\cf5 \strokec5  \cf2 \strokec2 type\cf5 \strokec5 =\cf6 \strokec6 "radio"\cf5 \strokec5  \cf2 \strokec2 name\cf5 \strokec5 =\cf6 \strokec6 "language"\cf5 \strokec5  \cf2 \strokec2 value\cf5 \strokec5 =\cf6 \strokec6 "ja-JP"\cf5 \strokec5  \cf2 \strokec2 onchange\cf5 \strokec5 =\cf6 \strokec6 "\cf4 \strokec4 updateVoiceList\cf6 \strokec6 ()"\cf2 \strokec2 >\cf5 \cb1 \strokec5 \
+\cb3                         \cf2 \strokec2 <\cf4 \strokec4 span\cf2 \strokec2 >\cf5 \strokec5 \uc0\u26085 \u25991 \u26391 \u35835 \cf2 \strokec2 </\cf4 \strokec4 span\cf2 \strokec2 >\cf5 \cb1 \strokec5 \
+\cb3                     \cf2 \strokec2 </\cf4 \strokec4 label\cf2 \strokec2 >\cf5 \cb1 \strokec5 \
+\cb3                 \cf2 \strokec2 </\cf4 \strokec4 div\cf2 \strokec2 >\cf5 \cb1 \strokec5 \
+\cb3             \cf2 \strokec2 </\cf4 \strokec4 div\cf2 \strokec2 >\cf5 \cb1 \strokec5 \
+\
+\cb3             \cf2 \strokec2 <\cf4 \strokec4 div\cf5 \strokec5  \cf2 \strokec2 class\cf5 \strokec5 =\cf6 \strokec6 "control-section"\cf2 \strokec2 >\cf5 \cb1 \strokec5 \
+\cb3                 \cf2 \strokec2 <\cf4 \strokec4 label\cf2 \strokec2 >\cf5 \strokec5 \uc0\u35821 \u38899 \u24341 \u25806 \u65288 \u37325 \u35201 \u65289 \u65306 \cf2 \strokec2 </\cf4 \strokec4 label\cf2 \strokec2 >\cf5 \cb1 \strokec5 \
+\cb3                 \cf2 \strokec2 <\cf4 \strokec4 select\cf5 \strokec5  \cf2 \strokec2 id\cf5 \strokec5 =\cf6 \strokec6 "voiceSelect"\cf2 \strokec2 ></\cf4 \strokec4 select\cf2 \strokec2 >\cf5 \cb1 \strokec5 \
+\cb3                 \cf2 \strokec2 <\cf4 \strokec4 div\cf5 \strokec5  \cf2 \strokec2 class\cf5 \strokec5 =\cf6 \strokec6 "info-box"\cf2 \strokec2 >\cf5 \cb1 \strokec5 \
+\cb3                     \uc0\u55357 \u56481  \u25552 \u31034 \u65306 Mac\u29992 \u25143 \u35831 \u36873 \u25321 \u21253 \u21547 "Kyoko"\u12289 "Otoya"\u25110 "Siri"\u30340 \u26085 \u35821 \u35821 \u38899 \cf2 \strokec2 <\cf4 \strokec4 br\cf2 \strokec2 >\cf5 \cb1 \strokec5 \
+\cb3                     \uc0\u22914 \u26524 \u27809 \u26377 \u26085 \u35821 \u36873 \u39033 \u65292 \u35831 \u28857 \u20987 \u19979 \u26041 "\u27979 \u35797 \u35821 \u38899 "\u25353 \u38062 \cb1 \
+\cb3                 \cf2 \strokec2 </\cf4 \strokec4 div\cf2 \strokec2 >\cf5 \cb1 \strokec5 \
+\cb3             \cf2 \strokec2 </\cf4 \strokec4 div\cf2 \strokec2 >\cf5 \cb1 \strokec5 \
+\
+\cb3             \cf2 \strokec2 <\cf4 \strokec4 div\cf5 \strokec5  \cf2 \strokec2 class\cf5 \strokec5 =\cf6 \strokec6 "control-section"\cf2 \strokec2 >\cf5 \cb1 \strokec5 \
+\cb3                 \cf2 \strokec2 <\cf4 \strokec4 label\cf2 \strokec2 >\cf5 \strokec5 \uc0\u21477 \u23376 \u38388 \u20572 \u39039 \u26102 \u38388 \u65306 \cf2 \strokec2 </\cf4 \strokec4 label\cf2 \strokec2 >\cf5 \cb1 \strokec5 \
+\cb3                 \cf2 \strokec2 <\cf4 \strokec4 div\cf5 \strokec5  \cf2 \strokec2 class\cf5 \strokec5 =\cf6 \strokec6 "radio-group"\cf2 \strokec2 >\cf5 \cb1 \strokec5 \
+\cb3                     \cf2 \strokec2 <\cf4 \strokec4 label\cf5 \strokec5  \cf2 \strokec2 class\cf5 \strokec5 =\cf6 \strokec6 "radio-option"\cf2 \strokec2 >\cf5 \cb1 \strokec5 \
+\cb3                         \cf2 \strokec2 <\cf4 \strokec4 input\cf5 \strokec5  \cf2 \strokec2 type\cf5 \strokec5 =\cf6 \strokec6 "radio"\cf5 \strokec5  \cf2 \strokec2 name\cf5 \strokec5 =\cf6 \strokec6 "pause"\cf5 \strokec5  \cf2 \strokec2 value\cf5 \strokec5 =\cf6 \strokec6 "5"\cf5 \strokec5  \cf2 \strokec2 checked>\cf5 \cb1 \strokec5 \
+\cb3                         \cf2 \strokec2 <\cf4 \strokec4 span\cf2 \strokec2 >\cf5 \strokec5 5\uc0\u31186 \cf2 \strokec2 </\cf4 \strokec4 span\cf2 \strokec2 >\cf5 \cb1 \strokec5 \
+\cb3                     \cf2 \strokec2 </\cf4 \strokec4 label\cf2 \strokec2 >\cf5 \cb1 \strokec5 \
+\cb3                     \cf2 \strokec2 <\cf4 \strokec4 label\cf5 \strokec5  \cf2 \strokec2 class\cf5 \strokec5 =\cf6 \strokec6 "radio-option"\cf2 \strokec2 >\cf5 \cb1 \strokec5 \
+\cb3                         \cf2 \strokec2 <\cf4 \strokec4 input\cf5 \strokec5  \cf2 \strokec2 type\cf5 \strokec5 =\cf6 \strokec6 "radio"\cf5 \strokec5  \cf2 \strokec2 name\cf5 \strokec5 =\cf6 \strokec6 "pause"\cf5 \strokec5  \cf2 \strokec2 value\cf5 \strokec5 =\cf6 \strokec6 "10"\cf2 \strokec2 >\cf5 \cb1 \strokec5 \
+\cb3                         \cf2 \strokec2 <\cf4 \strokec4 span\cf2 \strokec2 >\cf5 \strokec5 10\uc0\u31186 \cf2 \strokec2 </\cf4 \strokec4 span\cf2 \strokec2 >\cf5 \cb1 \strokec5 \
+\cb3                     \cf2 \strokec2 </\cf4 \strokec4 label\cf2 \strokec2 >\cf5 \cb1 \strokec5 \
+\cb3                     \cf2 \strokec2 <\cf4 \strokec4 label\cf5 \strokec5  \cf2 \strokec2 class\cf5 \strokec5 =\cf6 \strokec6 "radio-option"\cf2 \strokec2 >\cf5 \cb1 \strokec5 \
+\cb3                         \cf2 \strokec2 <\cf4 \strokec4 input\cf5 \strokec5  \cf2 \strokec2 type\cf5 \strokec5 =\cf6 \strokec6 "radio"\cf5 \strokec5  \cf2 \strokec2 name\cf5 \strokec5 =\cf6 \strokec6 "pause"\cf5 \strokec5  \cf2 \strokec2 value\cf5 \strokec5 =\cf6 \strokec6 "20"\cf2 \strokec2 >\cf5 \cb1 \strokec5 \
+\cb3                         \cf2 \strokec2 <\cf4 \strokec4 span\cf2 \strokec2 >\cf5 \strokec5 20\uc0\u31186 \cf2 \strokec2 </\cf4 \strokec4 span\cf2 \strokec2 >\cf5 \cb1 \strokec5 \
+\cb3                     \cf2 \strokec2 </\cf4 \strokec4 label\cf2 \strokec2 >\cf5 \cb1 \strokec5 \
+\cb3                 \cf2 \strokec2 </\cf4 \strokec4 div\cf2 \strokec2 >\cf5 \cb1 \strokec5 \
+\cb3             \cf2 \strokec2 </\cf4 \strokec4 div\cf2 \strokec2 >\cf5 \cb1 \strokec5 \
+\
+\cb3             \cf2 \strokec2 <\cf4 \strokec4 div\cf5 \strokec5  \cf2 \strokec2 class\cf5 \strokec5 =\cf6 \strokec6 "button-group"\cf2 \strokec2 >\cf5 \cb1 \strokec5 \
+\cb3                 \cf2 \strokec2 <\cf4 \strokec4 button\cf5 \strokec5  \cf2 \strokec2 class\cf5 \strokec5 =\cf6 \strokec6 "btn-test"\cf5 \strokec5  \cf2 \strokec2 onclick\cf5 \strokec5 =\cf6 \strokec6 "\cf4 \strokec4 testVoice\cf6 \strokec6 ()"\cf2 \strokec2 >\cf5 \strokec5 \uc0\u27979 \u35797 \u35821 \u38899 \cf2 \strokec2 </\cf4 \strokec4 button\cf2 \strokec2 >\cf5 \cb1 \strokec5 \
+\cb3                 \cf2 \strokec2 <\cf4 \strokec4 button\cf5 \strokec5  \cf2 \strokec2 class\cf5 \strokec5 =\cf6 \strokec6 "btn-start"\cf5 \strokec5  \cf2 \strokec2 onclick\cf5 \strokec5 =\cf6 \strokec6 "\cf4 \strokec4 startReading\cf6 \strokec6 ()"\cf2 \strokec2 >\cf5 \strokec5 \uc0\u24320 \u22987 \u26391 \u35835 \cf2 \strokec2 </\cf4 \strokec4 button\cf2 \strokec2 >\cf5 \cb1 \strokec5 \
+\cb3                 \cf2 \strokec2 <\cf4 \strokec4 button\cf5 \strokec5  \cf2 \strokec2 class\cf5 \strokec5 =\cf6 \strokec6 "btn-stop"\cf5 \strokec5  \cf2 \strokec2 onclick\cf5 \strokec5 =\cf6 \strokec6 "\cf4 \strokec4 stopReading\cf6 \strokec6 ()"\cf5 \strokec5  \cf2 \strokec2 disabled>\cf5 \strokec5 \uc0\u20572 \u27490 \u26391 \u35835 \cf2 \strokec2 </\cf4 \strokec4 button\cf2 \strokec2 >\cf5 \cb1 \strokec5 \
+\cb3                 \cf2 \strokec2 <\cf4 \strokec4 button\cf5 \strokec5  \cf2 \strokec2 class\cf5 \strokec5 =\cf6 \strokec6 "btn-clear"\cf5 \strokec5  \cf2 \strokec2 onclick\cf5 \strokec5 =\cf6 \strokec6 "\cf4 \strokec4 clearText\cf6 \strokec6 ()"\cf2 \strokec2 >\cf5 \strokec5 \uc0\u28165 \u31354 \u25991 \u26412 \cf2 \strokec2 </\cf4 \strokec4 button\cf2 \strokec2 >\cf5 \cb1 \strokec5 \
+\cb3             \cf2 \strokec2 </\cf4 \strokec4 div\cf2 \strokec2 >\cf5 \cb1 \strokec5 \
+\cb3         \cf2 \strokec2 </\cf4 \strokec4 div\cf2 \strokec2 >\cf5 \cb1 \strokec5 \
+\
+\cb3         
+\f1\i \cf2 \strokec2 <!-- \uc0\u24403 \u21069 \u26391 \u35835 \u21477 \u23376 \u26174 \u31034  -->
+\f0\i0 \cf5 \cb1 \strokec5 \
+\cb3         \cf2 \strokec2 <\cf4 \strokec4 div\cf5 \strokec5  \cf2 \strokec2 class\cf5 \strokec5 =\cf6 \strokec6 "sentence-display"\cf2 \strokec2 >\cf5 \cb1 \strokec5 \
+\cb3             \cf2 \strokec2 <\cf4 \strokec4 p\cf5 \strokec5  \cf2 \strokec2 id\cf5 \strokec5 =\cf6 \strokec6 "currentSentence"\cf5 \strokec5  \cf2 \strokec2 style\cf5 \strokec5 =\cf6 \strokec6 "color: #666;"\cf2 \strokec2 >\cf5 \strokec5 \uc0\u31561 \u24453 \u26391 \u35835 ...\cf2 \strokec2 </\cf4 \strokec4 p\cf2 \strokec2 >\cf5 \cb1 \strokec5 \
+\cb3         \cf2 \strokec2 </\cf4 \strokec4 div\cf2 \strokec2 >\cf5 \cb1 \strokec5 \
+\
+\cb3         
+\f1\i \cf2 \strokec2 <!-- \uc0\u29366 \u24577 \u26639  -->
+\f0\i0 \cf5 \cb1 \strokec5 \
+\cb3         \cf2 \strokec2 <\cf4 \strokec4 div\cf5 \strokec5  \cf2 \strokec2 class\cf5 \strokec5 =\cf6 \strokec6 "status-bar"\cf2 \strokec2 >\cf5 \cb1 \strokec5 \
+\cb3             \cf2 \strokec2 <\cf4 \strokec4 p\cf5 \strokec5  \cf2 \strokec2 id\cf5 \strokec5 =\cf6 \strokec6 "statusText"\cf2 \strokec2 >\cf5 \strokec5 \uc0\u20934 \u22791 \u23601 \u32490 \cf2 \strokec2 </\cf4 \strokec4 p\cf2 \strokec2 >\cf5 \cb1 \strokec5 \
+\cb3         \cf2 \strokec2 </\cf4 \strokec4 div\cf2 \strokec2 >\cf5 \cb1 \strokec5 \
+\
+\cb3         
+\f1\i \cf2 \strokec2 <!-- \uc0\u36755 \u20837 \u21306 \u22495  - \u25918 \u22312 \u19979 \u26041 \u65292 \u19982 \u23398 \u29983 \u35270 \u32447 \u38548 \u31163  -->
+\f0\i0 \cf5 \cb1 \strokec5 \
+\cb3         \cf2 \strokec2 <\cf4 \strokec4 div\cf5 \strokec5  \cf2 \strokec2 class\cf5 \strokec5 =\cf6 \strokec6 "input-section"\cf2 \strokec2 >\cf5 \cb1 \strokec5 \
+\cb3             \cf2 \strokec2 <\cf4 \strokec4 h3\cf2 \strokec2 >\cf5 \strokec5 \uc0\u55357 \u56541  \u36755 \u20837 \u25991 \u26412 \u65288 \u25945 \u24072 \u21306 \u22495 \u65289 \cf2 \strokec2 </\cf4 \strokec4 h3\cf2 \strokec2 >\cf5 \cb1 \strokec5 \
+\cb3             \cf2 \strokec2 <\cf4 \strokec4 textarea\cf5 \strokec5  \cf2 \strokec2 id\cf5 \strokec5 =\cf6 \strokec6 "inputText"\cf5 \strokec5  \cf2 \strokec2 placeholder\cf5 \strokec5 =\cf6 \strokec6 "\uc0\u22312 \u27492 \u36755 \u20837 \u35201 \u26391 \u35835 \u30340 \u20013 \u25991 \u25110 \u26085 \u35821 \u25991 \u26412 ...\cf9 \strokec9 &#10;&#10;\cf6 \strokec6 \uc0\u31034 \u20363 \u65306 \cf9 \strokec9 &#10;\cf6 \strokec6 \uc0\u20013 \u25991 \u65306 \u36825 \u26159 \u31532 \u19968 \u21477 \u35805 \u12290 \u36825 \u26159 \u31532 \u20108 \u21477 \u35805 \u12290 \u36825 \u26159 \u31532 \u19977 \u21477 \u35805 \u12290 \cf9 \strokec9 &#10;\cf6 \strokec6 \uc0\u26085 \u25991 \u65306 \u12371 \u12428 \u12399 \u26368 \u21021 \u12398 \u25991 \u12391 \u12377 \u12290 \u12371 \u12428 \u12399 \u20108 \u30058 \u30446 \u12398 \u25991 \u12391 \u12377 \u12290 "\cf2 \strokec2 ></\cf4 \strokec4 textarea\cf2 \strokec2 >\cf5 \cb1 \strokec5 \
+\cb3             \cf2 \strokec2 <\cf4 \strokec4 p\cf5 \strokec5  \cf2 \strokec2 class\cf5 \strokec5 =\cf6 \strokec6 "hint"\cf2 \strokec2 >\cf5 \strokec5 \uc0\u25552 \u31034 \u65306 \u25991 \u26412 \u23558 \u20197 \u21477 \u21495 \u65288 \u12290 \u65289 \u20026 \u20998 \u38548 \u31526 \u36827 \u34892 \u20998 \u27573 \u26391 \u35835 \cf2 \strokec2 </\cf4 \strokec4 p\cf2 \strokec2 >\cf5 \cb1 \strokec5 \
+\cb3         \cf2 \strokec2 </\cf4 \strokec4 div\cf2 \strokec2 >\cf5 \cb1 \strokec5 \
+\cb3     \cf2 \strokec2 </\cf4 \strokec4 div\cf2 \strokec2 >\cf5 \cb1 \strokec5 \
+\
+\cb3     \cf2 \strokec2 <\cf4 \strokec4 script\cf2 \strokec2 >\cf5 \cb1 \strokec5 \
+\cb3         
+\f2\b \cf10 \strokec10 let
+\f0\b0 \cf5 \strokec5  \cf4 \strokec4 isReading\cf5 \strokec5  \cf7 \strokec7 =\cf5 \strokec5  \cf11 \strokec11 false\cf5 \strokec5 ;\cb1 \
+\cb3         
+\f2\b \cf10 \strokec10 let
+\f0\b0 \cf5 \strokec5  \cf4 \strokec4 currentSentenceIndex\cf5 \strokec5  \cf7 \strokec7 =\cf5 \strokec5  \cf8 \strokec8 0\cf5 \strokec5 ;\cb1 \
+\cb3         
+\f2\b \cf10 \strokec10 let
+\f0\b0 \cf5 \strokec5  \cf4 \strokec4 sentences\cf5 \strokec5  \cf7 \strokec7 =\cf5 \strokec5  [];\cb1 \
+\cb3         
+\f2\b \cf10 \strokec10 let
+\f0\b0 \cf5 \strokec5  \cf4 \strokec4 pauseTimeout\cf5 \strokec5  \cf7 \strokec7 =\cf5 \strokec5  \cf11 \strokec11 null\cf5 \strokec5 ;\cb1 \
+\cb3         
+\f2\b \cf10 \strokec10 let
+\f0\b0 \cf5 \strokec5  \cf4 \strokec4 currentUtterance\cf5 \strokec5  \cf7 \strokec7 =\cf5 \strokec5  \cf11 \strokec11 null\cf5 \strokec5 ;\cb1 \
+\cb3         
+\f2\b \cf10 \strokec10 let
+\f0\b0 \cf5 \strokec5  \cf4 \strokec4 voices\cf5 \strokec5  \cf7 \strokec7 =\cf5 \strokec5  [];\cb1 \
+\cb3         
+\f2\b \cf10 \strokec10 let
+\f0\b0 \cf5 \strokec5  \cf4 \strokec4 selectedVoice\cf5 \strokec5  \cf7 \strokec7 =\cf5 \strokec5  \cf11 \strokec11 null\cf5 \strokec5 ;\cb1 \
+\
+\cb3         
+\f1\i \cf2 \strokec2 // \uc0\u21021 \u22987 \u21270 \u35821 \u38899 \u21015 \u34920 
+\f0\i0 \cf5 \cb1 \strokec5 \
+\cb3         
+\f2\b \cf10 \strokec10 function
+\f0\b0 \cf5 \strokec5  \cf4 \strokec4 loadVoices\cf5 \strokec5 () \{\cb1 \
+\cb3             \cf4 \strokec4 voices\cf5 \strokec5  \cf7 \strokec7 =\cf5 \strokec5  \cf4 \strokec4 speechSynthesis\cf5 \strokec5 .\cf4 \strokec4 getVoices\cf5 \strokec5 ();\cb1 \
+\cb3             \cf4 \strokec4 updateVoiceList\cf5 \strokec5 ();\cb1 \
+\cb3         \}\cb1 \
+\
+\cb3         
+\f1\i \cf2 \strokec2 // \uc0\u26356 \u26032 \u35821 \u38899 \u36873 \u25321 \u21015 \u34920 
+\f0\i0 \cf5 \cb1 \strokec5 \
+\cb3         
+\f2\b \cf10 \strokec10 function
+\f0\b0 \cf5 \strokec5  \cf4 \strokec4 updateVoiceList\cf5 \strokec5 () \{\cb1 \
+\cb3             
+\f2\b \cf10 \strokec10 const
+\f0\b0 \cf5 \strokec5  \cf4 \strokec4 language\cf5 \strokec5  \cf7 \strokec7 =\cf5 \strokec5  \cf4 \strokec4 document\cf5 \strokec5 .\cf4 \strokec4 querySelector\cf5 \strokec5 (\cf6 \strokec6 'input[name="language"]:checked'\cf5 \strokec5 ).\cf4 \strokec4 value\cf5 \strokec5 ;\cb1 \
+\cb3             
+\f2\b \cf10 \strokec10 const
+\f0\b0 \cf5 \strokec5  \cf4 \strokec4 voiceSelect\cf5 \strokec5  \cf7 \strokec7 =\cf5 \strokec5  \cf4 \strokec4 document\cf5 \strokec5 .\cf4 \strokec4 getElementById\cf5 \strokec5 (\cf6 \strokec6 'voiceSelect'\cf5 \strokec5 );\cb1 \
+\cb3             \cf4 \strokec4 voiceSelect\cf5 \strokec5 .\cf4 \strokec4 innerHTML\cf5 \strokec5  \cf7 \strokec7 =\cf5 \strokec5  \cf6 \strokec6 ''\cf5 \strokec5 ;\cb1 \
+\
+\cb3             
+\f2\b \cf10 \strokec10 let
+\f0\b0 \cf5 \strokec5  \cf4 \strokec4 defaultVoice\cf5 \strokec5  \cf7 \strokec7 =\cf5 \strokec5  \cf11 \strokec11 null\cf5 \strokec5 ;\cb1 \
+\cb3             
+\f2\b \cf10 \strokec10 const
+\f0\b0 \cf5 \strokec5  \cf4 \strokec4 langPrefix\cf5 \strokec5  \cf7 \strokec7 =\cf5 \strokec5  \cf4 \strokec4 language\cf5 \strokec5 .\cf4 \strokec4 substring\cf5 \strokec5 (\cf8 \strokec8 0\cf5 \strokec5 , \cf8 \strokec8 2\cf5 \strokec5 );\cb1 \
+\
+\cb3             \cf4 \strokec4 voices\cf5 \strokec5 .\cf4 \strokec4 forEach\cf5 \strokec5 ((voice, index) 
+\f2\b \cf10 \strokec10 =>
+\f0\b0 \cf5 \strokec5  \{\cb1 \
+\cb3                 
+\f2\b \cf10 \strokec10 const
+\f0\b0 \cf5 \strokec5  \cf4 \strokec4 option\cf5 \strokec5  \cf7 \strokec7 =\cf5 \strokec5  \cf4 \strokec4 document\cf5 \strokec5 .\cf4 \strokec4 createElement\cf5 \strokec5 (\cf6 \strokec6 'option'\cf5 \strokec5 );\cb1 \
+\cb3                 \cf4 \strokec4 option\cf5 \strokec5 .\cf4 \strokec4 value\cf5 \strokec5  \cf7 \strokec7 =\cf5 \strokec5  \cf4 \strokec4 index\cf5 \strokec5 ;\cb1 \
+\cb3                 \cf4 \strokec4 option\cf5 \strokec5 .\cf4 \strokec4 textContent\cf5 \strokec5  \cf7 \strokec7 =\cf5 \strokec5  \cf6 \strokec6 `$\{\cf4 \strokec4 voice\cf5 \strokec5 .\cf4 \strokec4 name\cf6 \strokec6 \} ($\{\cf4 \strokec4 voice\cf5 \strokec5 .\cf4 \strokec4 lang\cf6 \strokec6 \})`\cf5 \strokec5 ;\cb1 \
+\cb3                 \cb1 \
+\cb3                 \cf7 \strokec7 if\cf5 \strokec5  (\cf4 \strokec4 voice\cf5 \strokec5 .\cf4 \strokec4 lang\cf5 \strokec5 .\cf4 \strokec4 startsWith\cf5 \strokec5 (\cf4 \strokec4 langPrefix\cf5 \strokec5 )) \{\cb1 \
+\cb3                     \cf4 \strokec4 voiceSelect\cf5 \strokec5 .\cf4 \strokec4 appendChild\cf5 \strokec5 (\cf4 \strokec4 option\cf5 \strokec5 );\cb1 \
+\cb3                     \cb1 \
+\cb3                     
+\f1\i \cf2 \strokec2 // \uc0\u35774 \u32622 \u40664 \u35748 \u35821 \u38899 
+\f0\i0 \cf5 \cb1 \strokec5 \
+\cb3                     \cf7 \strokec7 if\cf5 \strokec5  (\cf7 \strokec7 !\cf4 \strokec4 defaultVoice\cf5 \strokec5  \cf7 \strokec7 ||\cf5 \strokec5  \cf4 \strokec4 voice\cf5 \strokec5 .\cf4 \strokec4 name\cf5 \strokec5 .\cf4 \strokec4 includes\cf5 \strokec5 (\cf6 \strokec6 'Siri'\cf5 \strokec5 ) \cf7 \strokec7 ||\cf5 \strokec5  \cf4 \strokec4 voice\cf5 \strokec5 .\cf4 \strokec4 name\cf5 \strokec5 .\cf4 \strokec4 includes\cf5 \strokec5 (\cf6 \strokec6 'Kyoko'\cf5 \strokec5 ) \cf7 \strokec7 ||\cf5 \strokec5  \cf4 \strokec4 voice\cf5 \strokec5 .\cf4 \strokec4 name\cf5 \strokec5 .\cf4 \strokec4 includes\cf5 \strokec5 (\cf6 \strokec6 'Otoya'\cf5 \strokec5 )) \{\cb1 \
+\cb3                         \cf4 \strokec4 defaultVoice\cf5 \strokec5  \cf7 \strokec7 =\cf5 \strokec5  \cf4 \strokec4 index\cf5 \strokec5 ;\cb1 \
+\cb3                     \}\cb1 \
+\cb3                 \}\cb1 \
+\cb3             \});\cb1 \
+\
+\cb3             \cf7 \strokec7 if\cf5 \strokec5  (\cf4 \strokec4 voiceSelect\cf5 \strokec5 .\cf4 \strokec4 options\cf5 \strokec5 .length \cf7 \strokec7 ===\cf5 \strokec5  \cf8 \strokec8 0\cf5 \strokec5 ) \{\cb1 \
+\cb3                 
+\f2\b \cf10 \strokec10 const
+\f0\b0 \cf5 \strokec5  \cf4 \strokec4 option\cf5 \strokec5  \cf7 \strokec7 =\cf5 \strokec5  \cf4 \strokec4 document\cf5 \strokec5 .\cf4 \strokec4 createElement\cf5 \strokec5 (\cf6 \strokec6 'option'\cf5 \strokec5 );\cb1 \
+\cb3                 \cf4 \strokec4 option\cf5 \strokec5 .\cf4 \strokec4 value\cf5 \strokec5  \cf7 \strokec7 =\cf5 \strokec5  \cf6 \strokec6 ''\cf5 \strokec5 ;\cb1 \
+\cb3                 \cf4 \strokec4 option\cf5 \strokec5 .\cf4 \strokec4 textContent\cf5 \strokec5  \cf7 \strokec7 =\cf5 \strokec5  \cf6 \strokec6 '\uc0\u9888 \u65039  \u26410 \u25214 \u21040 \u21512 \u36866 \u30340 \u35821 \u38899 \u24341 \u25806 '\cf5 \strokec5 ;\cb1 \
+\cb3                 \cf4 \strokec4 voiceSelect\cf5 \strokec5 .\cf4 \strokec4 appendChild\cf5 \strokec5 (\cf4 \strokec4 option\cf5 \strokec5 );\cb1 \
+\cb3             \} \cf7 \strokec7 else\cf5 \strokec5  \cf7 \strokec7 if\cf5 \strokec5  (\cf4 \strokec4 defaultVoice\cf5 \strokec5  \cf7 \strokec7 !==\cf5 \strokec5  \cf11 \strokec11 null\cf5 \strokec5 ) \{\cb1 \
+\cb3                 \cf4 \strokec4 voiceSelect\cf5 \strokec5 .\cf4 \strokec4 value\cf5 \strokec5  \cf7 \strokec7 =\cf5 \strokec5  \cf4 \strokec4 defaultVoice\cf5 \strokec5 ;\cb1 \
+\cb3             \}\cb1 \
+\cb3         \}\cb1 \
+\
+\cb3         
+\f1\i \cf2 \strokec2 // \uc0\u27979 \u35797 \u35821 \u38899 
+\f0\i0 \cf5 \cb1 \strokec5 \
+\cb3         
+\f2\b \cf10 \strokec10 function
+\f0\b0 \cf5 \strokec5  \cf4 \strokec4 testVoice\cf5 \strokec5 () \{\cb1 \
+\cb3             
+\f2\b \cf10 \strokec10 const
+\f0\b0 \cf5 \strokec5  \cf4 \strokec4 language\cf5 \strokec5  \cf7 \strokec7 =\cf5 \strokec5  \cf4 \strokec4 document\cf5 \strokec5 .\cf4 \strokec4 querySelector\cf5 \strokec5 (\cf6 \strokec6 'input[name="language"]:checked'\cf5 \strokec5 ).\cf4 \strokec4 value\cf5 \strokec5 ;\cb1 \
+\cb3             
+\f2\b \cf10 \strokec10 const
+\f0\b0 \cf5 \strokec5  \cf4 \strokec4 voiceSelect\cf5 \strokec5  \cf7 \strokec7 =\cf5 \strokec5  \cf4 \strokec4 document\cf5 \strokec5 .\cf4 \strokec4 getElementById\cf5 \strokec5 (\cf6 \strokec6 'voiceSelect'\cf5 \strokec5 );\cb1 \
+\cb3             \cb1 \
+\cb3             \cf7 \strokec7 if\cf5 \strokec5  (\cf4 \strokec4 voiceSelect\cf5 \strokec5 .\cf4 \strokec4 value\cf5 \strokec5  \cf7 \strokec7 ===\cf5 \strokec5  \cf6 \strokec6 ''\cf5 \strokec5 ) \{\cb1 \
+\cb3                 \cf4 \strokec4 alert\cf5 \strokec5 (\cf6 \strokec6 '\uc0\u35831 \u20808 \u36873 \u25321 \u19968 \u20010 \u35821 \u38899 \u24341 \u25806 \u65281 '\cf5 \strokec5 );\cb1 \
+\cb3                 \cf7 \strokec7 return\cf5 \strokec5 ;\cb1 \
+\cb3             \}\cb1 \
+\
+\cb3             
+\f2\b \cf10 \strokec10 const
+\f0\b0 \cf5 \strokec5  \cf4 \strokec4 selectedVoiceIndex\cf5 \strokec5  \cf7 \strokec7 =\cf5 \strokec5  \cf4 \strokec4 voiceSelect\cf5 \strokec5 .\cf4 \strokec4 value\cf5 \strokec5 ;\cb1 \
+\cb3             
+\f2\b \cf10 \strokec10 const
+\f0\b0 \cf5 \strokec5  \cf4 \strokec4 voice\cf5 \strokec5  \cf7 \strokec7 =\cf5 \strokec5  \cf4 \strokec4 voices\cf5 \strokec5 [\cf4 \strokec4 selectedVoiceIndex\cf5 \strokec5 ];\cb1 \
+\
+\cb3             
+\f2\b \cf10 \strokec10 const
+\f0\b0 \cf5 \strokec5  \cf4 \strokec4 testText\cf5 \strokec5  \cf7 \strokec7 =\cf5 \strokec5  \cf4 \strokec4 language\cf5 \strokec5  \cf7 \strokec7 ===\cf5 \strokec5  \cf6 \strokec6 'ja-JP'\cf5 \strokec5  \cb1 \
+\cb3                 \cf7 \strokec7 ?\cf5 \strokec5  \cf6 \strokec6 '\uc0\u12371 \u12435 \u12395 \u12385 \u12399 \u12289 \u12371 \u12428 \u12399 \u12486 \u12473 \u12488 \u12391 \u12377 \u12290 '\cf5 \strokec5  \cb1 \
+\cb3                 \cf7 \strokec7 :\cf5 \strokec5  \cf6 \strokec6 '\uc0\u20320 \u22909 \u65292 \u36825 \u26159 \u19968 \u20010 \u27979 \u35797 \u12290 '\cf5 \strokec5 ;\cb1 \
+\
+\cb3             
+\f2\b \cf10 \strokec10 const
+\f0\b0 \cf5 \strokec5  \cf4 \strokec4 utterance\cf5 \strokec5  \cf7 \strokec7 =\cf5 \strokec5  \cf7 \strokec7 new\cf5 \strokec5  \cf7 \strokec7 SpeechSynthesisUtterance\cf5 \strokec5 (\cf4 \strokec4 testText\cf5 \strokec5 );\cb1 \
+\cb3             \cf4 \strokec4 utterance\cf5 \strokec5 .\cf4 \strokec4 voice\cf5 \strokec5  \cf7 \strokec7 =\cf5 \strokec5  \cf4 \strokec4 voice\cf5 \strokec5 ;\cb1 \
+\cb3             \cf4 \strokec4 utterance\cf5 \strokec5 .\cf4 \strokec4 lang\cf5 \strokec5  \cf7 \strokec7 =\cf5 \strokec5  \cf4 \strokec4 language\cf5 \strokec5 ;\cb1 \
+\cb3             \cf4 \strokec4 utterance\cf5 \strokec5 .\cf4 \strokec4 rate\cf5 \strokec5  \cf7 \strokec7 =\cf5 \strokec5  \cf8 \strokec8 0.9\cf5 \strokec5 ;\cb1 \
+\
+\cb3             \cf4 \strokec4 document\cf5 \strokec5 .\cf4 \strokec4 getElementById\cf5 \strokec5 (\cf6 \strokec6 'statusText'\cf5 \strokec5 ).\cf4 \strokec4 textContent\cf5 \strokec5  \cf7 \strokec7 =\cf5 \strokec5  \cf6 \strokec6 `\uc0\u27491 \u22312 \u27979 \u35797 \u35821 \u38899 \u65306 $\{\cf4 \strokec4 voice\cf5 \strokec5 .\cf4 \strokec4 name\cf6 \strokec6 \}`\cf5 \strokec5 ;\cb1 \
+\
+\cb3             \cf4 \strokec4 utterance\cf5 \strokec5 .\cf4 \strokec4 onend\cf5 \strokec5  \cf7 \strokec7 =\cf5 \strokec5  
+\f2\b \cf10 \strokec10 function
+\f0\b0 \cf5 \strokec5 () \{\cb1 \
+\cb3                 \cf4 \strokec4 document\cf5 \strokec5 .\cf4 \strokec4 getElementById\cf5 \strokec5 (\cf6 \strokec6 'statusText'\cf5 \strokec5 ).\cf4 \strokec4 textContent\cf5 \strokec5  \cf7 \strokec7 =\cf5 \strokec5  \cf6 \strokec6 '\uc0\u27979 \u35797 \u23436 \u25104 \u65292 \u22914 \u26524 \u22768 \u38899 \u27491 \u24120 \u21487 \u20197 \u24320 \u22987 \u20351 \u29992 '\cf5 \strokec5 ;\cb1 \
+\cb3             \};\cb1 \
+\
+\cb3             \cf4 \strokec4 speechSynthesis\cf5 \strokec5 .\cf4 \strokec4 speak\cf5 \strokec5 (\cf4 \strokec4 utterance\cf5 \strokec5 );\cb1 \
+\cb3         \}\cb1 \
+\
+\cb3         
+\f2\b \cf10 \strokec10 function
+\f0\b0 \cf5 \strokec5  \cf4 \strokec4 startReading\cf5 \strokec5 () \{\cb1 \
+\cb3             
+\f2\b \cf10 \strokec10 const
+\f0\b0 \cf5 \strokec5  \cf4 \strokec4 text\cf5 \strokec5  \cf7 \strokec7 =\cf5 \strokec5  \cf4 \strokec4 document\cf5 \strokec5 .\cf4 \strokec4 getElementById\cf5 \strokec5 (\cf6 \strokec6 'inputText'\cf5 \strokec5 ).\cf4 \strokec4 value\cf5 \strokec5 .\cf4 \strokec4 trim\cf5 \strokec5 ();\cb1 \
+\cb3             \cb1 \
+\cb3             \cf7 \strokec7 if\cf5 \strokec5  (\cf7 \strokec7 !\cf4 \strokec4 text\cf5 \strokec5 ) \{\cb1 \
+\cb3                 \cf4 \strokec4 alert\cf5 \strokec5 (\cf6 \strokec6 '\uc0\u35831 \u36755 \u20837 \u35201 \u26391 \u35835 \u30340 \u25991 \u26412 \u65281 '\cf5 \strokec5 );\cb1 \
+\cb3                 \cf7 \strokec7 return\cf5 \strokec5 ;\cb1 \
+\cb3             \}\cb1 \
+\
+\cb3             
+\f1\i \cf2 \strokec2 // \uc0\u25353 \u21477 \u21495 \u20999 \u20998 \u25991 \u26412 
+\f0\i0 \cf5 \cb1 \strokec5 \
+\cb3             \cf4 \strokec4 sentences\cf5 \strokec5  \cf7 \strokec7 =\cf5 \strokec5  \cf4 \strokec4 text\cf5 \strokec5 .\cf4 \strokec4 split\cf5 \strokec5 (\cf6 \strokec6 '\uc0\u12290 '\cf5 \strokec5 ).\cf4 \strokec4 filter\cf5 \strokec5 (s 
+\f2\b \cf10 \strokec10 =>
+\f0\b0 \cf5 \strokec5  \cf4 \strokec4 s\cf5 \strokec5 .\cf4 \strokec4 trim\cf5 \strokec5 () \cf7 \strokec7 !==\cf5 \strokec5  \cf6 \strokec6 ''\cf5 \strokec5 );\cb1 \
+\cb3             \cb1 \
+\cb3             \cf7 \strokec7 if\cf5 \strokec5  (\cf4 \strokec4 sentences\cf5 \strokec5 .length \cf7 \strokec7 ===\cf5 \strokec5  \cf8 \strokec8 0\cf5 \strokec5 ) \{\cb1 \
+\cb3                 \cf4 \strokec4 alert\cf5 \strokec5 (\cf6 \strokec6 '\uc0\u25991 \u26412 \u20013 \u27809 \u26377 \u26377 \u25928 \u30340 \u21477 \u23376 \u65281 '\cf5 \strokec5 );\cb1 \
+\cb3                 \cf7 \strokec7 return\cf5 \strokec5 ;\cb1 \
+\cb3             \}\cb1 \
+\
+\cb3             
+\f2\b \cf10 \strokec10 const
+\f0\b0 \cf5 \strokec5  \cf4 \strokec4 voiceSelect\cf5 \strokec5  \cf7 \strokec7 =\cf5 \strokec5  \cf4 \strokec4 document\cf5 \strokec5 .\cf4 \strokec4 getElementById\cf5 \strokec5 (\cf6 \strokec6 'voiceSelect'\cf5 \strokec5 );\cb1 \
+\cb3             \cf7 \strokec7 if\cf5 \strokec5  (\cf4 \strokec4 voiceSelect\cf5 \strokec5 .\cf4 \strokec4 value\cf5 \strokec5  \cf7 \strokec7 ===\cf5 \strokec5  \cf6 \strokec6 ''\cf5 \strokec5 ) \{\cb1 \
+\cb3                 \cf4 \strokec4 alert\cf5 \strokec5 (\cf6 \strokec6 '\uc0\u35831 \u20808 \u36873 \u25321 \u35821 \u38899 \u24341 \u25806 \u65281 '\cf5 \strokec5 );\cb1 \
+\cb3                 \cf7 \strokec7 return\cf5 \strokec5 ;\cb1 \
+\cb3             \}\cb1 \
+\
+\cb3             \cf4 \strokec4 isReading\cf5 \strokec5  \cf7 \strokec7 =\cf5 \strokec5  \cf11 \strokec11 true\cf5 \strokec5 ;\cb1 \
+\cb3             \cf4 \strokec4 currentSentenceIndex\cf5 \strokec5  \cf7 \strokec7 =\cf5 \strokec5  \cf8 \strokec8 0\cf5 \strokec5 ;\cb1 \
+\cb3             \cb1 \
+\cb3             
+\f1\i \cf2 \strokec2 // \uc0\u26356 \u26032 \u25353 \u38062 \u29366 \u24577 
+\f0\i0 \cf5 \cb1 \strokec5 \
+\cb3             \cf4 \strokec4 document\cf5 \strokec5 .\cf4 \strokec4 querySelector\cf5 \strokec5 (\cf6 \strokec6 '.btn-start'\cf5 \strokec5 ).\cf4 \strokec4 disabled\cf5 \strokec5  \cf7 \strokec7 =\cf5 \strokec5  \cf11 \strokec11 true\cf5 \strokec5 ;\cb1 \
+\cb3             \cf4 \strokec4 document\cf5 \strokec5 .\cf4 \strokec4 querySelector\cf5 \strokec5 (\cf6 \strokec6 '.btn-stop'\cf5 \strokec5 ).\cf4 \strokec4 disabled\cf5 \strokec5  \cf7 \strokec7 =\cf5 \strokec5  \cf11 \strokec11 false\cf5 \strokec5 ;\cb1 \
+\cb3             \cb1 \
+\cb3             \cf4 \strokec4 readNextSentence\cf5 \strokec5 ();\cb1 \
+\cb3         \}\cb1 \
+\
+\cb3         
+\f2\b \cf10 \strokec10 function
+\f0\b0 \cf5 \strokec5  \cf4 \strokec4 readNextSentence\cf5 \strokec5 () \{\cb1 \
+\cb3             \cf7 \strokec7 if\cf5 \strokec5  (\cf7 \strokec7 !\cf4 \strokec4 isReading\cf5 \strokec5  \cf7 \strokec7 ||\cf5 \strokec5  \cf4 \strokec4 currentSentenceIndex\cf5 \strokec5  \cf7 \strokec7 >=\cf5 \strokec5  \cf4 \strokec4 sentences\cf5 \strokec5 .\cf4 \strokec4 length\cf5 \strokec5 ) \{\cb1 \
+\cb3                 \cf4 \strokec4 finishReading\cf5 \strokec5 ();\cb1 \
+\cb3                 \cf7 \strokec7 return\cf5 \strokec5 ;\cb1 \
+\cb3             \}\cb1 \
+\
+\cb3             
+\f2\b \cf10 \strokec10 const
+\f0\b0 \cf5 \strokec5  \cf4 \strokec4 language\cf5 \strokec5  \cf7 \strokec7 =\cf5 \strokec5  \cf4 \strokec4 document\cf5 \strokec5 .\cf4 \strokec4 querySelector\cf5 \strokec5 (\cf6 \strokec6 'input[name="language"]:checked'\cf5 \strokec5 ).\cf4 \strokec4 value\cf5 \strokec5 ;\cb1 \
+\cb3             
+\f2\b \cf10 \strokec10 const
+\f0\b0 \cf5 \strokec5  \cf4 \strokec4 sentence\cf5 \strokec5  \cf7 \strokec7 =\cf5 \strokec5  \cf4 \strokec4 sentences\cf5 \strokec5 [\cf4 \strokec4 currentSentenceIndex\cf5 \strokec5 ].\cf4 \strokec4 trim\cf5 \strokec5 ();\cb1 \
+\cb3             
+\f2\b \cf10 \strokec10 const
+\f0\b0 \cf5 \strokec5  \cf4 \strokec4 voiceSelect\cf5 \strokec5  \cf7 \strokec7 =\cf5 \strokec5  \cf4 \strokec4 document\cf5 \strokec5 .\cf4 \strokec4 getElementById\cf5 \strokec5 (\cf6 \strokec6 'voiceSelect'\cf5 \strokec5 );\cb1 \
+\cb3             \cb1 \
+\cb3             
+\f1\i \cf2 \strokec2 // \uc0\u26174 \u31034 \u24403 \u21069 \u21477 \u23376 
+\f0\i0 \cf5 \cb1 \strokec5 \
+\cb3             \cf4 \strokec4 document\cf5 \strokec5 .\cf4 \strokec4 getElementById\cf5 \strokec5 (\cf6 \strokec6 'currentSentence'\cf5 \strokec5 ).\cf4 \strokec4 textContent\cf5 \strokec5  \cf7 \strokec7 =\cf5 \strokec5  \cf4 \strokec4 sentence\cf5 \strokec5  \cf7 \strokec7 +\cf5 \strokec5  \cf6 \strokec6 '\uc0\u12290 '\cf5 \strokec5 ;\cb1 \
+\cb3             \cf4 \strokec4 document\cf5 \strokec5 .\cf4 \strokec4 getElementById\cf5 \strokec5 (\cf6 \strokec6 'statusText'\cf5 \strokec5 ).\cf4 \strokec4 textContent\cf5 \strokec5  \cf7 \strokec7 =\cf5 \strokec5  \cf6 \strokec6 `\uc0\u27491 \u22312 \u26391 \u35835 \u31532  $\{\cf4 \strokec4 currentSentenceIndex\cf5 \strokec5  \cf7 \strokec7 +\cf5 \strokec5  \cf8 \strokec8 1\cf6 \strokec6 \} \uc0\u21477 \u65292 \u20849  $\{\cf4 \strokec4 sentences\cf5 \strokec5 .\cf4 \strokec4 length\cf6 \strokec6 \} \uc0\u21477 `\cf5 \strokec5 ;\cb1 \
+\
+\cb3             
+\f1\i \cf2 \strokec2 // \uc0\u21019 \u24314 \u35821 \u38899 \u21512 \u25104 
+\f0\i0 \cf5 \cb1 \strokec5 \
+\cb3             \cf4 \strokec4 currentUtterance\cf5 \strokec5  \cf7 \strokec7 =\cf5 \strokec5  \cf7 \strokec7 new\cf5 \strokec5  \cf7 \strokec7 SpeechSynthesisUtterance\cf5 \strokec5 (\cf4 \strokec4 sentence\cf5 \strokec5 );\cb1 \
+\cb3             \cb1 \
+\cb3             
+\f2\b \cf10 \strokec10 const
+\f0\b0 \cf5 \strokec5  \cf4 \strokec4 selectedVoiceIndex\cf5 \strokec5  \cf7 \strokec7 =\cf5 \strokec5  \cf4 \strokec4 voiceSelect\cf5 \strokec5 .\cf4 \strokec4 value\cf5 \strokec5 ;\cb1 \
+\cb3             \cf7 \strokec7 if\cf5 \strokec5  (\cf4 \strokec4 selectedVoiceIndex\cf5 \strokec5  \cf7 \strokec7 !==\cf5 \strokec5  \cf6 \strokec6 ''\cf5 \strokec5 ) \{\cb1 \
+\cb3                 \cf4 \strokec4 currentUtterance\cf5 \strokec5 .\cf4 \strokec4 voice\cf5 \strokec5  \cf7 \strokec7 =\cf5 \strokec5  \cf4 \strokec4 voices\cf5 \strokec5 [\cf4 \strokec4 selectedVoiceIndex\cf5 \strokec5 ];\cb1 \
+\cb3             \}\cb1 \
+\cb3             \cb1 \
+\cb3             \cf4 \strokec4 currentUtterance\cf5 \strokec5 .\cf4 \strokec4 lang\cf5 \strokec5  \cf7 \strokec7 =\cf5 \strokec5  \cf4 \strokec4 language\cf5 \strokec5 ;\cb1 \
+\cb3             \cf4 \strokec4 currentUtterance\cf5 \strokec5 .\cf4 \strokec4 rate\cf5 \strokec5  \cf7 \strokec7 =\cf5 \strokec5  \cf8 \strokec8 0.9\cf5 \strokec5 ;\cb1 \
+\cb3             \cb1 \
+\cb3             
+\f1\i \cf2 \strokec2 // \uc0\u26391 \u35835 \u32467 \u26463 \u21518 \u20572 \u39039 
+\f0\i0 \cf5 \cb1 \strokec5 \
+\cb3             \cf4 \strokec4 currentUtterance\cf5 \strokec5 .\cf4 \strokec4 onend\cf5 \strokec5  \cf7 \strokec7 =\cf5 \strokec5  
+\f2\b \cf10 \strokec10 function
+\f0\b0 \cf5 \strokec5 () \{\cb1 \
+\cb3                 \cf7 \strokec7 if\cf5 \strokec5  (\cf4 \strokec4 isReading\cf5 \strokec5  \cf7 \strokec7 &&\cf5 \strokec5  \cf4 \strokec4 currentSentenceIndex\cf5 \strokec5  \cf7 \strokec7 <\cf5 \strokec5  \cf4 \strokec4 sentences\cf5 \strokec5 .\cf4 \strokec4 length\cf5 \strokec5  \cf7 \strokec7 -\cf5 \strokec5  \cf8 \strokec8 1\cf5 \strokec5 ) \{\cb1 \
+\cb3                     
+\f2\b \cf10 \strokec10 const
+\f0\b0 \cf5 \strokec5  \cf4 \strokec4 pauseTime\cf5 \strokec5  \cf7 \strokec7 =\cf5 \strokec5  \cf4 \strokec4 parseInt\cf5 \strokec5 (\cf4 \strokec4 document\cf5 \strokec5 .\cf4 \strokec4 querySelector\cf5 \strokec5 (\cf6 \strokec6 'input[name="pause"]:checked'\cf5 \strokec5 ).\cf4 \strokec4 value\cf5 \strokec5 ) \cf7 \strokec7 *\cf5 \strokec5  \cf8 \strokec8 1000\cf5 \strokec5 ;\cb1 \
+\cb3                     \cf4 \strokec4 document\cf5 \strokec5 .\cf4 \strokec4 getElementById\cf5 \strokec5 (\cf6 \strokec6 'statusText'\cf5 \strokec5 ).\cf4 \strokec4 textContent\cf5 \strokec5  \cf7 \strokec7 =\cf5 \strokec5  \cf6 \strokec6 `\uc0\u20572 \u39039  $\{\cf4 \strokec4 pauseTime\cf7 \strokec7 /\cf8 \strokec8 1000\cf6 \strokec6 \} \uc0\u31186 \u21518 \u32487 \u32493 ...`\cf5 \strokec5 ;\cb1 \
+\cb3                     \cb1 \
+\cb3                     \cf4 \strokec4 pauseTimeout\cf5 \strokec5  \cf7 \strokec7 =\cf5 \strokec5  \cf4 \strokec4 setTimeout\cf5 \strokec5 (
+\f2\b \cf10 \strokec10 function
+\f0\b0 \cf5 \strokec5 () \{\cb1 \
+\cb3                         \cf4 \strokec4 currentSentenceIndex\cf7 \strokec7 ++\cf5 \strokec5 ;\cb1 \
+\cb3                         \cf4 \strokec4 readNextSentence\cf5 \strokec5 ();\cb1 \
+\cb3                     \}, \cf4 \strokec4 pauseTime\cf5 \strokec5 );\cb1 \
+\cb3                 \} \cf7 \strokec7 else\cf5 \strokec5  \{\cb1 \
+\cb3                     \cf4 \strokec4 finishReading\cf5 \strokec5 ();\cb1 \
+\cb3                 \}\cb1 \
+\cb3             \};\cb1 \
+\
+\cb3             \cf4 \strokec4 speechSynthesis\cf5 \strokec5 .\cf4 \strokec4 speak\cf5 \strokec5 (\cf4 \strokec4 currentUtterance\cf5 \strokec5 );\cb1 \
+\cb3         \}\cb1 \
+\
+\cb3         
+\f2\b \cf10 \strokec10 function
+\f0\b0 \cf5 \strokec5  \cf4 \strokec4 stopReading\cf5 \strokec5 () \{\cb1 \
+\cb3             \cf4 \strokec4 isReading\cf5 \strokec5  \cf7 \strokec7 =\cf5 \strokec5  \cf11 \strokec11 false\cf5 \strokec5 ;\cb1 \
+\cb3             \cf4 \strokec4 speechSynthesis\cf5 \strokec5 .\cf4 \strokec4 cancel\cf5 \strokec5 ();\cb1 \
+\cb3             \cb1 \
+\cb3             \cf7 \strokec7 if\cf5 \strokec5  (\cf4 \strokec4 pauseTimeout\cf5 \strokec5 ) \{\cb1 \
+\cb3                 \cf4 \strokec4 clearTimeout\cf5 \strokec5 (\cf4 \strokec4 pauseTimeout\cf5 \strokec5 );\cb1 \
+\cb3                 \cf4 \strokec4 pauseTimeout\cf5 \strokec5  \cf7 \strokec7 =\cf5 \strokec5  \cf11 \strokec11 null\cf5 \strokec5 ;\cb1 \
+\cb3             \}\cb1 \
+\
+\cb3             
+\f1\i \cf2 \strokec2 // \uc0\u26356 \u26032 \u25353 \u38062 \u29366 \u24577 
+\f0\i0 \cf5 \cb1 \strokec5 \
+\cb3             \cf4 \strokec4 document\cf5 \strokec5 .\cf4 \strokec4 querySelector\cf5 \strokec5 (\cf6 \strokec6 '.btn-start'\cf5 \strokec5 ).\cf4 \strokec4 disabled\cf5 \strokec5  \cf7 \strokec7 =\cf5 \strokec5  \cf11 \strokec11 false\cf5 \strokec5 ;\cb1 \
+\cb3             \cf4 \strokec4 document\cf5 \strokec5 .\cf4 \strokec4 querySelector\cf5 \strokec5 (\cf6 \strokec6 '.btn-stop'\cf5 \strokec5 ).\cf4 \strokec4 disabled\cf5 \strokec5  \cf7 \strokec7 =\cf5 \strokec5  \cf11 \strokec11 true\cf5 \strokec5 ;\cb1 \
+\cb3             \cb1 \
+\cb3             \cf4 \strokec4 document\cf5 \strokec5 .\cf4 \strokec4 getElementById\cf5 \strokec5 (\cf6 \strokec6 'statusText'\cf5 \strokec5 ).\cf4 \strokec4 textContent\cf5 \strokec5  \cf7 \strokec7 =\cf5 \strokec5  \cf6 \strokec6 '\uc0\u26391 \u35835 \u24050 \u20572 \u27490 '\cf5 \strokec5 ;\cb1 \
+\cb3             \cf4 \strokec4 document\cf5 \strokec5 .\cf4 \strokec4 getElementById\cf5 \strokec5 (\cf6 \strokec6 'currentSentence'\cf5 \strokec5 ).\cf4 \strokec4 textContent\cf5 \strokec5  \cf7 \strokec7 =\cf5 \strokec5  \cf6 \strokec6 '\uc0\u31561 \u24453 \u26391 \u35835 ...'\cf5 \strokec5 ;\cb1 \
+\cb3         \}\cb1 \
+\
+\cb3         
+\f2\b \cf10 \strokec10 function
+\f0\b0 \cf5 \strokec5  \cf4 \strokec4 finishReading\cf5 \strokec5 () \{\cb1 \
+\cb3             \cf4 \strokec4 isReading\cf5 \strokec5  \cf7 \strokec7 =\cf5 \strokec5  \cf11 \strokec11 false\cf5 \strokec5 ;\cb1 \
+\cb3             \cb1 \
+\cb3             
+\f1\i \cf2 \strokec2 // \uc0\u26356 \u26032 \u25353 \u38062 \u29366 \u24577 
+\f0\i0 \cf5 \cb1 \strokec5 \
+\cb3             \cf4 \strokec4 document\cf5 \strokec5 .\cf4 \strokec4 querySelector\cf5 \strokec5 (\cf6 \strokec6 '.btn-start'\cf5 \strokec5 ).\cf4 \strokec4 disabled\cf5 \strokec5  \cf7 \strokec7 =\cf5 \strokec5  \cf11 \strokec11 false\cf5 \strokec5 ;\cb1 \
+\cb3             \cf4 \strokec4 document\cf5 \strokec5 .\cf4 \strokec4 querySelector\cf5 \strokec5 (\cf6 \strokec6 '.btn-stop'\cf5 \strokec5 ).\cf4 \strokec4 disabled\cf5 \strokec5  \cf7 \strokec7 =\cf5 \strokec5  \cf11 \strokec11 true\cf5 \strokec5 ;\cb1 \
+\cb3             \cb1 \
+\cb3             \cf4 \strokec4 document\cf5 \strokec5 .\cf4 \strokec4 getElementById\cf5 \strokec5 (\cf6 \strokec6 'statusText'\cf5 \strokec5 ).\cf4 \strokec4 textContent\cf5 \strokec5  \cf7 \strokec7 =\cf5 \strokec5  \cf6 \strokec6 '\uc0\u26391 \u35835 \u23436 \u25104 \u65281 '\cf5 \strokec5 ;\cb1 \
+\cb3             \cf4 \strokec4 document\cf5 \strokec5 .\cf4 \strokec4 getElementById\cf5 \strokec5 (\cf6 \strokec6 'currentSentence'\cf5 \strokec5 ).\cf4 \strokec4 textContent\cf5 \strokec5  \cf7 \strokec7 =\cf5 \strokec5  \cf6 \strokec6 '\uc0\u26391 \u35835 \u32467 \u26463 '\cf5 \strokec5 ;\cb1 \
+\cb3         \}\cb1 \
+\
+\cb3         
+\f2\b \cf10 \strokec10 function
+\f0\b0 \cf5 \strokec5  \cf4 \strokec4 clearText\cf5 \strokec5 () \{\cb1 \
+\cb3             \cf7 \strokec7 if\cf5 \strokec5  (\cf4 \strokec4 isReading\cf5 \strokec5 ) \{\cb1 \
+\cb3                 \cf4 \strokec4 stopReading\cf5 \strokec5 ();\cb1 \
+\cb3             \}\cb1 \
+\cb3             \cf4 \strokec4 document\cf5 \strokec5 .\cf4 \strokec4 getElementById\cf5 \strokec5 (\cf6 \strokec6 'inputText'\cf5 \strokec5 ).\cf4 \strokec4 value\cf5 \strokec5  \cf7 \strokec7 =\cf5 \strokec5  \cf6 \strokec6 ''\cf5 \strokec5 ;\cb1 \
+\cb3             \cf4 \strokec4 document\cf5 \strokec5 .\cf4 \strokec4 getElementById\cf5 \strokec5 (\cf6 \strokec6 'statusText'\cf5 \strokec5 ).\cf4 \strokec4 textContent\cf5 \strokec5  \cf7 \strokec7 =\cf5 \strokec5  \cf6 \strokec6 '\uc0\u25991 \u26412 \u24050 \u28165 \u31354 '\cf5 \strokec5 ;\cb1 \
+\cb3             \cf4 \strokec4 document\cf5 \strokec5 .\cf4 \strokec4 getElementById\cf5 \strokec5 (\cf6 \strokec6 'currentSentence'\cf5 \strokec5 ).\cf4 \strokec4 textContent\cf5 \strokec5  \cf7 \strokec7 =\cf5 \strokec5  \cf6 \strokec6 '\uc0\u31561 \u24453 \u26391 \u35835 ...'\cf5 \strokec5 ;\cb1 \
+\cb3         \}\cb1 \
+\
+\cb3         
+\f1\i \cf2 \strokec2 // \uc0\u39029 \u38754 \u21152 \u36733 \u26102 \u21021 \u22987 \u21270 
+\f0\i0 \cf5 \cb1 \strokec5 \
+\cb3         \cf4 \strokec4 window\cf5 \strokec5 .\cf4 \strokec4 onload\cf5 \strokec5  \cf7 \strokec7 =\cf5 \strokec5  
+\f2\b \cf10 \strokec10 function
+\f0\b0 \cf5 \strokec5 () \{\cb1 \
+\cb3             \cf7 \strokec7 if\cf5 \strokec5  (\cf7 \strokec7 !\cf5 \strokec5 (\cf6 \strokec6 'speechSynthesis'\cf5 \strokec5  \cf7 \strokec7 in\cf5 \strokec5  \cf4 \strokec4 window\cf5 \strokec5 )) \{\cb1 \
+\cb3                 \cf4 \strokec4 alert\cf5 \strokec5 (\cf6 \strokec6 '\uc0\u24744 \u30340 \u27983 \u35272 \u22120 \u19981 \u25903 \u25345 \u35821 \u38899 \u21512 \u25104 \u21151 \u33021 \u65292 \u35831 \u20351 \u29992 Chrome\u12289 Edge\u25110 Safari\u27983 \u35272 \u22120 \u12290 '\cf5 \strokec5 );\cb1 \
+\cb3                 \cf7 \strokec7 return\cf5 \strokec5 ;\cb1 \
+\cb3             \}\cb1 \
+\
+\cb3             
+\f1\i \cf2 \strokec2 // \uc0\u21152 \u36733 \u35821 \u38899 \u21015 \u34920 \u65288 \u26576 \u20123 \u27983 \u35272 \u22120 \u38656 \u35201 \u24322 \u27493 \u21152 \u36733 \u65289 
+\f0\i0 \cf5 \cb1 \strokec5 \
+\cb3             \cf4 \strokec4 loadVoices\cf5 \strokec5 ();\cb1 \
+\cb3             \cb1 \
+\cb3             
+\f1\i \cf2 \strokec2 // \uc0\u26576 \u20123 \u27983 \u35272 \u22120 \u38656 \u35201 \u31561 \u24453 voiceschanged\u20107 \u20214 
+\f0\i0 \cf5 \cb1 \strokec5 \
+\cb3             \cf7 \strokec7 if\cf5 \strokec5  (\cf4 \strokec4 speechSynthesis\cf5 \strokec5 .\cf4 \strokec4 onvoiceschanged\cf5 \strokec5  \cf7 \strokec7 !==\cf5 \strokec5  \cf11 \strokec11 undefined\cf5 \strokec5 ) \{\cb1 \
+\cb3                 \cf4 \strokec4 speechSynthesis\cf5 \strokec5 .\cf4 \strokec4 onvoiceschanged\cf5 \strokec5  \cf7 \strokec7 =\cf5 \strokec5  \cf4 \strokec4 loadVoices\cf5 \strokec5 ;\cb1 \
+\cb3             \}\cb1 \
+\
+\cb3             
+\f1\i \cf2 \strokec2 // \uc0\u24310 \u36831 \u21152 \u36733 \u65292 \u30830 \u20445 \u35821 \u38899 \u21015 \u34920 \u23436 \u20840 \u21152 \u36733 
+\f0\i0 \cf5 \cb1 \strokec5 \
+\cb3             \cf4 \strokec4 setTimeout\cf5 \strokec5 (\cf4 \strokec4 loadVoices\cf5 \strokec5 , \cf8 \strokec8 1000\cf5 \strokec5 );\cb1 \
+\cb3         \};\cb1 \
+\cb3     \cf2 \strokec2 </\cf4 \strokec4 script\cf2 \strokec2 >\cf5 \cb1 \strokec5 \
+\pard\pardeftab720\partightenfactor0
+\cf2 \cb3 \strokec2 </\cf4 \strokec4 body\cf2 \strokec2 >\cf5 \cb1 \strokec5 \
+\cf2 \cb3 \strokec2 </\cf4 \strokec4 html\cf2 \strokec2 >\cf5 \cb1 \strokec5 \
+\
+}

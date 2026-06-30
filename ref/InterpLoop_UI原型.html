@@ -1,0 +1,547 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>InterpLoop 自主口译实训与反馈平台 V1.0</title>
+<style>
+* { box-sizing: border-box; margin: 0; padding: 0; }
+body { font-family: "PingFang SC", "Microsoft YaHei", sans-serif; background: #f0f2f5; height: 100vh; overflow: hidden; }
+
+/* ===== LOGIN ===== */
+.login-overlay {
+  position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+  background: linear-gradient(135deg, #1a3a5c 0%, #2d6a9f 50%, #1a3a5c 100%);
+  display: flex; justify-content: center; align-items: center; z-index: 1000;
+}
+.login-box {
+  background: white; border-radius: 16px; padding: 50px 40px; width: 400px;
+  box-shadow: 0 20px 60px rgba(0,0,0,0.3); text-align: center;
+}
+.login-box h1 { font-size: 28px; color: #1a3a5c; margin-bottom: 6px; }
+.login-box .subtitle { font-size: 14px; color: #888; margin-bottom: 36px; }
+.login-box .logo { font-size: 48px; margin-bottom: 16px; }
+.login-box input {
+  width: 100%; padding: 14px 16px; border: 1px solid #ddd; border-radius: 8px;
+  font-size: 16px; margin-bottom: 16px; outline: none; transition: border 0.3s;
+}
+.login-box input:focus { border-color: #2d6a9f; }
+.login-box button {
+  width: 100%; padding: 14px; background: #1a3a5c; color: white; border: none;
+  border-radius: 8px; font-size: 16px; cursor: pointer; transition: background 0.3s;
+}
+.login-box button:hover { background: #2d6a9f; }
+
+/* ===== MAIN LAYOUT ===== */
+.app { display: flex; height: 100vh; }
+
+/* LEFT SIDEBAR */
+.sidebar {
+  width: 220px; background: #1a3a5c; color: white; display: flex; flex-direction: column;
+  box-shadow: 2px 0 10px rgba(0,0,0,0.1); flex-shrink: 0;
+}
+.sidebar-header { padding: 24px 20px 20px; border-bottom: 1px solid rgba(255,255,255,0.1); }
+.sidebar-header h2 { font-size: 20px; font-weight: 700; }
+.sidebar-header .ver { font-size: 11px; opacity: 0.5; margin-top: 4px; }
+.sidebar-nav { flex: 1; padding: 12px 0; overflow-y: auto; }
+.nav-item {
+  display: flex; align-items: center; gap: 12px; padding: 14px 20px;
+  cursor: pointer; transition: all 0.2s; font-size: 14px; color: rgba(255,255,255,0.7);
+}
+.nav-item:hover { background: rgba(255,255,255,0.08); color: white; }
+.nav-item.active { background: rgba(255,255,255,0.15); color: white; border-left: 3px solid #4fc3f7; }
+.nav-item .icon { font-size: 20px; width: 28px; text-align: center; }
+.nav-item .label { font-size: 14px; }
+.nav-divider { height: 1px; background: rgba(255,255,255,0.1); margin: 8px 20px; }
+.sidebar-footer {
+  padding: 16px 20px; border-top: 1px solid rgba(255,255,255,0.1);
+  font-size: 12px; color: rgba(255,255,255,0.4); cursor: pointer;
+}
+.sidebar-footer:hover { color: rgba(255,255,255,0.7); }
+.user-info { padding: 16px 20px; background: rgba(0,0,0,0.15); font-size: 13px; }
+.user-info .name { font-weight: 600; }
+
+/* RIGHT MAIN AREA */
+.main { flex: 1; display: flex; flex-direction: column; overflow: hidden; }
+.topbar {
+  height: 56px; background: white; border-bottom: 1px solid #e8e8e8;
+  display: flex; align-items: center; padding: 0 28px; font-size: 16px; font-weight: 600; color: #1a3a5c;
+  box-shadow: 0 1px 4px rgba(0,0,0,0.04);
+}
+.content { flex: 1; padding: 24px 28px; overflow-y: auto; }
+
+/* ===== TOOL PANELS ===== */
+.panel { display: none; }
+.panel.active { display: block; }
+.card {
+  background: white; border-radius: 12px; padding: 28px; margin-bottom: 20px;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.06);
+}
+.card h3 { font-size: 18px; color: #1a3a5c; margin-bottom: 16px; }
+.form-row { display: flex; gap: 16px; margin-bottom: 16px; flex-wrap: wrap; }
+.form-group { flex: 1; min-width: 200px; }
+.form-group label { display: block; font-size: 13px; color: #666; margin-bottom: 6px; font-weight: 500; }
+.form-group select, .form-group input, .form-group textarea {
+  width: 100%; padding: 10px 12px; border: 1px solid #ddd; border-radius: 8px;
+  font-size: 14px; outline: none; font-family: inherit;
+}
+.form-group textarea { height: 120px; resize: vertical; }
+.form-group select:focus, .form-group input:focus, .form-group textarea:focus { border-color: #2d6a9f; }
+.btn {
+  padding: 12px 28px; border: none; border-radius: 8px; font-size: 14px;
+  cursor: pointer; transition: all 0.2s; font-weight: 500;
+}
+.btn-primary { background: #1a3a5c; color: white; }
+.btn-primary:hover { background: #2d6a9f; }
+.btn-success { background: #27ae60; color: white; }
+.btn-success:hover { background: #2ecc71; }
+.btn-warning { background: #e67e22; color: white; }
+.btn-warning:hover { background: #f39c12; }
+.btn-danger { background: #c0392b; color: white; }
+.btn-danger:hover { background: #e74c3c; }
+.btn-outline { background: white; color: #1a3a5c; border: 1px solid #ddd; }
+.btn-outline:hover { border-color: #1a3a5c; }
+
+/* Slider */
+.slider-row { display: flex; align-items: center; gap: 12px; }
+.slider-row input[type="range"] { flex: 1; }
+.slider-val { font-size: 18px; font-weight: 700; color: #1a3a5c; min-width: 40px; }
+
+/* Chips */
+.chips { display: flex; flex-wrap: wrap; gap: 8px; }
+.chip {
+  padding: 8px 16px; border-radius: 20px; font-size: 13px; cursor: pointer;
+  border: 1px solid #ddd; background: white; transition: all 0.2s; user-select: none;
+}
+.chip.active { background: #1a3a5c; color: white; border-color: #1a3a5c; }
+
+/* THREE COLUMN DISPLAY */
+.three-col { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 16px; margin-top: 16px; }
+.col-box {
+  background: #f8f9fa; border-radius: 10px; padding: 20px; min-height: 200px;
+}
+.col-box h4 { font-size: 14px; color: #888; margin-bottom: 12px; padding-bottom: 8px; border-bottom: 1px solid #e8e8e8; }
+.col-box.source { border-top: 3px solid #3498db; }
+.col-box.asr { border-top: 3px solid #e67e22; }
+.col-box.feedback { border-top: 3px solid #27ae60; }
+.col-box p { font-size: 14px; line-height: 1.8; color: #333; }
+.error-mark { background: #ffeaa7; padding: 2px 4px; border-radius: 3px; }
+
+/* Recording indicator */
+.rec-indicator {
+  display: inline-flex; align-items: center; gap: 8px; padding: 8px 16px;
+  background: #fee2e2; border-radius: 20px; font-size: 14px; color: #c0392b;
+}
+.rec-dot { width: 10px; height: 10px; background: #c0392b; border-radius: 50%; animation: blink 1s infinite; }
+@keyframes blink { 0%,100% { opacity: 1; } 50% { opacity: 0.3; } }
+
+/* Steps indicator */
+.steps { display: flex; gap: 0; margin-bottom: 24px; }
+.step {
+  flex: 1; text-align: center; padding: 12px 8px; font-size: 13px;
+  background: #f0f0f0; color: #999; position: relative;
+}
+.step.active { background: #1a3a5c; color: white; }
+.step.done { background: #27ae60; color: white; }
+.step:first-child { border-radius: 8px 0 0 8px; }
+.step:last-child { border-radius: 0 8px 8px 0; }
+
+/* History table */
+.history-table { width: 100%; border-collapse: collapse; font-size: 13px; }
+.history-table th { background: #f8f9fa; padding: 10px 12px; text-align: left; font-weight: 600; border-bottom: 2px solid #e8e8e8; }
+.history-table td { padding: 10px 12px; border-bottom: 1px solid #f0f0f0; }
+.history-table tr:hover { background: #fafbfc; }
+
+/* Number flash */
+.num-display {
+  font-size: 64px; font-weight: 700; color: #1a3a5c; text-align: center;
+  padding: 40px; background: #f8f9fa; border-radius: 12px; font-family: 'Courier New', monospace;
+}
+</style>
+</head>
+<body>
+
+<!-- LOGIN SCREEN -->
+<div class="login-overlay" id="loginScreen">
+  <div class="login-box">
+    <div class="logo">🎙️</div>
+    <h1>InterpLoop</h1>
+    <div class="subtitle">自主口译实训与反馈平台 V1.0</div>
+    <input type="text" id="loginId" placeholder="请输入学号">
+    <input type="text" id="loginName" placeholder="请输入姓名">
+    <button onclick="doLogin()">进入平台</button>
+  </div>
+</div>
+
+<!-- MAIN APP -->
+<div class="app" id="mainApp" style="display:none;">
+
+  <!-- SIDEBAR -->
+  <div class="sidebar">
+    <div class="sidebar-header">
+      <h2>🎙️ InterpLoop</h2>
+      <div class="ver">自主口译实训与反馈平台 V1.0</div>
+    </div>
+    <div class="user-info">
+      <div class="name" id="userName">—</div>
+      <div style="opacity:0.5; font-size:11px;" id="userId">—</div>
+    </div>
+    <div class="sidebar-nav">
+      <div class="nav-item active" onclick="switchPanel('loop', this)">
+        <span class="icon">🔄</span><span class="label">闭环练习</span>
+      </div>
+      <div class="nav-divider"></div>
+      <div class="nav-item" onclick="switchPanel('numsprint', this)">
+        <span class="icon">🔢</span><span class="label">数字专项训练</span>
+      </div>
+      <div class="nav-item" onclick="switchPanel('interpcue', this)">
+        <span class="icon">🔊</span><span class="label">语料播放</span>
+      </div>
+      <div class="nav-item" onclick="switchPanel('promptforge', this)">
+        <span class="icon">⚙️</span><span class="label">提示词设置</span>
+      </div>
+      <div class="nav-item" onclick="switchPanel('feedbacklog', this)">
+        <span class="icon">📋</span><span class="label">反馈记录</span>
+      </div>
+      <div class="nav-divider"></div>
+      <div class="nav-item" onclick="switchPanel('history', this)">
+        <span class="icon">📊</span><span class="label">历史记录</span>
+      </div>
+    </div>
+    <div class="sidebar-footer" onclick="doLogout()">🚪 退出登录</div>
+  </div>
+
+  <!-- MAIN CONTENT -->
+  <div class="main">
+    <div class="topbar" id="topbarTitle">闭环练习</div>
+    <div class="content">
+
+      <!-- ===== PANEL: 闭环练习 ===== -->
+      <div class="panel active" id="panel-loop">
+        <!-- Steps -->
+        <div class="steps">
+          <div class="step active" id="step1">① 输入语料</div>
+          <div class="step" id="step2">② 设置参数</div>
+          <div class="step" id="step3">③ 口译录音</div>
+          <div class="step" id="step4">④ AI评价</div>
+          <div class="step" id="step5">⑤ 归档打印</div>
+        </div>
+
+        <!-- Step 1: Input -->
+        <div class="card" id="loopStep1">
+          <h3>📝 输入口译语料</h3>
+          <div class="form-group">
+            <label>粘贴中文或日文文本（系统自动识别语种）</label>
+            <textarea id="sourceText" placeholder="例：本日は、皆様の御参集を賜り、日中双方が連携して準備を進めてまいりました「第一回中日企業経営交流商談会」のオープニングイベントをこのように盛大に開催できますことを誠にうれしく思います。"></textarea>
+          </div>
+          <div class="form-row">
+            <div class="form-group" style="max-width:200px;">
+              <label>语言方向</label>
+              <select><option>日→中</option><option>中→日</option></select>
+            </div>
+            <div class="form-group" style="max-width:300px;">
+              <label>播放间隔</label>
+              <div class="slider-row">
+                <input type="range" min="5" max="30" value="25" oninput="document.getElementById('ivVal').textContent=this.value">
+                <span class="slider-val" id="ivVal">25</span><span style="color:#888;font-size:13px;">秒</span>
+              </div>
+            </div>
+          </div>
+          <button class="btn btn-primary" onclick="goStep(2)">下一步 →</button>
+        </div>
+
+        <!-- Step 2: Prompt settings -->
+        <div class="card" id="loopStep2" style="display:none;">
+          <h3>⚙️ 反馈参数设置</h3>
+          <div class="form-row">
+            <div class="form-group">
+              <label>评审员角色</label>
+              <select>
+                <option>严格口译教师</option>
+                <option>商务口译专家</option>
+                <option>通用语言教师</option>
+                <option>外交口译顾问</option>
+              </select>
+            </div>
+            <div class="form-group">
+              <label>大模型选择</label>
+              <select>
+                <option>豆包 (Doubao)</option>
+                <option>DeepSeek</option>
+                <option>通义千问</option>
+              </select>
+            </div>
+          </div>
+          <div class="form-group">
+            <label>评价维度（可多选）</label>
+            <div class="chips">
+              <div class="chip active" onclick="this.classList.toggle('active')">信息完整度</div>
+              <div class="chip active" onclick="this.classList.toggle('active')">敬语与正式语体</div>
+              <div class="chip active" onclick="this.classList.toggle('active')">术语和机构名称</div>
+              <div class="chip active" onclick="this.classList.toggle('active')">句子自然度</div>
+              <div class="chip active" onclick="this.classList.toggle('active')">优先改进问题</div>
+              <div class="chip" onclick="this.classList.toggle('active')">参考译法</div>
+            </div>
+          </div>
+          <div class="form-group" style="max-width:400px; margin-top:16px;">
+            <label>严格程度</label>
+            <div class="slider-row">
+              <span style="font-size:12px;color:#888;">鼓励型</span>
+              <input type="range" min="1" max="5" value="4">
+              <span style="font-size:12px;color:#888;">严格诊断</span>
+            </div>
+          </div>
+          <div style="margin-top:20px; display:flex; gap:12px;">
+            <button class="btn btn-outline" onclick="goStep(1)">← 上一步</button>
+            <button class="btn btn-primary" onclick="goStep(3)">开始练习 →</button>
+          </div>
+        </div>
+
+        <!-- Step 3: Recording -->
+        <div class="card" id="loopStep3" style="display:none;">
+          <h3>🎤 口译录音</h3>
+          <div style="background:#f0f4f8; border-radius:10px; padding:20px; margin-bottom:16px;">
+            <div style="font-size:13px; color:#888; margin-bottom:8px;">当前播放的源语：</div>
+            <div style="font-size:18px; line-height:1.8; color:#1a3a5c;">本日は、皆様の御参集を賜り、日中双方が連携して準備を進めてまいりました「第一回中日企業経営交流商談会」のオープニングイベントをこのように盛大に開催できますことを誠にうれしく思います。</div>
+          </div>
+          <div style="display:flex; align-items:center; gap:16px; margin-bottom:20px;">
+            <div class="rec-indicator"><div class="rec-dot"></div>正在录音...</div>
+            <span style="font-size:14px; color:#888;">剩余时间：<strong style="color:#c0392b;">18秒</strong></span>
+          </div>
+          <div style="display:flex; gap:12px;">
+            <button class="btn btn-danger" onclick="goStep(4)">完成口译 ✓</button>
+            <button class="btn btn-outline">跳过此句 →</button>
+          </div>
+        </div>
+
+        <!-- Step 4: AI Evaluation - THREE COLUMN DISPLAY -->
+        <div class="card" id="loopStep4" style="display:none;">
+          <h3>📊 AI评价结果 — 识别链三栏透明展示</h3>
+          <div class="three-col">
+            <div class="col-box source">
+              <h4>📄 源语原文</h4>
+              <p>本日は、皆様の御参集を賜り、日中双方が連携して準備を進めてまいりました「第一回中日企業経営交流商談会」のオープニングイベントをこのように盛大に開催できますことを誠にうれしく思います。</p>
+            </div>
+            <div class="col-box asr">
+              <h4>🎤 ASR识别文本（AI听到的）</h4>
+              <p>今天，承蒙各位的<span class="error-mark">光临</span>，中日双方共同筹备的"第一届中日企业经营交流<span class="error-mark">洽商会</span>"的开幕活动得以如此盛大地举办，我感到非常高兴。</p>
+            </div>
+            <div class="col-box feedback">
+              <h4>🤖 AI评价与建议</h4>
+              <p><strong>信息完整度：</strong>基本完整，核心要素保留。</p>
+              <p style="margin-top:8px;"><strong>术语：</strong>"洽谈会"被译为"洽商会"，建议统一使用"洽谈会"。</p>
+              <p style="margin-top:8px;"><strong>敬语：</strong>"御参集を賜り"的正式感在中文中有所减弱，"光临"可接受但不够庄重，建议"莅临"。</p>
+              <p style="margin-top:8px;"><strong>优先改进：</strong>注意机构名称的规范译法。</p>
+              <p style="margin-top:12px; padding-top:12px; border-top:1px solid #e8e8e8;"><strong>参考译法：</strong>今天，承蒙各位莅临，中日双方携手筹备的"第一届中日企业经营交流洽谈会"开幕式得以隆重举行，我深感欣喜。</p>
+            </div>
+          </div>
+          <div style="margin-top:20px; display:flex; gap:12px;">
+            <button class="btn btn-warning" onclick="goStep(3)">🔄 重新评价</button>
+            <button class="btn btn-success" onclick="goStep(5)">确认并归档 →</button>
+          </div>
+        </div>
+
+        <!-- Step 5: Archive -->
+        <div class="card" id="loopStep5" style="display:none;">
+          <h3>✅ 练习记录已归档</h3>
+          <div style="background:#f0fff4; border-radius:10px; padding:20px; margin-bottom:16px; border:1px solid #c6f6d5;">
+            <p style="font-size:14px; color:#2d7a4f;">
+              <strong>学号：</strong><span id="archiveId">—</span> &nbsp;&nbsp;
+              <strong>姓名：</strong><span id="archiveName">—</span> &nbsp;&nbsp;
+              <strong>时间：</strong><span id="archiveTime">—</span> &nbsp;&nbsp;
+              <strong>方向：</strong>日→中 &nbsp;&nbsp;
+              <strong>模型：</strong>豆包
+            </p>
+          </div>
+          <div style="display:flex; gap:12px;">
+            <button class="btn btn-primary" onclick="goStep(1)">开始新练习</button>
+            <button class="btn btn-outline" onclick="window.print()">🖨️ 打印记录</button>
+            <button class="btn btn-outline">📥 导出PDF</button>
+          </div>
+        </div>
+      </div>
+
+      <!-- ===== PANEL: 数字专项 ===== -->
+      <div class="panel" id="panel-numsprint">
+        <div class="card">
+          <h3>🔢 数字专项训练（NumSprint）</h3>
+          <div class="form-row">
+            <div class="form-group" style="max-width:200px;">
+              <label>难度</label>
+              <select><option>初级（1-4位数）</option><option>中级（大数+单位）</option><option>高级（混合数字串）</option></select>
+            </div>
+            <div class="form-group" style="max-width:200px;">
+              <label>模式</label>
+              <select><option>音频模式</option><option>视觉闪现</option><option>混合模式</option></select>
+            </div>
+            <div class="form-group" style="max-width:200px;">
+              <label>间隔</label>
+              <div class="slider-row">
+                <input type="range" min="3" max="15" value="8">
+                <span class="slider-val">8</span><span style="color:#888;font-size:13px;">秒</span>
+              </div>
+            </div>
+          </div>
+          <button class="btn btn-primary" onclick="document.getElementById('numDemo').style.display='block'">▶ 开始训练</button>
+          <div id="numDemo" style="display:none; margin-top:20px;">
+            <div class="num-display">2億5,000万円</div>
+            <p style="text-align:center; margin-top:12px; color:#888; font-size:14px;">请口译为中文...</p>
+          </div>
+        </div>
+      </div>
+
+      <!-- ===== PANEL: 语料播放 ===== -->
+      <div class="panel" id="panel-interpcue">
+        <div class="card">
+          <h3>🔊 语料播放（InterpCue）</h3>
+          <div class="form-group">
+            <label>输入要朗读的文本</label>
+            <textarea placeholder="粘贴任意中文或日文文本，系统将自动转为标准语音播放..."></textarea>
+          </div>
+          <div class="form-row">
+            <div class="form-group" style="max-width:200px;">
+              <label>语种</label>
+              <select><option>日语</option><option>中文</option></select>
+            </div>
+            <div class="form-group" style="max-width:300px;">
+              <label>间隔时间</label>
+              <div class="slider-row">
+                <input type="range" min="5" max="30" value="25">
+                <span class="slider-val">25</span><span style="color:#888;font-size:13px;">秒</span>
+              </div>
+            </div>
+          </div>
+          <div style="display:flex; gap:12px;">
+            <button class="btn btn-primary">▶ 逐句播放</button>
+            <button class="btn btn-outline">▶▶ 整段播放</button>
+          </div>
+        </div>
+      </div>
+
+      <!-- ===== PANEL: 提示词设置 ===== -->
+      <div class="panel" id="panel-promptforge">
+        <div class="card">
+          <h3>⚙️ 提示词设置（PromptForge）</h3>
+          <div class="form-row">
+            <div class="form-group"><label>角色</label><select><option>严格口译教师</option><option>商务口译专家</option><option>通用语言教师</option></select></div>
+            <div class="form-group"><label>方向</label><select><option>日→中</option><option>中→日</option></select></div>
+          </div>
+          <div class="form-group">
+            <label>评价维度（可多选）</label>
+            <div class="chips">
+              <div class="chip active" onclick="this.classList.toggle('active')">信息完整度</div>
+              <div class="chip active" onclick="this.classList.toggle('active')">敬语与正式语体</div>
+              <div class="chip active" onclick="this.classList.toggle('active')">术语和机构名称</div>
+              <div class="chip active" onclick="this.classList.toggle('active')">句子自然度</div>
+              <div class="chip active" onclick="this.classList.toggle('active')">优先改进问题</div>
+              <div class="chip" onclick="this.classList.toggle('active')">参考译法</div>
+            </div>
+          </div>
+          <div class="form-group" style="max-width:400px; margin-top:16px;">
+            <label>严格程度</label>
+            <div class="slider-row">
+              <span style="font-size:12px;color:#888;">鼓励</span>
+              <input type="range" min="1" max="5" value="4" oninput="genPrompt()">
+              <span style="font-size:12px;color:#888;">严格</span>
+            </div>
+          </div>
+          <div class="form-group" style="margin-top:16px;">
+            <label>生成的提示词（可复制）</label>
+            <textarea style="height:100px; background:#f8f9fa;" readonly>你是一名严格的日汉口译教师。接下来你将听到一段口译练习。请先输出你识别到的原文和学生译文；如果有不确定、可能误听的词语，请用【不确定】标出。然后从以下方面评价：1.信息完整度；2.敬语与正式语体；3.术语和机构名称；4.句子自然度；5.需要优先改进的问题。请不要泛泛鼓励，指出最关键的2-3个问题并给出参考译法。</textarea>
+          </div>
+        </div>
+      </div>
+
+      <!-- ===== PANEL: 反馈记录 ===== -->
+      <div class="panel" id="panel-feedbacklog">
+        <div class="card">
+          <h3>📋 反馈记录（FeedbackLog）</h3>
+          <p style="color:#888; margin-bottom:16px;">所有闭环练习的记录自动归档于此。</p>
+          <table class="history-table">
+            <thead>
+              <tr><th>时间</th><th>方向</th><th>模型</th><th>源语（前20字）</th><th>AI评分</th><th>操作</th></tr>
+            </thead>
+            <tbody>
+              <tr><td>2026-06-26 14:32</td><td>日→中</td><td>豆包</td><td>本日は、皆様の御参集を...</td><td>B+</td><td><a href="#" style="color:#2d6a9f;">查看详情</a></td></tr>
+              <tr><td>2026-06-26 14:18</td><td>中→日</td><td>DeepSeek</td><td>今天，第一届中日企业...</td><td>A-</td><td><a href="#" style="color:#2d6a9f;">查看详情</a></td></tr>
+              <tr><td>2026-06-25 16:45</td><td>日→中</td><td>豆包</td><td>終わりになりましたが...</td><td>A</td><td><a href="#" style="color:#2d6a9f;">查看详情</a></td></tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+      <!-- ===== PANEL: 历史记录 ===== -->
+      <div class="panel" id="panel-history">
+        <div class="card">
+          <h3>📊 学习数据统计</h3>
+          <div style="display:grid; grid-template-columns:1fr 1fr 1fr 1fr; gap:16px; margin-bottom:20px;">
+            <div style="background:#e8f4fd; border-radius:10px; padding:20px; text-align:center;">
+              <div style="font-size:32px; font-weight:700; color:#2d6a9f;">23</div>
+              <div style="font-size:13px; color:#666; margin-top:4px;">总练习次数</div>
+            </div>
+            <div style="background:#e8fde8; border-radius:10px; padding:20px; text-align:center;">
+              <div style="font-size:32px; font-weight:700; color:#27ae60;">4.2h</div>
+              <div style="font-size:13px; color:#666; margin-top:4px;">总练习时长</div>
+            </div>
+            <div style="background:#fef3e2; border-radius:10px; padding:20px; text-align:center;">
+              <div style="font-size:32px; font-weight:700; color:#e67e22;">B+</div>
+              <div style="font-size:13px; color:#666; margin-top:4px;">平均评价</div>
+            </div>
+            <div style="background:#f0e8fd; border-radius:10px; padding:20px; text-align:center;">
+              <div style="font-size:32px; font-weight:700; color:#8e44ad;">↑12%</div>
+              <div style="font-size:13px; color:#666; margin-top:4px;">进步幅度</div>
+            </div>
+          </div>
+          <button class="btn btn-outline">📥 导出全部记录</button>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</div>
+
+<script>
+const titles = {
+  loop: '闭环练习', numsprint: '数字专项训练（NumSprint）',
+  interpcue: '语料播放（InterpCue）', promptforge: '提示词设置（PromptForge）',
+  feedbacklog: '反馈记录（FeedbackLog）', history: '学习数据统计'
+};
+
+function doLogin() {
+  const id = document.getElementById('loginId').value.trim();
+  const name = document.getElementById('loginName').value.trim();
+  if (!id || !name) { alert('请输入学号和姓名'); return; }
+  document.getElementById('loginScreen').style.display = 'none';
+  document.getElementById('mainApp').style.display = 'flex';
+  document.getElementById('userName').textContent = name;
+  document.getElementById('userId').textContent = '学号：' + id;
+  document.getElementById('archiveId').textContent = id;
+  document.getElementById('archiveName').textContent = name;
+}
+
+function doLogout() {
+  document.getElementById('loginScreen').style.display = 'flex';
+  document.getElementById('mainApp').style.display = 'none';
+}
+
+function switchPanel(name, el) {
+  document.querySelectorAll('.panel').forEach(p => p.classList.remove('active'));
+  document.querySelectorAll('.nav-item').forEach(n => n.classList.remove('active'));
+  document.getElementById('panel-' + name).classList.add('active');
+  el.classList.add('active');
+  document.getElementById('topbarTitle').textContent = titles[name] || '';
+}
+
+function goStep(n) {
+  for (let i = 1; i <= 5; i++) {
+    document.getElementById('loopStep' + i).style.display = i === n ? 'block' : 'none';
+    const s = document.getElementById('step' + i);
+    s.className = 'step' + (i < n ? ' done' : (i === n ? ' active' : ''));
+  }
+  if (n === 5) {
+    document.getElementById('archiveTime').textContent = new Date().toLocaleString('zh-CN');
+  }
+}
+</script>
+</body>
+</html>
