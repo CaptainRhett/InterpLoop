@@ -2,6 +2,7 @@ import base64
 import hashlib
 import hmac
 import json
+import time
 from email.utils import formatdate
 from urllib.parse import urlencode
 
@@ -76,26 +77,7 @@ class XunfeiIATClient:
 
         ws = websocket.create_connection(url, timeout=20)
         try:
-            ws.send(
-                json.dumps(
-                    {
-                        "common": {"app_id": app_id},
-                        "business": {
-                            "language": "zh_cn" if lang != "ja-JP" else "ja_jp",
-                            "domain": "iat",
-                            "accent": "mandarin",
-                            "vad_eos": 5000,
-                        },
-                        "data": {
-                            "status": 2,
-                            "format": "audio/L16;rate=16000",
-                            "encoding": "raw",
-                            "audio": base64.b64encode(audio).decode("utf-8"),
-                        },
-                    },
-                    ensure_ascii=False,
-                )
-            )
+            self._send_audio(ws, app_id, audio, lang)
             chunks = []
             while True:
                 message = json.loads(ws.recv())
@@ -115,6 +97,42 @@ class XunfeiIATClient:
             }
         finally:
             ws.close()
+
+    def _send_audio(self, ws, app_id, audio, lang):
+        frame_size = 1280
+        frame_count = max(1, (len(audio) + frame_size - 1) // frame_size)
+        language = "zh_cn" if lang != "ja-JP" else "ja_jp"
+        for frame_index in range(frame_count):
+            offset = frame_index * frame_size
+            frame = audio[offset : offset + frame_size]
+            is_first = frame_index == 0
+            is_last = frame_index == frame_count - 1
+            if frame_count == 1 or is_last:
+                status = 2
+            elif is_first:
+                status = 0
+            else:
+                status = 1
+
+            payload = {
+                "data": {
+                    "status": status,
+                    "format": "audio/L16;rate=16000",
+                    "encoding": "raw",
+                    "audio": base64.b64encode(frame).decode("utf-8"),
+                }
+            }
+            if is_first:
+                payload["common"] = {"app_id": app_id}
+                payload["business"] = {
+                    "language": language,
+                    "domain": "iat",
+                    "accent": "mandarin",
+                    "vad_eos": 5000,
+                }
+            ws.send(json.dumps(payload, ensure_ascii=False))
+            if not is_last:
+                time.sleep(0.04)
 
 
 class XunfeiTTSClient:

@@ -14,6 +14,7 @@ const currentIndex = ref(-1);
 const playing = ref(false);
 const status = ref("准备就绪");
 let timer = null;
+let currentAudio = null;
 
 const sentences = computed(() =>
   state.text
@@ -27,6 +28,9 @@ function speakBrowser(text) {
   const utterance = new SpeechSynthesisUtterance(text);
   utterance.lang = state.lang;
   utterance.rate = 0.9;
+  utterance.onerror = () => {
+    status.value = "浏览器朗读失败，请检查系统语音和浏览器声音权限";
+  };
   window.speechSynthesis.speak(utterance);
 }
 
@@ -34,14 +38,25 @@ async function speak(text) {
   try {
     const { data } = await api.post("/tts", { text, lang: state.lang, voice: state.voice });
     if (data.audio_base64) {
-      const audio = new Audio(`data:${data.mime_type};base64,${data.audio_base64}`);
-      audio.play();
+      await playBase64Audio(data.audio_base64, data.mime_type);
     } else {
       speakBrowser(text);
     }
-  } catch {
+  } catch (error) {
+    console.warn("TTS playback failed, falling back to browser speech.", error);
     speakBrowser(text);
   }
+}
+
+function playBase64Audio(audioBase64, mimeType = "audio/mpeg") {
+  stopCurrentAudio();
+  currentAudio = new Audio(`data:${mimeType};base64,${audioBase64}`);
+  currentAudio.preload = "auto";
+  return new Promise((resolve, reject) => {
+    currentAudio.onended = resolve;
+    currentAudio.onerror = () => reject(new Error("音频解码或播放失败"));
+    currentAudio.play().catch(reject);
+  });
 }
 
 async function playNext() {
@@ -74,8 +89,17 @@ function stop() {
   playing.value = false;
   if (timer) window.clearTimeout(timer);
   timer = null;
+  stopCurrentAudio();
   window.speechSynthesis?.cancel();
   status.value = "已停止";
+}
+
+function stopCurrentAudio() {
+  if (!currentAudio) return;
+  currentAudio.pause();
+  currentAudio.currentTime = 0;
+  currentAudio.src = "";
+  currentAudio = null;
 }
 
 function clearText() {
