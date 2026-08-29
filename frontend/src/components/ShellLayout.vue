@@ -7,6 +7,8 @@ import {
   MicVocal,
   Settings2,
   Sigma,
+  ShieldCheck,
+  UserRoundCog,
 } from "@lucide/vue";
 import { computed } from "vue";
 import { useRoute, useRouter } from "vue-router";
@@ -16,16 +18,25 @@ const route = useRoute();
 const router = useRouter();
 const auth = useAuthStore();
 
-const navItems = [
-  { to: "/loop", label: "闭环练习", icon: MicVocal },
-  { to: "/numsprint", label: "数字专项", icon: Sigma },
-  { to: "/interpcue", label: "语料播放", icon: Megaphone },
-  { to: "/promptforge", label: "提示词设置", icon: Settings2 },
-  { to: "/feedbacklog", label: "反馈记录", icon: ClipboardList },
-  { to: "/stats", label: "学习统计", icon: BarChart3 },
-];
+const navItems = computed(() => {
+  const items = [];
+  if (auth.user?.role === "student") items.push({ to: "/loop", label: "闭环练习", icon: MicVocal });
+  items.push(
+    { to: "/numsprint", label: "数字专项", icon: Sigma },
+    { to: "/interpcue", label: "语料播放", icon: Megaphone },
+    { to: "/promptforge", label: "提示词设置", icon: Settings2 },
+    { to: "/feedbacklog", label: "反馈记录", icon: ClipboardList },
+    { to: "/stats", label: "学习统计", icon: BarChart3 },
+  );
+  if (auth.isAdmin) items.push({ to: "/admin", label: "账号与权限", icon: ShieldCheck });
+  items.push({ to: "/account", label: "我的账号", icon: UserRoundCog });
+  return items;
+});
 
-const title = computed(() => navItems.find((item) => route.path === item.to)?.label || "InterpLoop");
+const title = computed(() => {
+  if (route.name === "practice-detail") return "练习档案详情";
+  return navItems.value.find((item) => route.path === item.to)?.label || "InterpLoop";
+});
 
 async function logout() {
   await auth.logout();

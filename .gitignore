@@ -4,6 +4,7 @@ frontend/node_modules/
 frontend/dist/
 instance/*.sqlite3
 instance/*.sqlite3-*
+backend/instance/
 var/uploads/*
 !var/uploads/.gitkeep
 __pycache__/

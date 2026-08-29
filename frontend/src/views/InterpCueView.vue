@@ -2,6 +2,7 @@
 import { Pause, Play, SkipForward, Trash2 } from "@lucide/vue";
 import { computed, onBeforeUnmount, reactive, ref } from "vue";
 import { api } from "../api";
+import { SPOKEN_LANGUAGES } from "../languages";
 
 const state = reactive({
   text: "本日は、皆様の御参集を賜り、誠にありがとうございます。第一回中日企業経営交流商談会を開催できますことを大変うれしく思います。",
@@ -115,7 +116,7 @@ onBeforeUnmount(stop);
   <div class="grid gap-5 lg:grid-cols-[minmax(0,1fr)_360px]">
     <section class="panel">
       <h2 class="text-lg font-semibold text-brand">InterpCue 语料播放</h2>
-      <p class="mt-1 text-sm text-slate-500">粘贴中文或日文材料，逐句或整段朗读。</p>
+      <p class="mt-1 text-sm text-slate-500">粘贴中文、日文或英文材料，逐句或整段朗读。</p>
       <textarea v-model="state.text" class="input mt-5 min-h-64 resize-y" placeholder="粘贴语料文本"></textarea>
       <div class="mt-4 rounded-md border border-slate-200 bg-slate-50 p-4">
         <div class="text-sm font-medium text-slate-600">当前句子</div>
@@ -129,8 +130,7 @@ onBeforeUnmount(stop);
       <div>
         <label class="field-label">语种</label>
         <select v-model="state.lang" class="input">
-          <option value="ja-JP">日语</option>
-          <option value="zh-CN">中文</option>
+          <option v-for="item in SPOKEN_LANGUAGES" :key="item.value" :value="item.value">{{ item.label }}</option>
         </select>
       </div>
       <div>
@@ -139,7 +139,7 @@ onBeforeUnmount(stop);
       </div>
       <div>
         <label class="field-label">语音名称（选填）</label>
-        <input v-model.trim="state.voice" class="input" placeholder="如 xiaoyan / x2_yumi" />
+        <input v-model.trim="state.voice" class="input" placeholder="填写讯飞控制台已授权的发音人" />
       </div>
       <div class="rounded-md bg-amber-50 px-3 py-2 text-sm text-amber-800">{{ status }}</div>
       <div class="grid grid-cols-2 gap-2">

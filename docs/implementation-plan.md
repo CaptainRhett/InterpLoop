@@ -35,7 +35,7 @@
 
 闭环练习是主流程，按 5 步实现：
 
-1. 输入中文或日文语料，选择语言方向。
+1. 输入中文、日文或英文语料，选择日→中、中→日、英→中或中→英方向。
 2. 设置播放间隔、评审员角色、模型、严格度、评价维度。
 3. 系统播放源语，学生口译，浏览器录音。
 4. 上传音频，后端调用 ASR，再调用大模型生成评价。
@@ -88,6 +88,31 @@ backend/
 - `created_at`
 - `last_login_at`
 
+`user_accounts`
+
+- `user_id`
+- `login_id`
+- `password_hash`
+- `is_active`
+- `must_change_password`
+- `password_changed_at`
+
+`academic_terms` / `class_groups` / `courses`
+
+- 管理学期、班级和课程主数据
+
+`course_enrollments`
+
+- 绑定学生、班级和课程
+
+`teaching_assignments`
+
+- 绑定教师可管理的班级和课程
+
+`practice_contexts` / `feedback_contexts`
+
+- 固定练习及反馈产生时的学期、班级、课程权限上下文
+
 `practice_sessions`
 
 - `id`
@@ -111,6 +136,32 @@ backend/
 - `feedback_text`
 - `reference_translation`
 - `created_at`
+
+`practice_evaluation_versions`
+
+- `session_id`
+- `version_number`
+- `asr_text`
+- `score`
+- `feedback_text`
+- `reference_translation`
+- `evaluation_json`
+- `created_by_id`
+- `created_at`
+
+`practice_archives`
+
+- `session_id`
+- `evaluation_version_id`
+- `feedback_log_id`
+- `source_text`
+- `asr_text`
+- `score`
+- `feedback_text`
+- `reference_translation`
+- `practice_created_at`
+- `evaluation_created_at`
+- `archived_at`
 
 `prompt_presets`
 
@@ -196,9 +247,15 @@ XUNFEI_API_SECRET=
 - `POST /api/practices`
   - 创建练习记录
 
-- `POST /api/evaluate`
-  - 输入：源语文本、ASR 文本、方向、模型、角色、严格度、评价维度
-  - 输出：结构化评价、参考译文、评分
+- `POST /api/practices/:id/evaluate`
+  - 输入：ASR 文本
+  - 输出：结构化评价、参考译文、评分和不可覆盖的评价版本
+
+- `POST /api/practices/:id/archive`
+  - 显式保存当前评价版本的完整快照，并同步生成 FeedbackLog 记录
+
+- `GET /api/practices/:id`
+  - 返回练习详情、当前归档快照和全部历史评价版本
 
 - `GET /api/practices`
   - 学生查看自己的记录
@@ -206,6 +263,9 @@ XUNFEI_API_SECRET=
 
 - `GET /api/practices/export.csv`
   - 教师导出 CSV
+
+- `GET /api/practices/evaluation-versions/export.csv`
+  - 教师按评价版本逐行导出 CSV，用于教学分析和研究数据积累
 
 ### 4.4 统计
 

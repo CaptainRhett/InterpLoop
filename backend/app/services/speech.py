@@ -10,14 +10,48 @@ import websocket
 from flask import current_app
 
 
+SUPPORTED_SPEECH_LANGUAGES = {"zh-CN", "ja-JP", "en-US"}
+ASR_LANGUAGE_CODES = {
+    "auto": "zh_cn",
+    "zh-CN": "zh_cn",
+    "ja-JP": "ja_jp",
+    "en-US": "en_us",
+}
+TTS_VOICE_CONFIG = {
+    "zh-CN": "XUNFEI_TTS_VOICE_ZH",
+    "ja-JP": "XUNFEI_TTS_VOICE_JA",
+    "en-US": "XUNFEI_TTS_VOICE_EN",
+}
+
+
+def asr_language_code(lang):
+    try:
+        return ASR_LANGUAGE_CODES[lang]
+    except KeyError as exc:
+        raise ValueError(f"不支持的 ASR 语种：{lang}") from exc
+
+
+def default_tts_voice(lang):
+    try:
+        config_key = TTS_VOICE_CONFIG[lang]
+    except KeyError as exc:
+        raise ValueError(f"不支持的 TTS 语种：{lang}") from exc
+    return current_app.config.get(config_key, "")
+
+
 class ASRClient:
     def __init__(self):
         self.mock = current_app.config["USE_MOCK_SERVICES"]
 
     def transcribe(self, audio_path, lang="auto"):
         if self.mock:
+            transcripts = {
+                "zh-CN": "这是模拟 ASR 识别文本。配置真实讯飞密钥并关闭 USE_MOCK_SERVICES 后会返回实际识别结果。",
+                "ja-JP": "これは模擬 ASR の認識結果です。実際の認識結果を取得するには、音声サービスを設定してください。",
+                "en-US": "This is a simulated ASR transcript. Configure the speech service to receive the actual transcript.",
+            }
             return {
-                "transcript": "这是模拟 ASR 识别文本。配置真实讯飞密钥并关闭 USE_MOCK_SERVICES 后会返回实际识别结果。",
+                "transcript": transcripts.get(lang, transcripts["zh-CN"]),
                 "confidence": 0.9,
                 "segments": [],
                 "provider": "mock",
@@ -37,7 +71,15 @@ class TTSClient:
                 "provider": "mock",
                 "message": "Mock 模式下前端会使用浏览器 speechSynthesis 播放。",
             }
-        return XunfeiTTSClient().synthesize(text, lang, voice, speed)
+        resolved_voice = voice or default_tts_voice(lang)
+        if not resolved_voice:
+            return {
+                "audio_base64": "",
+                "mime_type": "audio/mpeg",
+                "provider": "browser-fallback",
+                "message": f"未配置 {lang} 的讯飞发音人，前端将使用浏览器语音。",
+            }
+        return XunfeiTTSClient().synthesize(text, lang, resolved_voice, speed)
 
 
 class XunfeiAuth:
@@ -101,7 +143,7 @@ class XunfeiIATClient:
     def _send_audio(self, ws, app_id, audio, lang):
         frame_size = 1280
         frame_count = max(1, (len(audio) + frame_size - 1) // frame_size)
-        language = "zh_cn" if lang != "ja-JP" else "ja_jp"
+        language = asr_language_code(lang)
         for frame_index in range(frame_count):
             offset = frame_index * frame_size
             frame = audio[offset : offset + frame_size]
@@ -153,7 +195,7 @@ class XunfeiTTSClient:
                             "aue": "lame",
                             "sfl": 1,
                             "auf": "audio/L16;rate=16000",
-                            "vcn": voice or ("xiaoyan" if lang.startswith("zh") else "x2_yumi"),
+                            "vcn": voice,
                             "tte": "UTF8",
                             "speed": int(speed),
                         },

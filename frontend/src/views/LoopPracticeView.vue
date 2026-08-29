@@ -2,6 +2,7 @@
 import { CheckCircle2, Mic, Play, Save, Square, Wand2 } from "@lucide/vue";
 import { computed, onBeforeUnmount, reactive, ref } from "vue";
 import { api } from "../api";
+import { LANGUAGE_DIRECTIONS, languagePairForDirection } from "../languages";
 import { useAuthStore } from "../stores/auth";
 
 const auth = useAuthStore();
@@ -11,20 +12,24 @@ const state = reactive({
   sourceText:
     "本日は、皆様の御参集を賜り、日中双方が連携して準備を進めてまいりました第一回中日企業経営交流商談会のオープニングイベントを開催できますことを誠にうれしく思います。",
   direction: "日→中",
+  contextId: auth.contexts.length === 1 ? auth.contexts[0].enrollment_id : "",
   interval: 20,
   modelName: "doubao",
   role: "严格口译教师",
   strictness: 4,
-  dimensions: ["信息完整度", "敬语与正式语体", "术语和机构名称", "句子自然度", "优先改进问题"],
+  dimensions: ["信息完整度", "敬语、语域与正式语体", "术语和机构名称", "句子自然度", "优先改进问题"],
   practice: null,
   asrText: "",
   evaluation: null,
+  evaluationVersion: null,
+  archive: null,
   status: "准备就绪",
 });
 
-const allDimensions = ["信息完整度", "敬语与正式语体", "术语和机构名称", "句子自然度", "优先改进问题", "参考译法"];
+const allDimensions = ["信息完整度", "敬语、语域与正式语体", "术语和机构名称", "语法与用词", "句子自然度", "优先改进问题", "参考译法"];
 const recording = ref(false);
 const evaluating = ref(false);
+const archiving = ref(false);
 const uploading = ref(false);
 const elapsed = ref(0);
 let stream = null;
@@ -35,7 +40,12 @@ let pcmChunks = [];
 let tickTimer = null;
 const targetSampleRate = 16000;
 
-const sourceLang = computed(() => (state.direction.startsWith("日") ? "ja-JP" : "zh-CN"));
+const languagePair = computed(() => languagePairForDirection(state.direction));
+const sourceLang = computed(() => languagePair.value.sourceLang);
+const targetLang = computed(() => languagePair.value.targetLang);
+const selectedContext = computed(() =>
+  auth.contexts.find((item) => item.enrollment_id === Number(state.contextId)),
+);
 
 function stepClass(step) {
   if (state.step > step) return "bg-accent text-white";
@@ -85,6 +95,8 @@ async function createPractice() {
       strictness: state.strictness,
       dimensions: state.dimensions,
     },
+    class_id: selectedContext.value?.class_group.id,
+    course_id: selectedContext.value?.course.id,
   });
   state.practice = data.practice;
 }
@@ -94,9 +106,17 @@ async function goRecording() {
     state.status = "请先输入源语文本";
     return;
   }
-  if (!state.practice) await createPractice();
-  state.step = 3;
-  await playSource();
+  if (auth.user?.login_id && !selectedContext.value) {
+    state.status = auth.contexts.length ? "请选择本次练习所属的班级和课程" : "账号尚未分配班级课程，请联系管理员";
+    return;
+  }
+  try {
+    if (!state.practice) await createPractice();
+    state.step = 3;
+    await playSource();
+  } catch (error) {
+    state.status = `练习创建失败：${apiErrorMessage(error)}`;
+  }
 }
 
 async function startRecording() {
@@ -163,7 +183,7 @@ async function stopAndUpload() {
     }
     const form = new FormData();
     form.append("audio", blob, "practice.pcm");
-    form.append("lang", state.direction.endsWith("中") ? "zh-CN" : "ja-JP");
+    form.append("lang", targetLang.value);
     const { data } = await api.post(`/practices/${state.practice.id}/audio`, form, {
       headers: { "Content-Type": "multipart/form-data" },
     });
@@ -236,17 +256,43 @@ async function evaluate() {
   }
   evaluating.value = true;
   state.status = "正在调用大模型评价";
-  const { data } = await api.post(`/practices/${state.practice.id}/evaluate`, {
-    asr_text: state.asrText,
-  });
-  state.practice = data.practice;
-  state.evaluation = data.evaluation;
-  state.status = "评价完成";
-  evaluating.value = false;
+  try {
+    const { data } = await api.post(`/practices/${state.practice.id}/evaluate`, {
+      asr_text: state.asrText,
+    });
+    state.practice = data.practice;
+    state.evaluation = data.evaluation;
+    state.evaluationVersion = data.evaluation_version;
+    state.archive = data.archive;
+    state.status = `评价完成，已保存为第 ${data.evaluation_version.version_number} 版`;
+  } catch (error) {
+    state.status = `评价失败：${apiErrorMessage(error)}`;
+  } finally {
+    evaluating.value = false;
+  }
 }
 
-function archive() {
-  state.step = 5;
+async function archive() {
+  if (!state.evaluationVersion) {
+    state.status = "请先生成 AI 评价";
+    return;
+  }
+  archiving.value = true;
+  state.status = "正在保存完整练习档案";
+  try {
+    const { data } = await api.post(`/practices/${state.practice.id}/archive`, {
+      asr_text: state.asrText,
+      evaluation_version_id: state.evaluationVersion.id,
+    });
+    state.practice = data.practice;
+    state.archive = data.archive;
+    state.status = "练习档案保存完成";
+    state.step = 5;
+  } catch (error) {
+    state.status = `归档失败：${apiErrorMessage(error)}`;
+  } finally {
+    archiving.value = false;
+  }
 }
 
 function newPractice() {
@@ -254,6 +300,8 @@ function newPractice() {
   state.practice = null;
   state.asrText = "";
   state.evaluation = null;
+  state.evaluationVersion = null;
+  state.archive = null;
   state.status = "准备就绪";
 }
 
@@ -276,13 +324,21 @@ onBeforeUnmount(() => {
 
     <section v-if="state.step === 1" class="panel space-y-4">
       <h2 class="text-lg font-semibold text-brand">输入口译语料</h2>
-      <textarea v-model="state.sourceText" class="input min-h-48 resize-y" placeholder="粘贴中文或日文源语文本"></textarea>
+      <textarea v-model="state.sourceText" class="input min-h-48 resize-y" placeholder="粘贴中文、日文或英文源语文本"></textarea>
       <div class="grid gap-4 md:grid-cols-3">
         <div>
           <label class="field-label">语言方向</label>
           <select v-model="state.direction" class="input">
-            <option>日→中</option>
-            <option>中→日</option>
+            <option v-for="item in LANGUAGE_DIRECTIONS" :key="item.value" :value="item.value">{{ item.label }}</option>
+          </select>
+        </div>
+        <div>
+          <label class="field-label">班级与课程</label>
+          <select v-model="state.contextId" class="input" :disabled="!auth.contexts.length">
+            <option value="">{{ auth.contexts.length ? "请选择" : "尚未分配" }}</option>
+            <option v-for="item in auth.contexts" :key="item.enrollment_id" :value="item.enrollment_id">
+              {{ item.term.name }} · {{ item.class_group.name }} · {{ item.course.name }}
+            </option>
           </select>
         </div>
         <div>
@@ -360,11 +416,15 @@ onBeforeUnmount(() => {
         <div class="panel border-t-4 border-t-accent">
           <h3 class="mb-3 font-semibold text-brand">AI评价与建议</h3>
           <pre class="min-h-56 whitespace-pre-wrap text-sm leading-7">{{ state.evaluation?.feedback_text || "尚未生成评价" }}</pre>
+          <div v-if="state.evaluation?.reference_translation" class="mt-4 border-t border-slate-200 pt-4">
+            <h4 class="mb-2 text-sm font-semibold text-brand">参考译法</h4>
+            <p class="whitespace-pre-wrap text-sm leading-7">{{ state.evaluation.reference_translation }}</p>
+          </div>
         </div>
       </div>
       <div class="flex flex-wrap gap-2">
         <button class="btn-primary" :disabled="evaluating" @click="evaluate"><Wand2 class="h-4 w-4" />{{ evaluating ? "评价中..." : "生成评价" }}</button>
-        <button class="btn-success" :disabled="!state.evaluation" @click="archive"><Save class="h-4 w-4" />确认并归档</button>
+        <button class="btn-success" :disabled="!state.evaluationVersion || archiving" @click="archive"><Save class="h-4 w-4" />{{ archiving ? "归档中..." : "确认并归档" }}</button>
       </div>
       <div class="rounded-md bg-amber-50 px-3 py-2 text-sm text-amber-800">{{ state.status }}</div>
     </section>
@@ -379,9 +439,13 @@ onBeforeUnmount(() => {
         <div>姓名：{{ auth.user?.name || "-" }}</div>
         <div>方向：{{ state.direction }}</div>
         <div>评分：{{ state.evaluation?.score || "-" }}</div>
+        <div>课程：{{ selectedContext?.course.name || "-" }}</div>
+        <div>评价版本：第 {{ state.archive?.version_number || "-" }} 版</div>
+        <div>归档时间：{{ state.archive?.archived_at?.slice(0, 19).replace("T", " ") || "-" }}</div>
       </div>
-      <div class="flex gap-2">
+      <div class="flex flex-wrap gap-2">
         <button class="btn-primary" @click="newPractice">开始新练习</button>
+        <RouterLink v-if="state.practice" class="btn-success" :to="`/practices/${state.practice.id}`">查看练习档案</RouterLink>
         <button class="btn-secondary" @click="printPage">打印记录</button>
       </div>
     </section>
