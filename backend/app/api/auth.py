@@ -21,14 +21,10 @@ def current_user():
     if not user:
         session.clear()
         return None
-    if user.account:
-        if not user.account.is_active:
-            session.clear()
-            return None
-        if session.get("account_version") != user.account.session_version:
-            session.clear()
-            return None
-    elif not current_app.config["ALLOW_LEGACY_LOGIN"]:
+    if not user.account or not user.account.is_active:
+        session.clear()
+        return None
+    if session.get("account_version") != user.account.session_version:
         session.clear()
         return None
     return user
@@ -65,8 +61,7 @@ def _login_user(user):
     session.clear()
     session.permanent = True
     session["user_id"] = user.id
-    session["role"] = user.role
-    session["account_version"] = user.account.session_version if user.account else None
+    session["account_version"] = user.account.session_version
     user.last_login_at = datetime.now(timezone.utc)
     add_audit(user, "auth.login", "user", user.id)
     db.session.commit()
@@ -79,7 +74,7 @@ def _login_user(user):
 
 
 @auth_bp.post("/login")
-def account_login():
+def login():
     data = _json()
     login_id = (data.get("login_id") or "").strip()
     password = data.get("password") or ""
@@ -105,50 +100,6 @@ def account_login():
     return _login_user(account.user)
 
 
-@auth_bp.get("/login-config")
-def login_config():
-    return jsonify({"legacy_login_enabled": current_app.config["ALLOW_LEGACY_LOGIN"]})
-
-
-@auth_bp.post("/student-login")
-def student_login():
-    if not current_app.config["ALLOW_LEGACY_LOGIN"]:
-        abort(403, "学号和姓名免密登录已关闭")
-    data = _json()
-    student_no = (data.get("student_no") or "").strip()
-    name = (data.get("name") or "").strip()
-    if not student_no or not name:
-        abort(400, "学号和姓名不能为空")
-
-    user = User.query.filter_by(student_no=student_no, role="student").first()
-    if not user:
-        user = User(student_no=student_no, name=name, role="student")
-        db.session.add(user)
-        db.session.flush()
-    else:
-        user.name = name
-    add_audit(user, "auth.legacy_student_login", "user", user.id)
-    return _login_user(user)
-
-
-@auth_bp.post("/teacher-login")
-def teacher_login():
-    if not current_app.config["ALLOW_LEGACY_LOGIN"]:
-        abort(403, "共享教师码登录已关闭")
-    data = _json()
-    code = (data.get("teacher_code") or "").strip()
-    if not code or code != current_app.config["TEACHER_CODE"]:
-        abort(401, "教师码不正确")
-
-    user = User.query.filter_by(role="teacher", student_no="teacher").first()
-    if not user:
-        user = User(student_no="teacher", name="教师", role="teacher")
-        db.session.add(user)
-        db.session.flush()
-    add_audit(user, "auth.legacy_teacher_login", "user", user.id)
-    return _login_user(user)
-
-
 @auth_bp.get("/me")
 def me():
     user = current_user()
@@ -169,8 +120,6 @@ def managed_students():
 @auth_bp.post("/change-password")
 def change_password():
     user = require_user()
-    if not user.account:
-        abort(400, "当前为兼容登录账号，无法修改密码")
     data = _json()
     current_password = data.get("current_password") or ""
     new_password = data.get("new_password") or ""

@@ -29,17 +29,27 @@ class LanguageSupportTestCase(unittest.TestCase):
             SQLALCHEMY_DATABASE_URI = "sqlite:///:memory:"
             USE_MOCK_SERVICES = True
             UPLOAD_DIR = Path(cls.upload_dir.name)
-            ALLOW_LEGACY_LOGIN = True
             REQUIRE_PRACTICE_CONTEXT = False
 
         cls.app = create_app(TestConfig)
         with cls.app.app_context():
-            admin = User(name="测试管理员", role="admin")
-            db.session.add(admin)
-            db.session.flush()
-            account = UserAccount(user_id=admin.id, login_id="test-admin")
-            account.set_password("AdminPass123", must_change=False)
-            db.session.add(account)
+            accounts = (
+                ("test-admin", "测试管理员", "admin", "AdminPass123"),
+                ("language-test", "语言测试", "student", "StudentPass123"),
+                ("other-student", "其他学生", "student", "StudentPass123"),
+                ("test-teacher", "测试教师", "teacher", "TeacherPass123"),
+            )
+            for login_id, name, role, password in accounts:
+                user = User(
+                    student_no=login_id if role != "admin" else None,
+                    name=name,
+                    role=role,
+                )
+                db.session.add(user)
+                db.session.flush()
+                account = UserAccount(user_id=user.id, login_id=login_id)
+                account.set_password(password, must_change=False)
+                db.session.add(account)
             db.session.commit()
 
     @classmethod
@@ -49,8 +59,8 @@ class LanguageSupportTestCase(unittest.TestCase):
     def setUp(self):
         self.client = self.app.test_client()
         response = self.client.post(
-            "/api/auth/student-login",
-            json={"student_no": "language-test", "name": "语言测试"},
+            "/api/auth/login",
+            json={"login_id": "language-test", "password": "StudentPass123"},
         )
         self.assertEqual(response.status_code, 200)
 
@@ -260,17 +270,24 @@ class LanguageSupportTestCase(unittest.TestCase):
 
         other_student = self.app.test_client()
         other_student.post(
-            "/api/auth/student-login",
-            json={"student_no": "other-student", "name": "其他学生"},
+            "/api/auth/login",
+            json={"login_id": "other-student", "password": "StudentPass123"},
         )
         self.assertEqual(other_student.get(f"/api/practices/{practice['id']}").status_code, 403)
 
         teacher = self.app.test_client()
-        teacher.post("/api/auth/teacher-login", json={"teacher_code": "teacher-demo"})
+        teacher.post(
+            "/api/auth/login",
+            json={"login_id": "test-teacher", "password": "TeacherPass123"},
+        )
         self.assertEqual(teacher.get(f"/api/practices/{practice['id']}").status_code, 403)
 
         admin = self.admin_client()
         self.assertEqual(admin.get(f"/api/practices/{practice['id']}").status_code, 200)
+
+    def test_removed_legacy_login_routes_are_not_available(self):
+        self.assertEqual(self.client.post("/api/auth/student-login", json={}).status_code, 404)
+        self.assertEqual(self.client.post("/api/auth/teacher-login", json={}).status_code, 404)
 
     def test_legacy_evaluations_are_backfilled_once(self):
         practice = self.create_practice()

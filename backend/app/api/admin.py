@@ -118,9 +118,15 @@ def _academic_items(term_id, class_id, course_id):
 @admin_bp.get("/overview")
 def overview():
     require_admin()
+    account_users = (
+        User.query.join(UserAccount, UserAccount.user_id == User.id)
+        .order_by(User.id.desc())
+        .limit(500)
+        .all()
+    )
     return jsonify(
         {
-            "users": [row.to_dict() for row in User.query.order_by(User.id.desc()).limit(500)],
+            "users": [row.to_dict() for row in account_users],
             "terms": [row.to_dict() for row in AcademicTerm.query.order_by(AcademicTerm.id.desc())],
             "classes": [row.to_dict() for row in ClassGroup.query.order_by(ClassGroup.id.desc())],
             "courses": [row.to_dict() for row in Course.query.order_by(Course.id.desc())],

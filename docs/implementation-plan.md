@@ -211,7 +211,6 @@ backend/
 SECRET_KEY=
 DATABASE_URL=sqlite:///interploop.db
 UPLOAD_DIR=instance/uploads
-TEACHER_CODE=
 MOCK_EXTERNAL_SERVICES=true
 DOUBAO_API_KEY=
 DOUBAO_MODEL=
@@ -224,13 +223,10 @@ XUNFEI_API_SECRET=
 
 ### 4.1 认证
 
-- `POST /api/auth/student-login`
-  - 输入：`student_no`, `name`
-  - 输出：学生会话信息
-
-- `POST /api/auth/teacher-login`
-  - 输入：`teacher_code`
-  - 输出：教师会话信息
+- `POST /api/auth/login`
+  - 输入：`login_id`, `password`
+  - 输出：账号信息、数据库角色和可用班级课程上下文
+  - 学生、教师和管理员共用该入口，权限身份从 `User.role` 读取
 
 ### 4.2 语音
 

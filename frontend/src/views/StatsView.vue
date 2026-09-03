@@ -53,7 +53,7 @@ onMounted(load);
       <div class="mb-5 flex items-center justify-between">
         <div>
           <h2 class="text-lg font-semibold text-brand">学习数据统计</h2>
-          <p class="mt-1 text-sm text-slate-500">来自后端 SQLite 的真实练习数据。</p>
+          <p class="mt-1 text-sm text-slate-500">管理学习统计数据</p>
         </div>
         <div class="flex flex-wrap gap-2">
           <button class="btn-secondary" :disabled="loading" @click="load"><RefreshCcw class="h-4 w-4" />刷新</button>

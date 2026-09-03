@@ -35,8 +35,6 @@ class Config:
         if origin.strip()
     ]
 
-    TEACHER_CODE = os.getenv("TEACHER_CODE", "teacher-demo")
-    ALLOW_LEGACY_LOGIN = _bool("ALLOW_LEGACY_LOGIN", False)
     REQUIRE_PRACTICE_CONTEXT = _bool("REQUIRE_PRACTICE_CONTEXT", True)
     PASSWORD_MIN_LENGTH = int(os.getenv("PASSWORD_MIN_LENGTH", "8"))
     SESSION_COOKIE_HTTPONLY = True

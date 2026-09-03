@@ -30,8 +30,8 @@ cp .env.example .env
 `XUNFEI_TTS_VOICE_ZH`、`XUNFEI_TTS_VOICE_JA` 和 `XUNFEI_TTS_VOICE_EN` 配置各语种在讯飞
 控制台中已授权的发音人；英文发音人留空时会自动使用浏览器英文语音。
 
-正式账号登录默认开启，学号姓名免密入口和共享教师码默认关闭。只有在演示环境显式设置
-`ALLOW_LEGACY_LOGIN=true` 时，`TEACHER_CODE` 才会继续生效。
+学生、教师和管理员统一使用“账号 + 密码”登录。后端校验 `UserAccount` 后从关联的 `User.role`
+读取身份，不提供学号姓名免密入口或共享教师码入口。
 
 首次部署先创建管理员：
 

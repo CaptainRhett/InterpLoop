@@ -30,7 +30,6 @@ class AccessControlTestCase(unittest.TestCase):
             SQLALCHEMY_DATABASE_URI = "sqlite:///:memory:"
             USE_MOCK_SERVICES = True
             UPLOAD_DIR = Path(cls.upload_dir.name)
-            ALLOW_LEGACY_LOGIN = False
             REQUIRE_PRACTICE_CONTEXT = True
 
         cls.app = create_app(TestConfig)
@@ -192,6 +191,26 @@ class AccessControlTestCase(unittest.TestCase):
         self.assertEqual(
             {row["id"] for row in rows}, {self.practice_a["id"], self.practice_b["id"]}
         )
+
+    def test_admin_account_list_excludes_legacy_users_without_credentials(self):
+        with self.app.app_context():
+            legacy = User(
+                student_no="legacy-overview-only",
+                name="兼容入口用户",
+                role="student",
+            )
+            db.session.add(legacy)
+            db.session.commit()
+            legacy_id = legacy.id
+        try:
+            admin = self._login("admin", "AdminPass123")
+            users = admin.get("/api/admin/overview").get_json()["users"]
+            self.assertNotIn(legacy_id, {user["id"] for user in users})
+            self.assertTrue(all(user["login_id"] for user in users))
+        finally:
+            with self.app.app_context():
+                db.session.delete(db.session.get(User, legacy_id))
+                db.session.commit()
 
     def test_teacher_cannot_create_student_practice(self):
         teacher = self._login("teacher-a", "TeacherPass123")

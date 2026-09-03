@@ -24,18 +24,6 @@ export const useAuthStore = defineStore("auth", {
       this.contexts = data.contexts || [];
       this.loaded = true;
     },
-    async studentLogin(payload) {
-      const { data } = await api.post("/auth/student-login", payload);
-      this.user = data.user;
-      this.contexts = data.contexts || [];
-      this.loaded = true;
-    },
-    async teacherLogin(payload) {
-      const { data } = await api.post("/auth/teacher-login", payload);
-      this.user = data.user;
-      this.contexts = data.contexts || [];
-      this.loaded = true;
-    },
     async changePassword(payload) {
       const { data } = await api.post("/auth/change-password", payload);
       this.user = data.user;
