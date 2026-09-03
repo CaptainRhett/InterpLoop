@@ -6,25 +6,22 @@ import { useAuthStore } from "../stores/auth";
 
 const router = useRouter();
 const auth = useAuthStore();
-const mode = ref("student");
 const error = ref("");
 const loading = ref(false);
 const form = reactive({
-  student_no: "",
-  name: "",
-  teacher_code: "",
+  login_id: "",
+  password: "",
 });
 
 async function submit() {
   error.value = "";
   loading.value = true;
   try {
-    if (mode.value === "student") {
-      await auth.studentLogin({ student_no: form.student_no, name: form.name });
-    } else {
-      await auth.teacherLogin({ teacher_code: form.teacher_code });
-    }
-    router.push("/loop");
+    await auth.login({ login_id: form.login_id, password: form.password });
+    if (auth.user?.must_change_password) router.push("/account");
+    else if (auth.user?.role === "admin") router.push("/admin");
+    else if (auth.user?.role === "teacher") router.push("/stats");
+    else router.push("/loop");
   } catch (err) {
     error.value = err.response?.data?.error || "登录失败";
   } finally {
@@ -44,35 +41,19 @@ async function submit() {
         <p class="mt-1 text-sm text-slate-500">自主口译实训与反馈平台</p>
       </div>
 
-      <div class="mb-5 grid grid-cols-2 rounded-md bg-slate-100 p-1 text-sm">
-        <button class="rounded px-3 py-2" :class="mode === 'student' ? 'bg-white shadow-sm text-brand font-semibold' : 'text-slate-500'" @click="mode = 'student'">
-          学生登录
-        </button>
-        <button class="rounded px-3 py-2" :class="mode === 'teacher' ? 'bg-white shadow-sm text-brand font-semibold' : 'text-slate-500'" @click="mode = 'teacher'">
-          教师入口
-        </button>
-      </div>
-
       <form class="space-y-4" @submit.prevent="submit">
-        <template v-if="mode === 'student'">
-          <div>
-            <label class="field-label">学号</label>
-            <input v-model.trim="form.student_no" class="input" autocomplete="username" required />
-          </div>
-          <div>
-            <label class="field-label">姓名</label>
-            <input v-model.trim="form.name" class="input" required />
-          </div>
-        </template>
-        <div v-else>
-          <label class="field-label">教师码</label>
-          <input v-model.trim="form.teacher_code" class="input" type="password" required />
+        <div>
+          <label class="field-label">账号</label>
+          <input v-model.trim="form.login_id" class="input" autocomplete="username" required />
+        </div>
+        <div>
+          <label class="field-label">密码</label>
+          <input v-model="form.password" class="input" type="password" autocomplete="current-password" required />
         </div>
 
+        <p class="text-xs leading-5 text-slate-500">首次使用初始密码登录后，系统会要求立即修改密码。</p>
         <p v-if="error" class="rounded-md bg-red-50 px-3 py-2 text-sm text-red-700">{{ error }}</p>
-        <button class="btn-primary w-full" :disabled="loading">
-          {{ loading ? "登录中..." : "进入平台" }}
-        </button>
+        <button class="btn-primary w-full" :disabled="loading">{{ loading ? "登录中..." : "登录平台" }}</button>
       </form>
     </div>
   </div>

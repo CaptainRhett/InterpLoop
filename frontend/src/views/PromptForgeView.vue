@@ -40,6 +40,14 @@ const presets = {
     selected: ["句式与语法", "语体匹配度", "表达流畅度", "术语规范性"],
     extra: "请关注商务礼仪、敬语层次和司仪固定句型。",
   },
+  englishBusiness: {
+    role: "英语商务口译专家（国际商务方向）",
+    taskType: "汉译英交替传译",
+    material: "国际商务研讨会与企业交流",
+    level: "中级学习者（CEFR B1-B2）",
+    selected: ["信息完整性", "句式与语法", "语体匹配度", "表达流畅度", "术语规范性", "跨文化适配"],
+    extra: "请关注商务英语的语域、术语搭配、冠词与时态，并检查表达是否自然得体。",
+  },
   numeric: {
     role: "严格的口译考官（CATTI 标准评分）",
     taskType: "数字口译训练",
@@ -113,6 +121,7 @@ async function copyPrompt() {
       <div class="flex flex-wrap gap-2">
         <button class="btn-secondary" @click="applyPreset('political')">政治语篇</button>
         <button class="btn-secondary" @click="applyPreset('business')">商务研讨会</button>
+        <button class="btn-secondary" @click="applyPreset('englishBusiness')">中英商务</button>
         <button class="btn-secondary" @click="applyPreset('numeric')">数字训练</button>
       </div>
       <div>
@@ -121,6 +130,8 @@ async function copyPrompt() {
           <option>资深口译评估教师（政府外事方向）</option>
           <option>日语商务口译专家（商务礼仪方向）</option>
           <option>日本语言学博士（翻译教学方向）</option>
+          <option>英语商务口译专家（国际商务方向）</option>
+          <option>英语语言与翻译教学专家</option>
           <option>鼓励型口译陪练（情感支持型）</option>
           <option>严格的口译考官（CATTI 标准评分）</option>
         </select>
@@ -133,6 +144,10 @@ async function copyPrompt() {
             <option>日译汉交替传译</option>
             <option>汉译日视译</option>
             <option>日译汉视译</option>
+            <option>汉译英交替传译</option>
+            <option>英译汉交替传译</option>
+            <option>汉译英视译</option>
+            <option>英译汉视译</option>
             <option>数字口译训练</option>
           </select>
         </div>
@@ -142,6 +157,9 @@ async function copyPrompt() {
             <option>初学者（N3-N2）</option>
             <option>中级学习者（N2-N1）</option>
             <option>高级学习者（N1以上）</option>
+            <option>初级学习者（CEFR A2-B1）</option>
+            <option>中级学习者（CEFR B1-B2）</option>
+            <option>高级学习者（CEFR C1-C2）</option>
           </select>
         </div>
       </div>

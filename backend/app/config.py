@@ -1,4 +1,5 @@
 import os
+from datetime import timedelta
 from pathlib import Path
 
 from dotenv import load_dotenv
@@ -34,7 +35,14 @@ class Config:
         if origin.strip()
     ]
 
-    TEACHER_CODE = os.getenv("TEACHER_CODE", "teacher-demo")
+    REQUIRE_PRACTICE_CONTEXT = _bool("REQUIRE_PRACTICE_CONTEXT", True)
+    PASSWORD_MIN_LENGTH = int(os.getenv("PASSWORD_MIN_LENGTH", "8"))
+    SESSION_COOKIE_HTTPONLY = True
+    SESSION_COOKIE_SAMESITE = "Lax"
+    SESSION_COOKIE_SECURE = _bool("SESSION_COOKIE_SECURE", False)
+    PERMANENT_SESSION_LIFETIME = timedelta(
+        hours=int(os.getenv("SESSION_LIFETIME_HOURS", "12"))
+    )
     USE_MOCK_SERVICES = _bool("USE_MOCK_SERVICES", True)
 
     UPLOAD_DIR = Path(os.getenv("UPLOAD_DIR", ROOT_DIR / "var" / "uploads"))
@@ -52,3 +60,6 @@ class Config:
     XUNFEI_API_SECRET = os.getenv("XUNFEI_API_SECRET", "")
     XUNFEI_IAT_HOST = os.getenv("XUNFEI_IAT_HOST", "iat-api.xfyun.cn")
     XUNFEI_TTS_HOST = os.getenv("XUNFEI_TTS_HOST", "tts-api.xfyun.cn")
+    XUNFEI_TTS_VOICE_ZH = os.getenv("XUNFEI_TTS_VOICE_ZH", "xiaoyan")
+    XUNFEI_TTS_VOICE_JA = os.getenv("XUNFEI_TTS_VOICE_JA", "x2_yumi")
+    XUNFEI_TTS_VOICE_EN = os.getenv("XUNFEI_TTS_VOICE_EN", "")

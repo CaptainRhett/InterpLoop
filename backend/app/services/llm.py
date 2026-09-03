@@ -1,5 +1,15 @@
+import re
+
 import requests
 from flask import current_app
+
+
+DIRECTION_LANGUAGES = {
+    "日→中": ("日语", "中文"),
+    "中→日": ("中文", "日语"),
+    "英→中": ("英语", "中文"),
+    "中→英": ("中文", "英语"),
+}
 
 
 class LLMClient:
@@ -24,7 +34,7 @@ class LLMClient:
             json={
                 "model": self.model,
                 "messages": [
-                    {"role": "system", "content": "你是一名严谨的中日口译教学评估助手。"},
+                    {"role": "system", "content": "你是一名严谨的中日及中英口译教学评估助手。"},
                     {"role": "user", "content": prompt},
                 ],
                 "temperature": 0.2,
@@ -37,22 +47,26 @@ class LLMClient:
         return {
             "score": self._extract_score(text),
             "feedback_text": text,
-            "reference_translation": "",
+            "reference_translation": self._extract_reference_translation(text),
             "evaluation_json": {"provider": "doubao", "raw": payload},
         }
 
     def _build_prompt(self, source_text, asr_text, direction, prompt_params):
         dimensions = prompt_params.get("dimensions") or []
         dimensions_text = "\n".join(f"{i + 1}. {item}" for i, item in enumerate(dimensions))
+        source_language, target_language = DIRECTION_LANGUAGES.get(direction, ("源语", "目标语"))
         return (
             f"方向：{direction}\n"
+            f"源语语言：{source_language}\n"
+            f"目标语语言：{target_language}\n"
             f"评审角色：{prompt_params.get('role', '严格口译教师')}\n"
             f"严格程度：{prompt_params.get('strictness', 4)}/5\n"
             f"评价维度：\n{dimensions_text}\n\n"
             f"源语原文：\n{source_text}\n\n"
             f"学生口译 ASR 识别文本：\n{asr_text}\n\n"
-            "请输出结构化反馈，包含：总体评分、信息完整度、术语/敬语/语体问题、"
-            "最优先改进的 2-3 个问题、参考译法。请避免空泛鼓励。"
+            f"请严格按照{target_language}的表达规范输出结构化反馈，包含：总体评分、信息完整度、"
+            "术语、语法、语域与表达自然度问题、最优先改进的 2-3 个问题、参考译法。"
+            "请避免空泛鼓励，并确保参考译法使用目标语。"
         )
 
     def _extract_score(self, text):
@@ -60,6 +74,14 @@ class LLMClient:
             if score in text:
                 return score
         return "B"
+
+    def _extract_reference_translation(self, text):
+        match = re.search(
+            r"(?:参考译法|参考译文|标准译法|建议译文)\s*[：:]\s*(.+?)(?=\n\s*(?:[#*\d一二三四五六七八九十、.（）()]+\s*)?[\u4e00-\u9fff]{2,12}\s*[：:]|\Z)",
+            text,
+            re.DOTALL,
+        )
+        return match.group(1).strip() if match else ""
 
     def _mock_evaluate(self, source_text, asr_text, direction):
         short_source = source_text[:80] + ("..." if len(source_text) > 80 else "")

@@ -1,4 +1,5 @@
 def register_blueprints(app):
+    from .admin import admin_bp
     from .auth import auth_bp
     from .feedback import feedback_bp
     from .practice import practice_bp
@@ -10,3 +11,4 @@ def register_blueprints(app):
     app.register_blueprint(feedback_bp, url_prefix="/api")
     app.register_blueprint(prompt_bp, url_prefix="/api")
     app.register_blueprint(stats_bp, url_prefix="/api")
+    app.register_blueprint(admin_bp, url_prefix="/api/admin")

@@ -1,8 +1,8 @@
 from datetime import datetime, timezone
 from sqlalchemy import event
 from sqlalchemy.engine import Engine
-
 from flask_sqlalchemy import SQLAlchemy
+from werkzeug.security import check_password_hash, generate_password_hash
 
 db = SQLAlchemy()
 
@@ -33,6 +33,9 @@ class User(db.Model):
     last_login_at = db.Column(db.DateTime(timezone=True), nullable=True)
 
     sessions = db.relationship("PracticeSession", back_populates="user")
+    account = db.relationship(
+        "UserAccount", back_populates="user", cascade="all, delete-orphan", uselist=False
+    )
 
     def to_dict(self):
         return {
@@ -40,6 +43,190 @@ class User(db.Model):
             "student_no": self.student_no,
             "name": self.name,
             "role": self.role,
+            "login_id": self.account.login_id if self.account else None,
+            "is_active": self.account.is_active if self.account else True,
+            "must_change_password": (
+                self.account.must_change_password if self.account else False
+            ),
+        }
+
+
+class UserAccount(db.Model):
+    __tablename__ = "user_accounts"
+
+    id = db.Column(db.Integer, primary_key=True)
+    user_id = db.Column(
+        db.Integer, db.ForeignKey("users.id"), nullable=False, unique=True, index=True
+    )
+    login_id = db.Column(db.String(120), nullable=False, unique=True, index=True)
+    password_hash = db.Column(db.String(512), nullable=False)
+    is_active = db.Column(db.Boolean, nullable=False, default=True)
+    must_change_password = db.Column(db.Boolean, nullable=False, default=True)
+    session_version = db.Column(db.Integer, nullable=False, default=1)
+    password_changed_at = db.Column(db.DateTime(timezone=True), nullable=True)
+    created_at = db.Column(db.DateTime(timezone=True), nullable=False, default=utcnow)
+    updated_at = db.Column(
+        db.DateTime(timezone=True), nullable=False, default=utcnow, onupdate=utcnow
+    )
+
+    user = db.relationship("User", back_populates="account")
+
+    def set_password(self, password, must_change=False):
+        self.password_hash = generate_password_hash(password)
+        self.must_change_password = must_change
+        self.password_changed_at = utcnow()
+        self.session_version = (self.session_version or 0) + 1
+
+    def check_password(self, password):
+        return check_password_hash(self.password_hash, password)
+
+    def to_dict(self):
+        return {
+            "id": self.id,
+            "user_id": self.user_id,
+            "login_id": self.login_id,
+            "is_active": self.is_active,
+            "must_change_password": self.must_change_password,
+            "password_changed_at": (
+                self.password_changed_at.isoformat() if self.password_changed_at else None
+            ),
+            "created_at": self.created_at.isoformat() if self.created_at else None,
+        }
+
+
+class AcademicTerm(db.Model):
+    __tablename__ = "academic_terms"
+
+    id = db.Column(db.Integer, primary_key=True)
+    code = db.Column(db.String(80), nullable=False, unique=True, index=True)
+    name = db.Column(db.String(160), nullable=False)
+    start_date = db.Column(db.Date, nullable=True)
+    end_date = db.Column(db.Date, nullable=True)
+    is_active = db.Column(db.Boolean, nullable=False, default=True)
+    created_at = db.Column(db.DateTime(timezone=True), nullable=False, default=utcnow)
+
+    def to_dict(self):
+        return {
+            "id": self.id,
+            "code": self.code,
+            "name": self.name,
+            "start_date": self.start_date.isoformat() if self.start_date else None,
+            "end_date": self.end_date.isoformat() if self.end_date else None,
+            "is_active": self.is_active,
+        }
+
+
+class ClassGroup(db.Model):
+    __tablename__ = "class_groups"
+    __table_args__ = (
+        db.UniqueConstraint("term_id", "code", name="uq_class_term_code"),
+    )
+
+    id = db.Column(db.Integer, primary_key=True)
+    term_id = db.Column(db.Integer, db.ForeignKey("academic_terms.id"), nullable=False)
+    code = db.Column(db.String(80), nullable=False, index=True)
+    name = db.Column(db.String(160), nullable=False)
+    is_active = db.Column(db.Boolean, nullable=False, default=True)
+    created_at = db.Column(db.DateTime(timezone=True), nullable=False, default=utcnow)
+
+    term = db.relationship("AcademicTerm")
+
+    def to_dict(self):
+        return {
+            "id": self.id,
+            "term_id": self.term_id,
+            "term": self.term.to_dict() if self.term else None,
+            "code": self.code,
+            "name": self.name,
+            "is_active": self.is_active,
+        }
+
+
+class Course(db.Model):
+    __tablename__ = "courses"
+    __table_args__ = (
+        db.UniqueConstraint("term_id", "code", name="uq_course_term_code"),
+    )
+
+    id = db.Column(db.Integer, primary_key=True)
+    term_id = db.Column(db.Integer, db.ForeignKey("academic_terms.id"), nullable=False)
+    code = db.Column(db.String(80), nullable=False, index=True)
+    name = db.Column(db.String(160), nullable=False)
+    is_active = db.Column(db.Boolean, nullable=False, default=True)
+    created_at = db.Column(db.DateTime(timezone=True), nullable=False, default=utcnow)
+
+    term = db.relationship("AcademicTerm")
+
+    def to_dict(self):
+        return {
+            "id": self.id,
+            "term_id": self.term_id,
+            "term": self.term.to_dict() if self.term else None,
+            "code": self.code,
+            "name": self.name,
+            "is_active": self.is_active,
+        }
+
+
+class CourseEnrollment(db.Model):
+    __tablename__ = "course_enrollments"
+    __table_args__ = (
+        db.UniqueConstraint(
+            "student_id", "class_id", "course_id", name="uq_student_class_course"
+        ),
+    )
+
+    id = db.Column(db.Integer, primary_key=True)
+    student_id = db.Column(db.Integer, db.ForeignKey("users.id"), nullable=False, index=True)
+    class_id = db.Column(
+        db.Integer, db.ForeignKey("class_groups.id"), nullable=False, index=True
+    )
+    course_id = db.Column(db.Integer, db.ForeignKey("courses.id"), nullable=False, index=True)
+    is_active = db.Column(db.Boolean, nullable=False, default=True)
+    created_at = db.Column(db.DateTime(timezone=True), nullable=False, default=utcnow)
+
+    student = db.relationship("User", foreign_keys=[student_id])
+    class_group = db.relationship("ClassGroup")
+    course = db.relationship("Course")
+
+    def to_dict(self):
+        return {
+            "id": self.id,
+            "student": self.student.to_dict() if self.student else None,
+            "class_group": self.class_group.to_dict() if self.class_group else None,
+            "course": self.course.to_dict() if self.course else None,
+            "is_active": self.is_active,
+        }
+
+
+class TeachingAssignment(db.Model):
+    __tablename__ = "teaching_assignments"
+    __table_args__ = (
+        db.UniqueConstraint(
+            "teacher_id", "class_id", "course_id", name="uq_teacher_class_course"
+        ),
+    )
+
+    id = db.Column(db.Integer, primary_key=True)
+    teacher_id = db.Column(db.Integer, db.ForeignKey("users.id"), nullable=False, index=True)
+    class_id = db.Column(
+        db.Integer, db.ForeignKey("class_groups.id"), nullable=False, index=True
+    )
+    course_id = db.Column(db.Integer, db.ForeignKey("courses.id"), nullable=False, index=True)
+    is_active = db.Column(db.Boolean, nullable=False, default=True)
+    created_at = db.Column(db.DateTime(timezone=True), nullable=False, default=utcnow)
+
+    teacher = db.relationship("User", foreign_keys=[teacher_id])
+    class_group = db.relationship("ClassGroup")
+    course = db.relationship("Course")
+
+    def to_dict(self):
+        return {
+            "id": self.id,
+            "teacher": self.teacher.to_dict() if self.teacher else None,
+            "class_group": self.class_group.to_dict() if self.class_group else None,
+            "course": self.course.to_dict() if self.course else None,
+            "is_active": self.is_active,
         }
 
 
@@ -64,6 +251,24 @@ class PracticeSession(db.Model):
         cascade="all, delete-orphan",
         uselist=False,
     )
+    evaluation_versions = db.relationship(
+        "PracticeEvaluationVersion",
+        back_populates="session",
+        cascade="all, delete-orphan",
+        order_by="PracticeEvaluationVersion.version_number.desc()",
+    )
+    archive = db.relationship(
+        "PracticeArchive",
+        back_populates="session",
+        cascade="all, delete-orphan",
+        uselist=False,
+    )
+    context = db.relationship(
+        "PracticeContext",
+        back_populates="session",
+        cascade="all, delete-orphan",
+        uselist=False,
+    )
 
     def to_dict(self, include_result=True):
         data = {
@@ -80,7 +285,40 @@ class PracticeSession(db.Model):
         }
         if include_result:
             data["result"] = self.result.to_dict() if self.result else None
+        data["archive"] = self.archive.to_summary_dict() if self.archive else None
+        data["evaluation_version_count"] = len(self.evaluation_versions)
+        data["context"] = self.context.to_dict() if self.context else None
         return data
+
+
+class PracticeContext(db.Model):
+    __tablename__ = "practice_contexts"
+
+    id = db.Column(db.Integer, primary_key=True)
+    session_id = db.Column(
+        db.Integer,
+        db.ForeignKey("practice_sessions.id"),
+        nullable=False,
+        unique=True,
+        index=True,
+    )
+    term_id = db.Column(db.Integer, db.ForeignKey("academic_terms.id"), nullable=False)
+    class_id = db.Column(db.Integer, db.ForeignKey("class_groups.id"), nullable=False)
+    course_id = db.Column(db.Integer, db.ForeignKey("courses.id"), nullable=False)
+    created_at = db.Column(db.DateTime(timezone=True), nullable=False, default=utcnow)
+
+    session = db.relationship("PracticeSession", back_populates="context")
+    term = db.relationship("AcademicTerm")
+    class_group = db.relationship("ClassGroup")
+    course = db.relationship("Course")
+
+    def to_dict(self):
+        return {
+            "id": self.id,
+            "term": self.term.to_dict() if self.term else None,
+            "class_group": self.class_group.to_dict() if self.class_group else None,
+            "course": self.course.to_dict() if self.course else None,
+        }
 
 
 class PracticeResult(db.Model):
@@ -126,6 +364,120 @@ class PracticeResult(db.Model):
         }
 
 
+class PracticeEvaluationVersion(db.Model):
+    __tablename__ = "practice_evaluation_versions"
+    __table_args__ = (
+        db.UniqueConstraint("session_id", "version_number", name="uq_practice_version"),
+    )
+
+    id = db.Column(db.Integer, primary_key=True)
+    session_id = db.Column(
+        db.Integer,
+        db.ForeignKey("practice_sessions.id"),
+        nullable=False,
+        index=True,
+    )
+    version_number = db.Column(db.Integer, nullable=False)
+    asr_text = db.Column(db.Text, nullable=False)
+    score = db.Column(db.String(20), nullable=True)
+    feedback_text = db.Column(db.Text, nullable=False)
+    reference_translation = db.Column(db.Text, nullable=True)
+    evaluation_json = db.Column(db.JSON, nullable=False, default=dict)
+    created_by_id = db.Column(db.Integer, db.ForeignKey("users.id"), nullable=True)
+    created_at = db.Column(db.DateTime(timezone=True), nullable=False, default=utcnow)
+
+    session = db.relationship("PracticeSession", back_populates="evaluation_versions")
+    created_by = db.relationship("User", foreign_keys=[created_by_id])
+
+    def to_dict(self):
+        return {
+            "id": self.id,
+            "session_id": self.session_id,
+            "version_number": self.version_number,
+            "asr_text": self.asr_text,
+            "score": self.score,
+            "feedback_text": self.feedback_text,
+            "reference_translation": self.reference_translation or "",
+            "evaluation_json": self.evaluation_json or {},
+            "created_by": self.created_by.to_dict() if self.created_by else None,
+            "created_at": self.created_at.isoformat() if self.created_at else None,
+        }
+
+
+class PracticeArchive(db.Model):
+    __tablename__ = "practice_archives"
+
+    id = db.Column(db.Integer, primary_key=True)
+    session_id = db.Column(
+        db.Integer,
+        db.ForeignKey("practice_sessions.id"),
+        nullable=False,
+        unique=True,
+        index=True,
+    )
+    evaluation_version_id = db.Column(
+        db.Integer,
+        db.ForeignKey("practice_evaluation_versions.id"),
+        nullable=False,
+        index=True,
+    )
+    feedback_log_id = db.Column(
+        db.Integer,
+        db.ForeignKey("feedback_logs.id"),
+        nullable=False,
+        index=True,
+    )
+    source_text = db.Column(db.Text, nullable=False)
+    asr_text = db.Column(db.Text, nullable=False)
+    score = db.Column(db.String(20), nullable=True)
+    feedback_text = db.Column(db.Text, nullable=False)
+    reference_translation = db.Column(db.Text, nullable=True)
+    evaluation_json = db.Column(db.JSON, nullable=False, default=dict)
+    practice_created_at = db.Column(db.DateTime(timezone=True), nullable=False)
+    evaluation_created_at = db.Column(db.DateTime(timezone=True), nullable=False)
+    archived_by_id = db.Column(db.Integer, db.ForeignKey("users.id"), nullable=True)
+    archived_at = db.Column(db.DateTime(timezone=True), nullable=False, default=utcnow)
+    updated_at = db.Column(
+        db.DateTime(timezone=True), nullable=False, default=utcnow, onupdate=utcnow
+    )
+
+    session = db.relationship("PracticeSession", back_populates="archive")
+    evaluation_version = db.relationship("PracticeEvaluationVersion")
+    feedback_log = db.relationship("FeedbackLog")
+    archived_by = db.relationship("User", foreign_keys=[archived_by_id])
+
+    def to_summary_dict(self):
+        return {
+            "id": self.id,
+            "evaluation_version_id": self.evaluation_version_id,
+            "version_number": (
+                self.evaluation_version.version_number if self.evaluation_version else None
+            ),
+            "score": self.score,
+            "archived_at": self.archived_at.isoformat() if self.archived_at else None,
+        }
+
+    def to_dict(self):
+        return {
+            **self.to_summary_dict(),
+            "session_id": self.session_id,
+            "feedback_log_id": self.feedback_log_id,
+            "source_text": self.source_text,
+            "asr_text": self.asr_text,
+            "feedback_text": self.feedback_text,
+            "reference_translation": self.reference_translation or "",
+            "evaluation_json": self.evaluation_json or {},
+            "practice_created_at": (
+                self.practice_created_at.isoformat() if self.practice_created_at else None
+            ),
+            "evaluation_created_at": (
+                self.evaluation_created_at.isoformat() if self.evaluation_created_at else None
+            ),
+            "archived_by": self.archived_by.to_dict() if self.archived_by else None,
+            "updated_at": self.updated_at.isoformat() if self.updated_at else None,
+        }
+
+
 class PromptPreset(db.Model):
     __tablename__ = "prompt_presets"
 
@@ -157,6 +509,12 @@ class FeedbackLog(db.Model):
     created_at = db.Column(db.DateTime(timezone=True), nullable=False, default=utcnow)
 
     user = db.relationship("User")
+    context = db.relationship(
+        "FeedbackContext",
+        back_populates="feedback_log",
+        cascade="all, delete-orphan",
+        uselist=False,
+    )
 
     def to_dict(self):
         return {
@@ -172,4 +530,96 @@ class FeedbackLog(db.Model):
             "suggestions": self.suggestions or "",
             "overall": self.overall or "",
             "created_at": self.created_at.isoformat() if self.created_at else None,
+            "context": self.context.to_dict() if self.context else None,
         }
+
+
+class FeedbackContext(db.Model):
+    __tablename__ = "feedback_contexts"
+
+    id = db.Column(db.Integer, primary_key=True)
+    feedback_log_id = db.Column(
+        db.Integer,
+        db.ForeignKey("feedback_logs.id"),
+        nullable=False,
+        unique=True,
+        index=True,
+    )
+    term_id = db.Column(db.Integer, db.ForeignKey("academic_terms.id"), nullable=False)
+    class_id = db.Column(db.Integer, db.ForeignKey("class_groups.id"), nullable=False)
+    course_id = db.Column(db.Integer, db.ForeignKey("courses.id"), nullable=False)
+    created_at = db.Column(db.DateTime(timezone=True), nullable=False, default=utcnow)
+
+    feedback_log = db.relationship("FeedbackLog", back_populates="context")
+    term = db.relationship("AcademicTerm")
+    class_group = db.relationship("ClassGroup")
+    course = db.relationship("Course")
+
+    def to_dict(self):
+        return {
+            "term": self.term.to_dict() if self.term else None,
+            "class_group": self.class_group.to_dict() if self.class_group else None,
+            "course": self.course.to_dict() if self.course else None,
+        }
+
+
+class AuditLog(db.Model):
+    __tablename__ = "audit_logs"
+
+    id = db.Column(db.Integer, primary_key=True)
+    actor_id = db.Column(db.Integer, db.ForeignKey("users.id"), nullable=True, index=True)
+    action = db.Column(db.String(120), nullable=False, index=True)
+    target_type = db.Column(db.String(80), nullable=True)
+    target_id = db.Column(db.String(120), nullable=True)
+    details = db.Column(db.JSON, nullable=False, default=dict)
+    ip_address = db.Column(db.String(80), nullable=True)
+    created_at = db.Column(db.DateTime(timezone=True), nullable=False, default=utcnow)
+
+    actor = db.relationship("User", foreign_keys=[actor_id])
+
+    def to_dict(self):
+        return {
+            "id": self.id,
+            "actor": self.actor.to_dict() if self.actor else None,
+            "action": self.action,
+            "target_type": self.target_type,
+            "target_id": self.target_id,
+            "details": self.details or {},
+            "ip_address": self.ip_address,
+            "created_at": self.created_at.isoformat() if self.created_at else None,
+        }
+
+
+def backfill_practice_evaluation_versions():
+    existing_session_ids = {
+        row[0] for row in db.session.query(PracticeEvaluationVersion.session_id).distinct().all()
+    }
+    results = PracticeResult.query.filter(
+        PracticeResult.feedback_text.isnot(None),
+        PracticeResult.asr_text.isnot(None),
+    ).all()
+    created = 0
+    for result in results:
+        if (
+            result.session_id in existing_session_ids
+            or not result.feedback_text.strip()
+            or not result.asr_text.strip()
+        ):
+            continue
+        version = PracticeEvaluationVersion(
+            session_id=result.session_id,
+            version_number=1,
+            asr_text=result.asr_text,
+            score=result.score,
+            feedback_text=result.feedback_text,
+            reference_translation=result.reference_translation,
+            evaluation_json=result.evaluation_json or {},
+            created_by_id=result.session.user_id if result.session else None,
+            created_at=result.updated_at or result.created_at or utcnow(),
+        )
+        db.session.add(version)
+        existing_session_ids.add(result.session_id)
+        created += 1
+    if created:
+        db.session.commit()
+    return created

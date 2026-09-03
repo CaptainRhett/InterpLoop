@@ -2,6 +2,7 @@
 import { Pause, Play, SkipForward, Trash2 } from "@lucide/vue";
 import { computed, onBeforeUnmount, reactive, ref } from "vue";
 import { api } from "../api";
+import { SPOKEN_LANGUAGES } from "../languages";
 
 const state = reactive({
   text: "本日は、皆様の御参集を賜り、誠にありがとうございます。第一回中日企業経営交流商談会を開催できますことを大変うれしく思います。",
@@ -14,6 +15,7 @@ const currentIndex = ref(-1);
 const playing = ref(false);
 const status = ref("准备就绪");
 let timer = null;
+let currentAudio = null;
 
 const sentences = computed(() =>
   state.text
@@ -27,6 +29,9 @@ function speakBrowser(text) {
   const utterance = new SpeechSynthesisUtterance(text);
   utterance.lang = state.lang;
   utterance.rate = 0.9;
+  utterance.onerror = () => {
+    status.value = "浏览器朗读失败，请检查系统语音和浏览器声音权限";
+  };
   window.speechSynthesis.speak(utterance);
 }
 
@@ -34,14 +39,25 @@ async function speak(text) {
   try {
     const { data } = await api.post("/tts", { text, lang: state.lang, voice: state.voice });
     if (data.audio_base64) {
-      const audio = new Audio(`data:${data.mime_type};base64,${data.audio_base64}`);
-      audio.play();
+      await playBase64Audio(data.audio_base64, data.mime_type);
     } else {
       speakBrowser(text);
     }
-  } catch {
+  } catch (error) {
+    console.warn("TTS playback failed, falling back to browser speech.", error);
     speakBrowser(text);
   }
+}
+
+function playBase64Audio(audioBase64, mimeType = "audio/mpeg") {
+  stopCurrentAudio();
+  currentAudio = new Audio(`data:${mimeType};base64,${audioBase64}`);
+  currentAudio.preload = "auto";
+  return new Promise((resolve, reject) => {
+    currentAudio.onended = resolve;
+    currentAudio.onerror = () => reject(new Error("音频解码或播放失败"));
+    currentAudio.play().catch(reject);
+  });
 }
 
 async function playNext() {
@@ -74,8 +90,17 @@ function stop() {
   playing.value = false;
   if (timer) window.clearTimeout(timer);
   timer = null;
+  stopCurrentAudio();
   window.speechSynthesis?.cancel();
   status.value = "已停止";
+}
+
+function stopCurrentAudio() {
+  if (!currentAudio) return;
+  currentAudio.pause();
+  currentAudio.currentTime = 0;
+  currentAudio.src = "";
+  currentAudio = null;
 }
 
 function clearText() {
@@ -91,7 +116,7 @@ onBeforeUnmount(stop);
   <div class="grid gap-5 lg:grid-cols-[minmax(0,1fr)_360px]">
     <section class="panel">
       <h2 class="text-lg font-semibold text-brand">InterpCue 语料播放</h2>
-      <p class="mt-1 text-sm text-slate-500">粘贴中文或日文材料，逐句或整段朗读。</p>
+      <p class="mt-1 text-sm text-slate-500">粘贴中文、日文或英文材料，逐句或整段朗读。</p>
       <textarea v-model="state.text" class="input mt-5 min-h-64 resize-y" placeholder="粘贴语料文本"></textarea>
       <div class="mt-4 rounded-md border border-slate-200 bg-slate-50 p-4">
         <div class="text-sm font-medium text-slate-600">当前句子</div>
@@ -105,8 +130,7 @@ onBeforeUnmount(stop);
       <div>
         <label class="field-label">语种</label>
         <select v-model="state.lang" class="input">
-          <option value="ja-JP">日语</option>
-          <option value="zh-CN">中文</option>
+          <option v-for="item in SPOKEN_LANGUAGES" :key="item.value" :value="item.value">{{ item.label }}</option>
         </select>
       </div>
       <div>
@@ -115,7 +139,7 @@ onBeforeUnmount(stop);
       </div>
       <div>
         <label class="field-label">语音名称（选填）</label>
-        <input v-model.trim="state.voice" class="input" placeholder="如 xiaoyan / x2_yumi" />
+        <input v-model.trim="state.voice" class="input" placeholder="填写讯飞控制台已授权的发音人" />
       </div>
       <div class="rounded-md bg-amber-50 px-3 py-2 text-sm text-amber-800">{{ status }}</div>
       <div class="grid grid-cols-2 gap-2">

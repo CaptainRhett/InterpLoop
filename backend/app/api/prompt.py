@@ -6,7 +6,7 @@ prompt_bp = Blueprint("prompt", __name__)
 
 DEFAULT_DIMENSIONS = [
     "信息完整度",
-    "敬语与正式语体",
+    "敬语、语域与正式语体",
     "术语和机构名称",
     "句子自然度",
     "优先改进问题",
@@ -36,6 +36,14 @@ PRESETS = [
         "task_type": "数字口译训练",
         "dimensions": ["信息完整性", "发音准确性", "表达流畅度"],
         "strictness": 5,
+    },
+    {
+        "key": "english_business",
+        "name": "中英口译·国际商务",
+        "role": "英语商务口译专家（国际商务方向）",
+        "task_type": "汉译英交替传译",
+        "dimensions": ["信息完整性", "句式与语法", "语体匹配度", "表达流畅度", "术语规范性", "跨文化适配"],
+        "strictness": 4,
     },
 ]
 

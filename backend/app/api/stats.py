@@ -1,6 +1,7 @@
 from flask import Blueprint, jsonify
 
 from ..models import PracticeSession
+from ..permissions import scope_practice_query
 from .auth import require_user
 
 stats_bp = Blueprint("stats", __name__)
@@ -22,10 +23,11 @@ def _average_score(rows):
     values = []
     labels = []
     for row in rows:
-        if row.result and row.result.score:
-            labels.append(row.result.score)
-            if row.result.score in SCORE_MAP:
-                values.append(SCORE_MAP[row.result.score])
+        score = row.archive.score if row.archive else (row.result.score if row.result else None)
+        if score:
+            labels.append(score)
+            if score in SCORE_MAP:
+                values.append(SCORE_MAP[score])
     if not values:
         return {"label": "-", "numeric": None}
     avg = sum(values) / len(values)
@@ -36,15 +38,15 @@ def _average_score(rows):
 @stats_bp.get("/stats/summary")
 def summary():
     user = require_user()
-    query = PracticeSession.query
-    if user.role != "teacher":
-        query = query.filter_by(user_id=user.id)
+    query = scope_practice_query(PracticeSession.query, user)
     rows = query.order_by(PracticeSession.created_at.asc()).all()
-    completed = [row for row in rows if row.status == "completed"]
+    archived = [row for row in rows if row.archive]
+    completed = [row for row in rows if row.status == "completed" or row.archive]
     return jsonify(
         {
             "total_practices": len(rows),
             "completed_practices": len(completed),
+            "archived_practices": len(archived),
             "estimated_minutes": sum(max(row.interval_seconds, 1) for row in rows) // 60,
             "average_score": _average_score(completed),
             "recent": [row.to_dict() for row in list(reversed(rows[-5:]))],

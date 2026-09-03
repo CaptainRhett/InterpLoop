@@ -1,11 +1,14 @@
 import { createRouter, createWebHistory } from "vue-router";
 
 import ShellLayout from "./components/ShellLayout.vue";
+import AccountView from "./views/AccountView.vue";
+import AdminView from "./views/AdminView.vue";
 import FeedbackLogView from "./views/FeedbackLogView.vue";
 import InterpCueView from "./views/InterpCueView.vue";
 import LoginView from "./views/LoginView.vue";
 import LoopPracticeView from "./views/LoopPracticeView.vue";
 import NumSprintView from "./views/NumSprintView.vue";
+import PracticeDetailView from "./views/PracticeDetailView.vue";
 import PromptForgeView from "./views/PromptForgeView.vue";
 import StatsView from "./views/StatsView.vue";
 import { useAuthStore } from "./stores/auth";
@@ -18,13 +21,16 @@ const router = createRouter({
       path: "/",
       component: ShellLayout,
       children: [
-        { path: "", redirect: "/loop" },
+        { path: "", redirect: "/stats" },
         { path: "loop", name: "loop", component: LoopPracticeView },
         { path: "numsprint", name: "numsprint", component: NumSprintView },
         { path: "interpcue", name: "interpcue", component: InterpCueView },
         { path: "promptforge", name: "promptforge", component: PromptForgeView },
         { path: "feedbacklog", name: "feedbacklog", component: FeedbackLogView },
         { path: "stats", name: "stats", component: StatsView },
+        { path: "practices/:id", name: "practice-detail", component: PracticeDetailView },
+        { path: "account", name: "account", component: AccountView },
+        { path: "admin", name: "admin", component: AdminView, meta: { requiresAdmin: true } },
       ],
     },
   ],
@@ -40,7 +46,14 @@ router.beforeEach(async (to) => {
     }
   }
   if (to.name !== "login" && !auth.user) return "/login";
-  if (to.name === "login" && auth.user) return "/loop";
+  if (to.name === "login" && auth.user) {
+    if (auth.user.must_change_password) return "/account";
+    if (auth.isAdmin) return "/admin";
+    return auth.user.role === "student" ? "/loop" : "/stats";
+  }
+  if (auth.user?.must_change_password && to.name !== "account") return "/account";
+  if (to.meta.requiresAdmin && !auth.isAdmin) return "/stats";
+  if (to.name === "loop" && auth.user?.role !== "student") return "/stats";
   return true;
 });
 
