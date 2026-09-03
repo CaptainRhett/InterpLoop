@@ -103,3 +103,6 @@ SQLite 已在后端启用 WAL、`busy_timeout` 和外键约束，适合 50 人�
 - FeedbackLog：反馈文本拆分、保存、LoopPractice 自动同步和 CSV 导出。
 - 练习档案：学生与教师可回看完整结果、修改 ASR 后重新评价、查看历史版本并重新归档。
 - 学习统计：练习次数、正式归档数、平均评价、档案列表和完整 CSV 导出。
+
+admin9527
+Zhouxingxing9527

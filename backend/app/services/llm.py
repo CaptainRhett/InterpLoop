@@ -33,6 +33,9 @@ class LLMClient:
             },
             json={
                 "model": self.model,
+                "thinking": {"type": "disabled"},
+                "stream": False,
+                "max_tokens": 1200,
                 "messages": [
                     {"role": "system", "content": "你是一名严谨的中日及中英口译教学评估助手。"},
                     {"role": "user", "content": prompt},
