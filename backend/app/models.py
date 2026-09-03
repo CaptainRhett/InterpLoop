@@ -2,8 +2,9 @@ from datetime import datetime, timezone
 from sqlalchemy import event
 from sqlalchemy.engine import Engine
 
-from .extensions import db
+from flask_sqlalchemy import SQLAlchemy
 
+db = SQLAlchemy()
 
 def utcnow():
     return datetime.now(timezone.utc)
