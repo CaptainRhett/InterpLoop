@@ -27,6 +27,7 @@ const navItems = computed(() => {
     { to: "/promptforge", label: "提示词设置", icon: Settings2 },
     { to: "/feedbacklog", label: "反馈记录", icon: ClipboardList },
     { to: "/stats", label: "学习统计", icon: BarChart3 },
+    { to: "/chat", label: "AI 学习助手", icon: Sparkles },
   );
   if (auth.isAdmin) items.push({ to: "/admin", label: "账号与权限", icon: ShieldCheck });
   items.push({ to: "/account", label: "我的账号", icon: UserRoundCog });

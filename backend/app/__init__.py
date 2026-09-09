@@ -4,6 +4,8 @@ import click
 from flask import Flask, jsonify
 from flask_cors import CORS
 
+from flask_smorest import Api
+
 from .config import Config
 from .models import (
     User,
@@ -18,6 +20,23 @@ from .schema import upgrade_schema
 def create_app(config_class=Config):
     app = Flask(__name__)
     app.config.from_object(config_class)
+
+    # OpenAPI / Swagger 配置
+    app.config.update(
+        API_TITLE="Interploop API",
+        API_VERSION="1.0.0",
+        OPENAPI_VERSION="3.0.3",
+
+        OPENAPI_URL_PREFIX="/",
+
+        OPENAPI_SWAGGER_UI_PATH="/docs",
+
+        OPENAPI_SWAGGER_UI_URL=
+            "https://cdn.jsdelivr.net/npm/swagger-ui-dist/",
+    )
+
+    api = Api(app)
+
     app.config["UPLOAD_DIR"].mkdir(parents=True, exist_ok=True)
     Path(app.instance_path).mkdir(parents=True, exist_ok=True)
 

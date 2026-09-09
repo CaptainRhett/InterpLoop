@@ -115,3 +115,86 @@ class LLMClient:
             "reference_translation": structured["reference_translation"],
             "evaluation_json": {"provider": "mock", "structured": structured},
         }
+    def chat(self, messages, system_prompt=None):
+        if self.mock or not self.api_key or not current_app.config["DOUBAO_MODEL"]:
+            return self._mock_chat(messages)
+
+        system_prompt = system_prompt or (
+            "你是一名通用 AI 学习助手。"
+            "请准确、清晰地回答用户的问题。"
+            "如果用户正在学习语言，可以提供翻译、解释、语法分析、"
+            "写作建议和学习指导。"
+        )
+
+        normalized_messages = []
+
+        for item in messages:
+            role = item.get("role")
+            content = str(item.get("content", "")).strip()
+
+            if role not in ("user", "assistant"):
+                continue
+
+            if not content:
+                continue
+
+            normalized_messages.append({
+                "role": role,
+                "content": content,
+            })
+
+        # 防止无限携带历史上下文
+        normalized_messages = normalized_messages[-20:]
+
+        response = requests.post(
+            f"{self.base_url}/chat/completions",
+            headers={
+                "Authorization": f"Bearer {self.api_key}",
+                "Content-Type": "application/json",
+            },
+            json={
+                "model": self.model,
+                "thinking": {"type": "disabled"},
+                "stream": False,
+                "max_tokens": 2000,
+                "messages": [
+                    {
+                        "role": "system",
+                        "content": system_prompt,
+                    },
+                    *normalized_messages,
+                ],
+                "temperature": 0.7,
+            },
+            timeout=self.timeout,
+        )
+
+        response.raise_for_status()
+
+        payload = response.json()
+
+        text = payload["choices"][0]["message"]["content"]
+
+        return {
+            "message": text,
+            "provider": "doubao",
+        }
+
+
+    def _mock_chat(self, messages):
+        last_message = ""
+
+        for item in reversed(messages):
+            if item.get("role") == "user":
+                last_message = item.get("content", "")
+                break
+
+        return {
+            "message": (
+                "【模拟 AI 回复】\n\n"
+                f"你刚才的问题是：{last_message}\n\n"
+                "当前系统正在使用 Mock 模式。配置豆包 API 后，"
+                "这里会返回真实的大模型回答。"
+            ),
+            "provider": "mock",
+        }
