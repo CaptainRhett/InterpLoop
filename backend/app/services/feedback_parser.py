@@ -69,6 +69,16 @@ def _merge_short_and_long(items):
 
 
 def parse_feedback_text(text):
+    headings = {"总评": "overall", "优点": "pros", "问题": "cons", "改进建议": "suggestions", "参考译文": "skip"}
+    if all(f"【{heading}】" in text for heading in headings):
+        parts = re.split(r"^【(总评|优点|问题|改进建议|参考译文)】\s*$", text, flags=re.MULTILINE)
+        fields = {"pros": "", "cons": "", "suggestions": "", "overall": ""}
+        for heading, body in zip(parts[1::2], parts[2::2]):
+            key = headings[heading]
+            if key != "skip":
+                fields[key] = body.strip()
+        fields["counts"] = {key: len(fields[key].splitlines()) if fields[key] else 0 for key in ("pros", "cons", "suggestions")}
+        return fields
     lines = [line.strip() for line in text.splitlines() if line.strip()]
     buckets = {"pros": [], "cons": [], "suggestions": [], "overall": [], "skip": []}
     current = "overall"

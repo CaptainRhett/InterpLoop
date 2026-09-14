@@ -12,7 +12,7 @@ import PracticeDetailView from "./views/PracticeDetailView.vue";
 import PromptForgeView from "./views/PromptForgeView.vue";
 import StatsView from "./views/StatsView.vue";
 import { useAuthStore } from "./stores/auth";
-import ChatAgent from "../views/ChatAgent.vue";
+import ChatAgent from "./views/ChatAgent.vue";
 
 const router = createRouter({
   history: createWebHistory(),
@@ -30,9 +30,9 @@ const router = createRouter({
         { path: "feedbacklog", name: "feedbacklog", component: FeedbackLogView },
         { path: "stats", name: "stats", component: StatsView },
         { path: "practices/:id", name: "practice-detail", component: PracticeDetailView },
-        { path: "chat", name: "chat", component: ChatAgent },
         { path: "account", name: "account", component: AccountView },
         { path: "admin", name: "admin", component: AdminView, meta: { requiresAdmin: true } },
+        { path: "chat", name: "chat", component: ChatAgent },
       ],
     },
   ],

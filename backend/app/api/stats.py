@@ -21,18 +21,22 @@ SCORE_MAP = {
 
 def _average_score(rows):
     values = []
-    labels = []
     for row in rows:
         score = row.archive.score if row.archive else (row.result.score if row.result else None)
-        if score:
-            labels.append(score)
-            if score in SCORE_MAP:
-                values.append(SCORE_MAP[score])
+        if score in SCORE_MAP:
+            # Historical letter grades used a five-point scale; normalize to ten.
+            values.append(SCORE_MAP[score] * 2)
+        else:
+            try:
+                numeric = float(score)
+                if 1 <= numeric <= 10:
+                    values.append(numeric)
+            except (TypeError, ValueError):
+                pass
     if not values:
         return {"label": "-", "numeric": None}
-    avg = sum(values) / len(values)
-    closest = min(SCORE_MAP, key=lambda label: abs(SCORE_MAP[label] - avg))
-    return {"label": closest, "numeric": round(avg, 2)}
+    avg = round(sum(values) / len(values), 2)
+    return {"label": f"{avg:g}/10", "numeric": avg}
 
 
 @stats_bp.get("/stats/summary")

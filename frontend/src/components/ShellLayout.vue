@@ -8,6 +8,7 @@ import {
   Settings2,
   Sigma,
   ShieldCheck,
+  Sparkles,
   UserRoundCog,
 } from "@lucide/vue";
 import { computed } from "vue";

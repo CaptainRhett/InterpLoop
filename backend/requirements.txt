@@ -1,8 +1,10 @@
 Flask==3.0.3
 Flask-Cors==4.0.1
 Flask-SQLAlchemy==3.1.1
+flask-smorest==0.44.0
 python-dotenv==1.0.1
 requests==2.32.3
 websocket-client==1.8.0
 gunicorn==22.0.0
 openpyxl==3.1.5
+cryptography==46.0.3

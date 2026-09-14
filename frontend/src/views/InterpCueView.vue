@@ -3,6 +3,7 @@ import { Pause, Play, SkipForward, Trash2 } from "@lucide/vue";
 import { computed, onBeforeUnmount, reactive, ref } from "vue";
 import { api } from "../api";
 import { SPOKEN_LANGUAGES } from "../languages";
+import { createCuePlayer, splitSentences } from "../utils/interpCue";
 
 const state = reactive({
   text: "本日は、皆様の御参集を賜り、誠にありがとうございます。第一回中日企業経営交流商談会を開催できますことを大変うれしく思います。",
@@ -14,93 +15,36 @@ const state = reactive({
 const currentIndex = ref(-1);
 const playing = ref(false);
 const status = ref("准备就绪");
-let timer = null;
-let currentAudio = null;
+const sentences = computed(() => splitSentences(state.text));
+const player = createCuePlayer({
+  synthesize: async (payload, signal) => (await api.post("/tts", payload, { signal })).data,
+  onIndex: (index) => { currentIndex.value = index; },
+  onStatus: (value) => { status.value = value; },
+  onPlaying: (value) => { playing.value = value; },
+});
 
-const sentences = computed(() =>
-  state.text
-    .split(/(?<=[。！？!?])|\n+/)
-    .map((item) => item.trim())
-    .filter(Boolean),
-);
-
-function speakBrowser(text) {
-  window.speechSynthesis.cancel();
-  const utterance = new SpeechSynthesisUtterance(text);
-  utterance.lang = state.lang;
-  utterance.rate = 0.9;
-  utterance.onerror = () => {
-    status.value = "浏览器朗读失败，请检查系统语音和浏览器声音权限";
-  };
-  window.speechSynthesis.speak(utterance);
-}
-
-async function speak(text) {
-  try {
-    const { data } = await api.post("/tts", { text, lang: state.lang, voice: state.voice });
-    if (data.audio_base64) {
-      await playBase64Audio(data.audio_base64, data.mime_type);
-    } else {
-      speakBrowser(text);
-    }
-  } catch (error) {
-    console.warn("TTS playback failed, falling back to browser speech.", error);
-    speakBrowser(text);
-  }
-}
-
-function playBase64Audio(audioBase64, mimeType = "audio/mpeg") {
-  stopCurrentAudio();
-  currentAudio = new Audio(`data:${mimeType};base64,${audioBase64}`);
-  currentAudio.preload = "auto";
-  return new Promise((resolve, reject) => {
-    currentAudio.onended = resolve;
-    currentAudio.onerror = () => reject(new Error("音频解码或播放失败"));
-    currentAudio.play().catch(reject);
+function play(single = false) {
+  return player.play({
+    sentences: [...sentences.value],
+    index: single ? Math.max(0, Math.min(currentIndex.value, sentences.value.length - 1)) : 0,
+    single,
+    lang: state.lang,
+    voice: state.voice,
+    getInterval: () => state.interval,
   });
 }
 
-async function playNext() {
-  if (currentIndex.value + 1 >= sentences.value.length) {
-    status.value = "播放完成";
-    playing.value = false;
-    return;
-  }
-  currentIndex.value += 1;
-  status.value = `正在播放第 ${currentIndex.value + 1} 句`;
-  await speak(sentences.value[currentIndex.value]);
-  timer = window.setTimeout(playNext, state.interval * 1000);
-}
-
 function playAll() {
-  if (!sentences.value.length) return;
-  playing.value = true;
-  currentIndex.value = -1;
-  playNext();
+  return play();
 }
 
-async function playCurrent() {
-  if (!sentences.value.length) return;
-  currentIndex.value = Math.max(currentIndex.value, 0);
-  status.value = `正在播放第 ${currentIndex.value + 1} 句`;
-  await speak(sentences.value[currentIndex.value]);
+function playCurrent() {
+  return play(true);
 }
 
 function stop() {
-  playing.value = false;
-  if (timer) window.clearTimeout(timer);
-  timer = null;
-  stopCurrentAudio();
-  window.speechSynthesis?.cancel();
+  player.stop();
   status.value = "已停止";
-}
-
-function stopCurrentAudio() {
-  if (!currentAudio) return;
-  currentAudio.pause();
-  currentAudio.currentTime = 0;
-  currentAudio.src = "";
-  currentAudio = null;
 }
 
 function clearText() {
@@ -117,7 +61,7 @@ onBeforeUnmount(stop);
     <section class="panel">
       <h2 class="text-lg font-semibold text-brand">InterpCue 语料播放</h2>
       <p class="mt-1 text-sm text-slate-500">粘贴中文、日文或英文材料，逐句或整段朗读。</p>
-      <textarea v-model="state.text" class="input mt-5 min-h-64 resize-y" placeholder="粘贴语料文本"></textarea>
+      <textarea v-model="state.text" :disabled="playing" class="input mt-5 min-h-64 resize-y" placeholder="粘贴语料文本"></textarea>
       <div class="mt-4 rounded-md border border-slate-200 bg-slate-50 p-4">
         <div class="text-sm font-medium text-slate-600">当前句子</div>
         <p class="mt-2 min-h-16 text-lg leading-8 text-ink">
@@ -129,13 +73,14 @@ onBeforeUnmount(stop);
     <section class="panel space-y-4">
       <div>
         <label class="field-label">语种</label>
-        <select v-model="state.lang" class="input">
+        <select v-model="state.lang" :disabled="playing" class="input">
           <option v-for="item in SPOKEN_LANGUAGES" :key="item.value" :value="item.value">{{ item.label }}</option>
         </select>
       </div>
       <div>
         <label class="field-label">句间停顿：{{ state.interval }} 秒</label>
         <input v-model.number="state.interval" class="w-full" min="3" max="30" type="range" />
+        <p class="mt-1 text-xs text-slate-500">每句朗读结束后，再等待设定时长播放下一句。</p>
       </div>
       <div>
         <label class="field-label">语音名称（选填）</label>

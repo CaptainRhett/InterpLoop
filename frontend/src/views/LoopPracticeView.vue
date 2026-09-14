@@ -1,7 +1,8 @@
 <script setup>
-import { CheckCircle2, Mic, Play, Save, Square, Wand2 } from "@lucide/vue";
+import { CheckCircle2, Mic, Pause, Play, Save, Square, Wand2 } from "@lucide/vue";
 import { computed, onBeforeUnmount, reactive, ref } from "vue";
 import { api } from "../api";
+import { createCuePlayer, splitSentences } from "../utils/interpCue";
 import { LANGUAGE_DIRECTIONS, languagePairForDirection } from "../languages";
 import { useAuthStore } from "../stores/auth";
 
@@ -14,6 +15,9 @@ const state = reactive({
   direction: "日→中",
   contextId: auth.contexts.length === 1 ? auth.contexts[0].enrollment_id : "",
   interval: 20,
+  hideSource: true,
+  segments: [],
+  segmentIndex: 0,
   modelName: "doubao",
   role: "严格口译教师",
   strictness: 4,
@@ -28,6 +32,24 @@ const state = reactive({
 
 const allDimensions = ["信息完整度", "敬语、语域与正式语体", "术语和机构名称", "语法与用词", "句子自然度", "优先改进问题", "参考译法"];
 const recording = ref(false);
+const startingRecording = ref(false);
+const creating = ref(false);
+const sourcePlaying = ref(false);
+const sourcePaused = ref(false);
+const sourcePausable = ref(false);
+const sourcePlayed = ref(false);
+let lifecycle = 0;
+const sourceSentences = computed(() => splitSentences(state.sourceText));
+const currentSegment = computed(() => state.segments[state.segmentIndex]);
+const sourceHidden = computed(() => state.hideSource && (recording.value || startingRecording.value));
+const player = createCuePlayer({
+  synthesize: async (payload, signal) => (await api.post("/tts", payload, { signal })).data,
+  onIndex: () => {},
+  onStatus: (status) => { state.status = status; },
+  onPlaying: (value) => { sourcePlaying.value = value; },
+  onPaused: (value) => { sourcePaused.value = value; },
+  onPausable: (value) => { sourcePausable.value = value; },
+});
 const evaluating = ref(false);
 const archiving = ref(false);
 const uploading = ref(false);
@@ -61,26 +83,28 @@ function toggleDimension(item) {
   }
 }
 
-function speakBrowser(text) {
-  window.speechSynthesis.cancel();
-  const utterance = new SpeechSynthesisUtterance(text);
-  utterance.lang = sourceLang.value;
-  utterance.rate = 0.9;
-  window.speechSynthesis.speak(utterance);
+async function playSource() {
+  if (!currentSegment.value || recording.value || startingRecording.value || uploading.value) return;
+  sourcePlayed.value = false;
+  const completed = await player.play({
+    sentences: [currentSegment.value.source], single: true, lang: sourceLang.value, voice: "",
+  });
+  if (completed) {
+    sourcePlayed.value = true;
+    state.status = `第 ${state.segmentIndex + 1} 句播放完毕，请开始录制口译`;
+  }
 }
 
-async function playSource() {
-  state.status = "正在播放源语";
-  try {
-    const { data } = await api.post("/tts", { text: state.sourceText, lang: sourceLang.value });
-    if (data.audio_base64) {
-      const audio = new Audio(`data:${data.mime_type};base64,${data.audio_base64}`);
-      await audio.play();
-    } else {
-      speakBrowser(state.sourceText);
-    }
-  } catch {
-    speakBrowser(state.sourceText);
+function nextSegment() {
+  if (recording.value || startingRecording.value || uploading.value || sourcePlaying.value) return;
+  if (!currentSegment.value?.recorded || !currentSegment.value.transcript.trim()) return;
+  if (state.segmentIndex < state.segments.length - 1) {
+    state.segmentIndex += 1;
+    playSource();
+  } else {
+    state.asrText = state.segments.map((part) => part.transcript.trim()).join("\n");
+    state.step = 4;
+    state.status = "全部句子识别完成，请核对全文后生成评价";
   }
 }
 
@@ -94,6 +118,7 @@ async function createPractice() {
       role: state.role,
       strictness: state.strictness,
       dimensions: state.dimensions,
+      source_segments: state.segments.map((part) => part.source),
     },
     class_id: selectedContext.value?.class_group.id,
     course_id: selectedContext.value?.course.id,
@@ -102,6 +127,7 @@ async function createPractice() {
 }
 
 async function goRecording() {
+  if (creating.value) return;
   if (!state.sourceText.trim()) {
     state.status = "请先输入源语文本";
     return;
@@ -110,17 +136,24 @@ async function goRecording() {
     state.status = auth.contexts.length ? "请选择本次练习所属的班级和课程" : "账号尚未分配班级课程，请联系管理员";
     return;
   }
+  creating.value = true;
+  const run = lifecycle;
   try {
+    state.segments = sourceSentences.value.map((source) => ({ source, transcript: "", recorded: false }));
+    state.segmentIndex = 0;
     if (!state.practice) await createPractice();
+    if (run !== lifecycle) return;
     state.step = 3;
     await playSource();
   } catch (error) {
     state.status = `练习创建失败：${apiErrorMessage(error)}`;
+  } finally {
+    creating.value = false;
   }
 }
 
 async function startRecording() {
-  if (recording.value) return;
+  if (recording.value || startingRecording.value || uploading.value || sourcePlaying.value || !sourcePlayed.value) return;
   if (window.isSecureContext === false) {
     state.status = "录音需要安全访问地址：请用 http://localhost:5173、http://127.0.0.1:5173 或 HTTPS 打开，不要用普通 http 的局域网 IP。";
     return;
@@ -134,10 +167,13 @@ async function startRecording() {
     state.status = "当前浏览器不支持音频采集，请换用最新版 Chrome/Edge";
     return;
   }
+  player.stop();
+  startingRecording.value = true;
+  const run = lifecycle;
   pcmChunks = [];
   elapsed.value = 0;
   try {
-    stream = await navigator.mediaDevices.getUserMedia({
+    const acquiredStream = await navigator.mediaDevices.getUserMedia({
       audio: {
         channelCount: 1,
         echoCancellation: true,
@@ -145,8 +181,14 @@ async function startRecording() {
         autoGainControl: true,
       },
     });
+    if (run !== lifecycle) {
+      acquiredStream.getTracks().forEach((track) => track.stop());
+      return;
+    }
+    stream = acquiredStream;
     audioContext = new AudioContextClass();
     if (audioContext.state === "suspended") await audioContext.resume();
+    if (run !== lifecycle) return;
     audioInput = audioContext.createMediaStreamSource(stream);
     audioProcessor = audioContext.createScriptProcessor(4096, 1, 1);
     audioProcessor.onaudioprocess = (event) => {
@@ -165,11 +207,14 @@ async function startRecording() {
   } catch (error) {
     stopAudioCapture();
     state.status = recordingErrorMessage(error);
+  } finally {
+    startingRecording.value = false;
   }
 }
 
 async function stopAndUpload() {
-  if (!recording.value) return;
+  if (!recording.value || uploading.value) return;
+  const run = lifecycle;
   uploading.value = true;
   state.status = "正在上传音频并识别";
   recording.value = false;
@@ -184,13 +229,17 @@ async function stopAndUpload() {
     const form = new FormData();
     form.append("audio", blob, "practice.pcm");
     form.append("lang", targetLang.value);
+    form.append("segment_index", String(state.segmentIndex));
     const { data } = await api.post(`/practices/${state.practice.id}/audio`, form, {
       headers: { "Content-Type": "multipart/form-data" },
     });
+    if (run !== lifecycle) return;
     state.practice = data.practice;
-    state.asrText = data.asr.transcript;
-    state.step = 4;
-    state.status = "ASR 完成，可生成评价";
+    currentSegment.value.transcript = data.asr.transcript || "";
+    currentSegment.value.recorded = true;
+    state.status = currentSegment.value.transcript.trim()
+      ? "本句识别完成，可校对文字、重新录制或继续下一句"
+      : "本句未识别到文字，请重新录制或填写本句口译文字";
   } catch (error) {
     state.status = `识别失败：${apiErrorMessage(error)}`;
   } finally {
@@ -296,6 +345,12 @@ async function archive() {
 }
 
 function newPractice() {
+  lifecycle += 1;
+  player.stop();
+  stopAudioCapture();
+  state.segments = [];
+  state.segmentIndex = 0;
+  sourcePlayed.value = false;
   state.step = 1;
   state.practice = null;
   state.asrText = "";
@@ -310,6 +365,8 @@ function printPage() {
 }
 
 onBeforeUnmount(() => {
+  lifecycle += 1;
+  player.stop();
   stopAudioCapture();
 });
 </script>
@@ -342,8 +399,8 @@ onBeforeUnmount(() => {
           </select>
         </div>
         <div>
-          <label class="field-label">播放间隔：{{ state.interval }} 秒</label>
-          <input v-model.number="state.interval" class="w-full" min="5" max="30" type="range" />
+          <label class="field-label">断句识别</label>
+          <p class="text-sm text-slate-600">共 {{ sourceSentences.length }} 句，按“听一句 → 录一句”完成练习。</p>
         </div>
       </div>
       <button class="btn-primary" @click="state.step = 2">下一步</button>
@@ -383,21 +440,35 @@ onBeforeUnmount(() => {
         </div>
       </div>
       <div class="flex gap-2">
-        <button class="btn-secondary" @click="state.step = 1">上一步</button>
-        <button class="btn-primary" @click="goRecording"><Play class="h-4 w-4" />播放源语并进入录音</button>
+        <button class="btn-secondary" :disabled="creating" @click="state.step = 1">上一步</button>
+        <button class="btn-primary" :disabled="creating" @click="goRecording"><Play class="h-4 w-4" />播放源语并进入录音</button>
       </div>
+      <p class="text-sm text-amber-800">{{ state.status }}</p>
     </section>
 
     <section v-if="state.step === 3" class="panel space-y-4">
-      <h2 class="text-lg font-semibold text-brand">学生口译录音</h2>
+      <h2 class="text-lg font-semibold text-brand">逐句口译 · 第 {{ state.segmentIndex + 1 }} / {{ state.segments.length }} 句</h2>
+      <label class="flex items-center gap-2 text-sm">
+        <input v-model="state.hideSource" type="checkbox" :disabled="recording || startingRecording" />
+        开始录音时隐藏原文
+      </label>
       <div class="rounded-lg border border-slate-200 bg-slate-50 p-4">
-        <div class="text-sm font-medium text-slate-500">源语原文</div>
-        <p class="mt-2 text-lg leading-8 text-ink">{{ state.sourceText }}</p>
+        <div class="text-sm font-medium text-slate-500">本句原文</div>
+        <p v-if="!sourceHidden" class="mt-2 text-lg leading-8 text-ink">{{ currentSegment?.source }}</p>
+        <p v-else class="mt-2 text-lg leading-8 text-slate-500">录音中，原文已隐藏</p>
       </div>
       <div class="flex flex-wrap items-center gap-3">
-        <button class="btn-primary" :disabled="recording" @click="playSource"><Play class="h-4 w-4" />重播源语</button>
-        <button class="btn-success" :disabled="recording" @click="startRecording"><Mic class="h-4 w-4" />开始录音</button>
-        <button class="btn-danger" :disabled="!recording || uploading" @click="stopAndUpload"><Square class="h-4 w-4" />完成并识别</button>
+        <button class="btn-primary" :disabled="recording || startingRecording || uploading || sourcePlaying" @click="playSource"><Play class="h-4 w-4" />重播本句</button>
+        <button class="btn-secondary" :disabled="!sourcePausable" @click="player.togglePause()"><Pause class="h-4 w-4" />{{ sourcePaused ? "继续播放" : "暂停原文" }}</button>
+        <button class="btn-success" :disabled="recording || startingRecording || uploading || sourcePlaying || !sourcePlayed" @click="startRecording"><Mic class="h-4 w-4" />{{ startingRecording ? "正在打开麦克风…" : "开始本句录音" }}</button>
+        <button class="btn-danger" :disabled="!recording || uploading" @click="stopAndUpload"><Square class="h-4 w-4" />完成本句并识别</button>
+      </div>
+      <div v-if="currentSegment?.recorded && !recording && !startingRecording" class="space-y-3">
+        <label class="field-label">本句识别文字（可校对）</label>
+        <textarea v-model="currentSegment.transcript" class="input min-h-24" :disabled="uploading"></textarea>
+        <button class="btn-primary" :disabled="uploading || sourcePlaying || !currentSegment.transcript.trim()" @click="nextSegment">
+          {{ state.segmentIndex + 1 < state.segments.length ? "确认并播放下一句" : "完成全部录音，进入评价" }}
+        </button>
       </div>
       <div class="rounded-md bg-red-50 px-3 py-2 text-sm text-red-700" v-if="recording">正在录音：{{ elapsed }} 秒</div>
       <div class="rounded-md bg-amber-50 px-3 py-2 text-sm text-amber-800">{{ state.status }}</div>
@@ -438,7 +509,7 @@ onBeforeUnmount(() => {
         <div>学号：{{ auth.user?.student_no || "-" }}</div>
         <div>姓名：{{ auth.user?.name || "-" }}</div>
         <div>方向：{{ state.direction }}</div>
-        <div>评分：{{ state.evaluation?.score || "-" }}</div>
+        <div>评分：{{ state.evaluation?.score || "-" }}/10</div>
         <div>课程：{{ selectedContext?.course.name || "-" }}</div>
         <div>评价版本：第 {{ state.archive?.version_number || "-" }} 版</div>
         <div>归档时间：{{ state.archive?.archived_at?.slice(0, 19).replace("T", " ") || "-" }}</div>

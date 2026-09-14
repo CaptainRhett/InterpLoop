@@ -623,3 +623,56 @@ def backfill_practice_evaluation_versions():
     if created:
         db.session.commit()
     return created
+
+
+class ServiceSettings(db.Model):
+    __tablename__ = "service_settings"
+
+    id = db.Column(db.Integer, primary_key=True)
+    values = db.Column(db.JSON, nullable=False, default=dict)
+    updated_at = db.Column(db.DateTime(timezone=True), nullable=False, default=utcnow, onupdate=utcnow)
+
+
+class ChatConversation(db.Model):
+    __tablename__ = "chat_conversations"
+    __table_args__ = {"sqlite_autoincrement": True}
+
+    id = db.Column(db.Integer, primary_key=True)
+    public_id = db.Column(db.String(36), nullable=False, unique=True)
+    user_id = db.Column(db.Integer, db.ForeignKey("users.id"), nullable=False, index=True)
+    title = db.Column(db.String(120), nullable=False, default="新对话")
+    version = db.Column(db.Integer, nullable=False, default=0)
+    generation = db.Column(db.Integer, nullable=False, default=0)
+    active_request = db.Column(db.String(36), nullable=True)
+    active_until = db.Column(db.DateTime, nullable=True)
+    created_at = db.Column(db.DateTime, nullable=False, default=utcnow)
+    updated_at = db.Column(db.DateTime, nullable=False, default=utcnow)
+
+    def to_dict(self):
+        return {"id": self.public_id, "title": self.title, "version": self.version,
+                "created_at": self.created_at.isoformat(), "updated_at": self.updated_at.isoformat()}
+
+
+class ChatTurn(db.Model):
+    __tablename__ = "chat_turns"
+    __table_args__ = (
+        db.UniqueConstraint("conversation_id", "request_id", name="uq_chat_request"),
+        db.UniqueConstraint("conversation_id", "sequence", name="uq_chat_sequence"),
+        {"sqlite_autoincrement": True},
+    )
+
+    id = db.Column(db.Integer, primary_key=True)
+    conversation_id = db.Column(db.Integer, db.ForeignKey("chat_conversations.id", ondelete="CASCADE"), nullable=False, index=True)
+    request_id = db.Column(db.String(36), nullable=False)
+    sequence = db.Column(db.Integer, nullable=False)
+    content_sha256 = db.Column(db.String(64), nullable=False)
+    user_content = db.Column(db.Text, nullable=False)
+    assistant_content = db.Column(db.Text, nullable=True)
+    provider = db.Column(db.String(80), nullable=True)
+    status = db.Column(db.String(16), nullable=False, default="pending")
+    created_at = db.Column(db.DateTime, nullable=False, default=utcnow)
+
+    def to_dict(self):
+        return {"id": self.id, "request_id": self.request_id, "sequence": self.sequence,
+                "user_content": self.user_content, "assistant_content": self.assistant_content,
+                "status": self.status, "provider": self.provider, "created_at": self.created_at.isoformat()}

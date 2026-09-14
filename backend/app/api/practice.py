@@ -4,6 +4,8 @@ import uuid
 from datetime import datetime, timezone
 from pathlib import Path
 
+from ..services.evaluation import EvaluationFormatError, feedback_fields
+
 from flask import Blueprint, abort, current_app, jsonify, request, send_file
 from sqlalchemy import func
 from werkzeug.utils import secure_filename
@@ -107,13 +109,23 @@ def create_practice():
     if direction not in DIRECTION_LANGUAGES:
         abort(400, "不支持的语言方向")
 
+    prompt_params = data.get("prompt_params") or {}
+    if not isinstance(prompt_params, dict):
+        abort(400, "练习参数必须为对象")
+    segments = prompt_params.get("source_segments")
+    if segments is not None:
+        if (not isinstance(segments, list) or not segments
+                or any(not isinstance(part, str) or not part.strip() for part in segments)
+                or "".join("".join(segments).split()) != "".join(source_text.split())):
+            abort(400, "断句内容必须按顺序完整对应原文")
+
     item = PracticeSession(
         user_id=user.id,
         direction=direction,
         source_text=source_text,
         interval_seconds=int(data.get("interval_seconds") or 20),
         model_name=data.get("model_name") or "doubao",
-        prompt_params=data.get("prompt_params") or {},
+        prompt_params=prompt_params,
         status="created",
     )
     db.session.add(item)
@@ -179,6 +191,19 @@ def upload_audio(session_id):
     if lang != expected_lang:
         abort(400, "ASR 语种与练习方向不一致")
 
+    source_segments = (item.prompt_params or {}).get("source_segments")
+    segment_index = None
+    if source_segments:
+        try:
+            segment_index = int(request.form.get("segment_index", ""))
+        except ValueError:
+            abort(400, "请指定录音句子序号")
+        if not 0 <= segment_index < len(source_segments):
+            abort(400, "录音句子序号超出范围")
+        existing = (item.result.asr_segments or []) if item.result else []
+        if segment_index > len(existing):
+            abort(400, "请按原文顺序完成每句录音")
+
     upload_dir = Path(current_app.config["UPLOAD_DIR"])
     upload_dir.mkdir(parents=True, exist_ok=True)
     ext = Path(secure_filename(upload.filename or "")).suffix or ".webm"
@@ -189,9 +214,21 @@ def upload_audio(session_id):
     asr_payload = ASRClient().transcribe(str(audio_path), lang)
     result = item.result or PracticeResult(session_id=item.id)
     result.audio_path = str(audio_path)
-    result.asr_text = asr_payload.get("transcript", "")
     result.asr_confidence = asr_payload.get("confidence")
-    result.asr_segments = asr_payload.get("segments") or []
+    if source_segments:
+        segments = list(result.asr_segments or [])
+        segment = {"segment_index": segment_index, "source_text": source_segments[segment_index],
+                   "transcript": asr_payload.get("transcript", ""), "audio_path": str(audio_path),
+                   "recognition_segments": asr_payload.get("segments") or []}
+        if segment_index < len(segments):
+            segments[segment_index] = segment
+        else:
+            segments.append(segment)
+        result.asr_segments = segments
+        result.asr_text = "\n".join(part["transcript"] for part in segments)
+    else:
+        result.asr_text = asr_payload.get("transcript", "")
+        result.asr_segments = asr_payload.get("segments") or []
     item.status = "transcribed"
     db.session.add(result)
     db.session.commit()
@@ -207,12 +244,18 @@ def evaluate_practice(session_id):
     if not asr_text:
         abort(400, "缺少 ASR 识别文本")
 
-    payload = LLMClient().evaluate(
-        source_text=item.source_text,
-        asr_text=asr_text,
-        direction=item.direction,
-        prompt_params=item.prompt_params or {},
-    )
+    source_segments = (item.prompt_params or {}).get("source_segments")
+    if source_segments and (not item.result or len(item.result.asr_segments or []) != len(source_segments)):
+        abort(400, "请先完成全部句子的录音识别")
+    try:
+        payload = LLMClient().evaluate(
+            source_text=item.source_text,
+            asr_text=asr_text,
+            direction=item.direction,
+            prompt_params=item.prompt_params or {},
+        )
+    except EvaluationFormatError:
+        return jsonify({"error": "AI 评价格式或分数不符合要求，请重新生成评价"}), 502
     result = item.result or PracticeResult(session_id=item.id)
     result.asr_text = asr_text
     result.score = payload.get("score")
@@ -286,7 +329,10 @@ def archive_practice(session_id):
         db.session.commit()
         return jsonify({"practice": item.to_dict(), "archive": archive.to_dict()})
 
-    parsed = parse_feedback_text(version.feedback_text)
+    if (version.evaluation_json or {}).get("schema_version") == 1:
+        parsed = feedback_fields(version.evaluation_json)
+    else:
+        parsed = parse_feedback_text(version.feedback_text)
     feedback_log = FeedbackLog(
         user_id=item.user_id,
         student_no=item.user.student_no if item.user else None,

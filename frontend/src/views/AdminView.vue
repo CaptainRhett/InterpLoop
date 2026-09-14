@@ -1,4 +1,5 @@
 <script setup>
+import SystemSettings from "../components/SystemSettings.vue";
 import { Download, RefreshCcw, RotateCcw, Upload, UserPlus } from "@lucide/vue";
 import { computed, onMounted, reactive, ref } from "vue";
 import { api } from "../api";
@@ -148,6 +149,7 @@ onMounted(load);
 
 <template>
   <div class="space-y-5">
+    <SystemSettings />
     <section class="panel">
       <div class="flex flex-wrap items-center justify-between gap-3">
         <div><h2 class="text-lg font-semibold text-brand">账号与教学组织管理</h2><p class="mt-1 text-sm text-slate-500">导入学生、创建教师账号并配置班级课程权限。</p></div>

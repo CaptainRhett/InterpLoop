@@ -1,13 +1,19 @@
 import base64
 import hashlib
 import hmac
+import io
+import wave
+from pathlib import Path
+
+import requests
 import json
 import time
 from email.utils import formatdate
 from urllib.parse import urlencode
 
 import websocket
-from flask import current_app
+
+from .settings import service_config
 
 
 SUPPORTED_SPEECH_LANGUAGES = {"zh-CN", "ja-JP", "en-US"}
@@ -36,12 +42,13 @@ def default_tts_voice(lang):
         config_key = TTS_VOICE_CONFIG[lang]
     except KeyError as exc:
         raise ValueError(f"不支持的 TTS 语种：{lang}") from exc
-    return current_app.config.get(config_key, "")
+    return service_config().get(config_key, "")
 
 
 class ASRClient:
-    def __init__(self):
-        self.mock = current_app.config["USE_MOCK_SERVICES"]
+    def __init__(self, config=None):
+        self.config = config if config is not None else service_config()
+        self.mock = self.config["USE_MOCK_SERVICES"]
 
     def transcribe(self, audio_path, lang="auto"):
         if self.mock:
@@ -56,12 +63,43 @@ class ASRClient:
                 "segments": [],
                 "provider": "mock",
             }
-        return XunfeiIATClient().transcribe(audio_path, lang)
+        if self.config.get("ASR_PROVIDER") == "openai_compatible":
+            return self._compatible_transcribe(audio_path, lang)
+        return XunfeiIATClient(self.config).transcribe(audio_path, lang)
+
+    def _compatible_transcribe(self, audio_path, lang):
+        if not self.config.get("ASR_API_KEY") or not self.config.get("ASR_MODEL"):
+            raise ValueError("请配置识别 API Key 和模型 ID")
+        content = Path(audio_path).read_bytes()
+        name = Path(audio_path).name
+        if Path(audio_path).suffix.lower() == ".pcm":
+            output = io.BytesIO()
+            with wave.open(output, "wb") as wav:
+                wav.setnchannels(1)
+                wav.setsampwidth(2)
+                wav.setframerate(16000)
+                wav.writeframes(content)
+            content, name = output.getvalue(), "recording.wav"
+        data = {"model": self.config["ASR_MODEL"], "response_format": "json"}
+        if lang != "auto":
+            data["language"] = lang.split("-")[0]
+        response = requests.post(
+            self.config["ASR_BASE_URL"].rstrip("/") + "/audio/transcriptions",
+            headers={"Authorization": f"Bearer {self.config['ASR_API_KEY']}"},
+            files={"file": (name, content)}, data=data,
+            timeout=self.config["LLM_TIMEOUT_SECONDS"],
+        )
+        response.raise_for_status()
+        payload = response.json()
+        if not isinstance(payload.get("text"), str):
+            raise ValueError("识别服务返回格式不正确")
+        return {"transcript": payload["text"], "confidence": None,
+                "segments": payload.get("segments") or [], "provider": "openai_compatible"}
 
 
 class TTSClient:
     def __init__(self):
-        self.mock = current_app.config["USE_MOCK_SERVICES"]
+        self.mock = service_config()["USE_MOCK_SERVICES"]
 
     def synthesize(self, text, lang="zh-CN", voice="", speed=50):
         if self.mock:
@@ -83,11 +121,12 @@ class TTSClient:
 
 
 class XunfeiAuth:
-    def __init__(self, host, path):
+    def __init__(self, host, path, config=None):
+        config = config if config is not None else service_config()
         self.host = host
         self.path = path
-        self.api_key = current_app.config["XUNFEI_API_KEY"]
-        self.api_secret = current_app.config["XUNFEI_API_SECRET"]
+        self.api_key = config["XUNFEI_API_KEY"]
+        self.api_secret = config["XUNFEI_API_SECRET"]
 
     def signed_url(self):
         date = formatdate(timeval=None, localtime=False, usegmt=True)
@@ -107,13 +146,16 @@ class XunfeiAuth:
 
 
 class XunfeiIATClient:
+    def __init__(self, config=None):
+        self.config = config if config is not None else service_config()
+
     def transcribe(self, audio_path, lang="auto"):
-        app_id = current_app.config["XUNFEI_APP_ID"]
-        if not app_id or not current_app.config["XUNFEI_API_KEY"] or not current_app.config["XUNFEI_API_SECRET"]:
+        app_id = self.config["XUNFEI_APP_ID"]
+        if not app_id or not self.config["XUNFEI_API_KEY"] or not self.config["XUNFEI_API_SECRET"]:
             raise RuntimeError("缺少讯飞 ASR 配置")
 
-        host = current_app.config["XUNFEI_IAT_HOST"]
-        url = XunfeiAuth(host, "/v2/iat").signed_url()
+        host = self.config["XUNFEI_IAT_HOST"]
+        url = XunfeiAuth(host, "/v2/iat", self.config).signed_url()
         with open(audio_path, "rb") as fh:
             audio = fh.read()
 
@@ -168,7 +210,7 @@ class XunfeiIATClient:
                 payload["common"] = {"app_id": app_id}
                 payload["business"] = {
                     "language": language,
-                    "domain": "iat",
+                    "domain": self.config.get("XUNFEI_IAT_DOMAIN", "iat"),
                     "accent": "mandarin",
                     "vad_eos": 5000,
                 }
@@ -179,11 +221,11 @@ class XunfeiIATClient:
 
 class XunfeiTTSClient:
     def synthesize(self, text, lang="zh-CN", voice="", speed=50):
-        app_id = current_app.config["XUNFEI_APP_ID"]
-        if not app_id or not current_app.config["XUNFEI_API_KEY"] or not current_app.config["XUNFEI_API_SECRET"]:
+        app_id = service_config()["XUNFEI_APP_ID"]
+        if not app_id or not service_config()["XUNFEI_API_KEY"] or not service_config()["XUNFEI_API_SECRET"]:
             raise RuntimeError("缺少讯飞 TTS 配置")
 
-        host = current_app.config["XUNFEI_TTS_HOST"]
+        host = service_config()["XUNFEI_TTS_HOST"]
         url = XunfeiAuth(host, "/v2/tts").signed_url()
         ws = websocket.create_connection(url, timeout=20)
         try:

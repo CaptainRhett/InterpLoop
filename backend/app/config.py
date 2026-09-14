@@ -17,6 +17,19 @@ def _bool(name, default=False):
 
 
 class Config:
+    API_TITLE = "InterpLoop API"
+    API_VERSION = "1.0.0"
+    OPENAPI_VERSION = "3.0.3"
+    OPENAPI_URL_PREFIX = "/api"
+    OPENAPI_JSON_PATH = "openapi.json"
+    OPENAPI_SWAGGER_UI_PATH = "/docs"
+    OPENAPI_SWAGGER_UI_URL = "https://cdn.jsdelivr.net/npm/swagger-ui-dist@5.17.14/"
+    OPENAPI_SWAGGER_UI_CONFIG = {
+        "withCredentials": True,
+        "displayRequestDuration": True,
+        "validatorUrl": None,
+    }
+
     SECRET_KEY = os.getenv("SECRET_KEY", "dev-change-me")
     SQLALCHEMY_DATABASE_URI = os.getenv(
         "DATABASE_URL", f"sqlite:///{ROOT_DIR / 'instance' / 'interploop.sqlite3'}"
@@ -47,6 +60,13 @@ class Config:
 
     UPLOAD_DIR = Path(os.getenv("UPLOAD_DIR", ROOT_DIR / "var" / "uploads"))
     MAX_CONTENT_LENGTH = int(os.getenv("MAX_UPLOAD_MB", "25")) * 1024 * 1024
+
+    LLM_PROVIDER = os.getenv("LLM_PROVIDER", "doubao")
+    ASR_PROVIDER = os.getenv("ASR_PROVIDER", "xunfei")
+    ASR_BASE_URL = os.getenv("ASR_BASE_URL", "https://api.openai.com/v1")
+    ASR_API_KEY = os.getenv("ASR_API_KEY", "")
+    ASR_MODEL = os.getenv("ASR_MODEL", "whisper-1")
+    XUNFEI_IAT_DOMAIN = os.getenv("XUNFEI_IAT_DOMAIN", "iat")
 
     DOUBAO_BASE_URL = os.getenv(
         "DOUBAO_BASE_URL", "https://ark.cn-beijing.volces.com/api/v3"
