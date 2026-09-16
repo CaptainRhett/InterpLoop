@@ -6,10 +6,12 @@ set -euo pipefail
 # 配置
 # =========================
 PROJECT_DIR="/home/ubuntu/tz"
+BACKEND_REQUIREMENTS="$PROJECT_DIR/backend/requirements.txt"
 FRONTEND_DIR="$PROJECT_DIR/frontend"
 BUILD_DIR="$FRONTEND_DIR/dist"
 
 CONDA_ENV="tz"
+BACKEND_SERVICE="tz-backend.service"
 
 DEPLOY_DIR="/var/www/app1"
 
@@ -37,10 +39,33 @@ if [ ! -d "$FRONTEND_DIR" ]; then
     exit 1
 fi
 
+if [ ! -f "$BACKEND_REQUIREMENTS" ]; then
+    echo "ERROR: backend requirements not found: $BACKEND_REQUIREMENTS"
+    exit 1
+fi
+
 if [ ! -f "$FRONTEND_DIR/package.json" ]; then
     echo "ERROR: package.json not found"
     exit 1
 fi
+
+
+# =========================
+# 安装后端依赖
+# =========================
+cd "$PROJECT_DIR"
+
+log "Installing backend dependencies..."
+
+conda run -n "$CONDA_ENV" python -m pip install -r "$BACKEND_REQUIREMENTS"
+
+
+# =========================
+# 检查后端
+# =========================
+log "Checking backend application..."
+
+conda run --no-capture-output -n "$CONDA_ENV" python -c 'from backend.wsgi import app; print("Backend loaded successfully")'
 
 
 # =========================
@@ -117,13 +142,28 @@ sudo systemctl reload nginx
 
 
 # =========================
+# Restart Backend
+# =========================
+log "Restarting backend service..."
+
+sudo systemctl restart "$BACKEND_SERVICE"
+
+log "Checking backend service status..."
+
+sudo systemctl is-active --quiet "$BACKEND_SERVICE"
+
+
+# =========================
 # 完成
 # =========================
-log "Frontend deployed successfully."
+log "Application deployed successfully."
 
 echo
 echo "Deployment directory:"
 echo "  $DEPLOY_DIR"
+echo
+echo "Backend service:"
+echo "  $BACKEND_SERVICE"
 echo
 echo "Access:"
 echo "  https://82.156.212.123/"
