@@ -142,7 +142,7 @@ onMounted(async () => {
       </div>
 
       <div class="grid gap-3 md:grid-cols-4">
-        <div class="md:col-span-4">
+        <div v-if="!auth.isGuest" class="md:col-span-4">
           <label class="field-label">学生、班级与课程</label>
           <select v-model="form.context_id" class="input" :disabled="!availableContexts.length" @change="syncContext">
             <option value="">{{ availableContexts.length ? "请选择" : "暂无可管理的学生课程" }}</option>
@@ -153,11 +153,11 @@ onMounted(async () => {
         </div>
         <div>
           <label class="field-label">学生编号</label>
-          <input v-model.trim="form.student_no" class="input" :readonly="Boolean(auth.user?.login_id)" />
+          <input v-model.trim="form.student_no" class="input" :readonly="auth.isGuest || Boolean(auth.user?.login_id)" :placeholder="auth.isGuest ? '游客无需学号' : ''" />
         </div>
         <div>
           <label class="field-label">学生姓名</label>
-          <input v-model.trim="form.student_name" class="input" :readonly="Boolean(auth.user?.login_id)" />
+          <input v-model.trim="form.student_name" class="input" :readonly="auth.isGuest || Boolean(auth.user?.login_id)" :placeholder="auth.isGuest ? '游客' : ''" />
         </div>
         <div>
           <label class="field-label">任务编号</label>

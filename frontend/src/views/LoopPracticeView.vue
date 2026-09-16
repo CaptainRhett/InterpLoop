@@ -392,8 +392,9 @@ onBeforeUnmount(() => {
           </select>
         </div>
         <div>
-          <label class="field-label">班级与课程</label>
-          <select v-model="state.contextId" class="input" :disabled="!auth.contexts.length">
+          <label class="field-label">{{ auth.isGuest ? "游客练习" : "班级与课程" }}</label>
+          <p v-if="auth.isGuest" class="text-sm text-slate-600">无需加入班级，练习记录仅在本次试用内保留。</p>
+          <select v-else v-model="state.contextId" class="input" :disabled="!auth.contexts.length">
             <option value="">{{ auth.contexts.length ? "请选择" : "尚未分配" }}</option>
             <option v-for="item in auth.contexts" :key="item.enrollment_id" :value="item.enrollment_id">
               {{ item.term.name }} · {{ item.class_group.name }} · {{ item.course.name }}

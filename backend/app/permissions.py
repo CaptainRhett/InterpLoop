@@ -41,7 +41,7 @@ def _teacher_student_ids(user):
 
 def scope_user_query(query, actor):
     if is_admin(actor):
-        return query
+        return query.filter(User.role != "guest")
     if is_teacher(actor):
         return query.filter(User.id.in_(_teacher_student_ids(actor)))
     return query.filter(User.id == actor.id)
@@ -49,8 +49,8 @@ def scope_user_query(query, actor):
 
 def scope_practice_query(query, actor):
     if is_admin(actor):
-        return query
-    if actor.role == "student":
+        return query.filter(PracticeSession.user.has(User.role != "guest"))
+    if actor.role in {"student", "guest"}:
         return query.filter(PracticeSession.user_id == actor.id)
     if not is_teacher(actor):
         return query.filter(false())
@@ -80,8 +80,8 @@ def scope_practice_query(query, actor):
 
 def scope_feedback_query(query, actor):
     if is_admin(actor):
-        return query
-    if actor.role == "student":
+        return query.filter(~FeedbackLog.user.has(User.role == "guest"))
+    if actor.role in {"student", "guest"}:
         return query.filter(FeedbackLog.user_id == actor.id)
     if not is_teacher(actor):
         return query.filter(false())

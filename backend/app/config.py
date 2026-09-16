@@ -53,6 +53,7 @@ class Config:
     SESSION_COOKIE_HTTPONLY = True
     SESSION_COOKIE_SAMESITE = "Lax"
     SESSION_COOKIE_SECURE = _bool("SESSION_COOKIE_SECURE", False)
+    GUEST_SESSION_SECONDS = int(os.getenv("GUEST_SESSION_SECONDS", "7200"))
     PERMANENT_SESSION_LIFETIME = timedelta(
         hours=int(os.getenv("SESSION_LIFETIME_HOURS", "12"))
     )

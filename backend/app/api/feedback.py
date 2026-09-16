@@ -33,7 +33,7 @@ def create_feedback_log():
     raw_text = (data.get("raw_text") or "").strip()
     if not raw_text:
         abort(400, "反馈原文不能为空")
-    if user.role == "student":
+    if user.role in {"student", "guest"}:
         target_user = user
     else:
         target_user_id = data.get("user_id")
@@ -59,7 +59,7 @@ def create_feedback_log():
     db.session.flush()
     class_id = data.get("class_id")
     course_id = data.get("course_id")
-    if class_id or course_id or current_app.config["REQUIRE_PRACTICE_CONTEXT"]:
+    if user.role != "guest" and (class_id or course_id or current_app.config["REQUIRE_PRACTICE_CONTEXT"]):
         enrollment = resolve_student_enrollment(target_user, class_id, course_id)
         item.context = FeedbackContext(
             term_id=enrollment.course.term_id,

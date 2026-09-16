@@ -51,11 +51,12 @@ router.beforeEach(async (to) => {
   if (to.name === "login" && auth.user) {
     if (auth.user.must_change_password) return "/account";
     if (auth.isAdmin) return "/admin";
-    return auth.user.role === "student" ? "/loop" : "/stats";
+    return ["student", "guest"].includes(auth.user.role) ? "/loop" : "/stats";
   }
   if (auth.user?.must_change_password && to.name !== "account") return "/account";
   if (to.meta.requiresAdmin && !auth.isAdmin) return "/stats";
-  if (to.name === "loop" && auth.user?.role !== "student") return "/stats";
+  if (to.name === "account" && auth.isGuest) return "/loop";
+  if (to.name === "loop" && !["student", "guest"].includes(auth.user?.role)) return "/stats";
   return true;
 });
 

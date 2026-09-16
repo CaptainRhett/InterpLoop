@@ -43,12 +43,30 @@ class User(db.Model):
             "student_no": self.student_no,
             "name": self.name,
             "role": self.role,
+            "is_guest": self.role == "guest",
+            "guest_session_id": (
+                f"{self.id}:{self.created_at.replace(tzinfo=timezone.utc).isoformat()}"
+                if self.role == "guest" else None
+            ),
+            "guest_expires_at": (
+                self.guest_session.expires_at.replace(tzinfo=timezone.utc).isoformat()
+                if self.role == "guest" and self.guest_session else None
+            ),
             "login_id": self.account.login_id if self.account else None,
             "is_active": self.account.is_active if self.account else True,
             "must_change_password": (
                 self.account.must_change_password if self.account else False
             ),
         }
+
+
+class GuestSession(db.Model):
+    __tablename__ = "guest_sessions"
+
+    token_hash = db.Column(db.String(64), primary_key=True)
+    user_id = db.Column(db.Integer, db.ForeignKey("users.id"), nullable=False, unique=True)
+    expires_at = db.Column(db.DateTime, nullable=False, index=True)
+    user = db.relationship("User", backref=db.backref("guest_session", uselist=False))
 
 
 class UserAccount(db.Model):

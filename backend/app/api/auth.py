@@ -5,6 +5,7 @@ from flask import Blueprint, abort, current_app, jsonify, request, session
 from ..audit import add_audit
 from ..models import User, UserAccount, db
 from ..permissions import managed_student_contexts, user_learning_contexts
+from ..guests import end_guest, guest_user, renew_guest, start_guest
 
 auth_bp = Blueprint("auth", __name__)
 
@@ -14,6 +15,8 @@ def _json():
 
 
 def current_user():
+    if session.get("guest_token"):
+        return guest_user()
     user_id = session.get("user_id")
     if not user_id:
         return None
@@ -58,6 +61,8 @@ def require_admin():
 
 
 def _login_user(user):
+    if session.get("guest_token"):
+        end_guest()
     session.clear()
     session.permanent = True
     session["user_id"] = user.id
@@ -71,6 +76,24 @@ def _login_user(user):
             "contexts": user_learning_contexts(user),
         }
     )
+
+
+@auth_bp.post("/guest")
+def guest():
+    user = current_user()
+    if user and user.role != "guest":
+        abort(409, "请先退出当前账号，再进入游客试用")
+    user = start_guest()
+    return jsonify({"user": user.to_dict(), "contexts": []})
+
+
+@auth_bp.post("/guest/renew")
+def renew_guest_session():
+    user = require_user()
+    if user.role != "guest":
+        abort(403, "仅游客会话可以续期")
+    user = renew_guest()
+    return jsonify({"user": user.to_dict(), "contexts": []})
 
 
 @auth_bp.post("/login")
@@ -120,6 +143,8 @@ def managed_students():
 @auth_bp.post("/change-password")
 def change_password():
     user = require_user()
+    if user.role == "guest":
+        abort(403, "游客无法修改账号密码")
     data = _json()
     current_password = data.get("current_password") or ""
     new_password = data.get("new_password") or ""
@@ -138,6 +163,9 @@ def change_password():
 
 @auth_bp.post("/logout")
 def logout():
+    if session.get("guest_token"):
+        end_guest()
+        return jsonify({"ok": True})
     user = current_user()
     if user:
         add_audit(user, "auth.logout", "user", user.id)

@@ -37,7 +37,12 @@ def create_app(config_class=Config):
     with app.app_context():
         db.create_all()
         upgrade_schema()
+        from .guests import cleanup_expired_guests
+        cleanup_expired_guests()
         backfill_practice_evaluation_versions()
+
+    from .guests import register_guest_lifecycle
+    register_guest_lifecycle(app)
 
     @app.get("/api/health")
     def health():

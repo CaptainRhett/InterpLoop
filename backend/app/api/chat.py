@@ -150,6 +150,7 @@ def chat():
     except Exception:
         failed = True
         result = {}
+    require_user()  # Discard replies generated after the guest token expires.
     # A late reply from an expired/retried attempt cannot overwrite a newer turn.
     changed = ChatConversation.query.filter_by(id=conversation_pk, active_request=request_id, generation=generation).update(
         {"active_request": None, "active_until": None, "updated_at": datetime.now(timezone.utc).replace(tzinfo=None)}, synchronize_session=False)

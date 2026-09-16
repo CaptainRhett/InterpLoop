@@ -21,7 +21,7 @@ const auth = useAuthStore();
 
 const navItems = computed(() => {
   const items = [];
-  if (auth.user?.role === "student") items.push({ to: "/loop", label: "闭环练习", icon: MicVocal });
+  if (["student", "guest"].includes(auth.user?.role)) items.push({ to: "/loop", label: "闭环练习", icon: MicVocal });
   items.push(
     { to: "/numsprint", label: "数字专项", icon: Sigma },
     { to: "/interpcue", label: "语料播放", icon: Megaphone },
@@ -31,7 +31,7 @@ const navItems = computed(() => {
     { to: "/chat", label: "AI 学习助手", icon: Sparkles },
   );
   if (auth.isAdmin) items.push({ to: "/admin", label: "账号与权限", icon: ShieldCheck });
-  items.push({ to: "/account", label: "我的账号", icon: UserRoundCog });
+  if (!auth.isGuest) items.push({ to: "/account", label: "我的账号", icon: UserRoundCog });
   return items;
 });
 
@@ -44,6 +44,14 @@ async function logout() {
   await auth.logout();
   router.push("/login");
 }
+
+async function renewGuest() {
+  try {
+    await auth.renewGuest();
+  } catch {
+    // The store exposes the error in the trial banner.
+  }
+}
 </script>
 
 <template>
@@ -51,13 +59,13 @@ async function logout() {
     <aside class="fixed inset-y-0 left-0 z-40 flex w-60 flex-col bg-[#183a56] text-white">
       <div class="border-b border-white/10 px-5 py-5">
         <div class="text-xl font-bold">InterpLoop</div>
-        <div class="mt-1 text-xs text-white/55">自主口译实训与反馈平台</div>
+        <div class="mt-1 text-xs text-white/55">口译智环</div>
       </div>
 
       <div class="border-b border-white/10 px-5 py-4 text-sm">
         <div class="font-semibold">{{ auth.user?.name || "未登录" }}</div>
         <div class="mt-1 text-xs text-white/55">
-          {{ auth.user?.role === "teacher" ? "教师端" : `学号：${auth.user?.student_no || "-"}` }}
+          {{ auth.isGuest ? "游客试用" : auth.user?.role === "teacher" ? "教师端" : `学号：${auth.user?.student_no || "-"}` }}
         </div>
       </div>
 
@@ -76,7 +84,7 @@ async function logout() {
 
       <button class="flex items-center gap-3 border-t border-white/10 px-5 py-4 text-sm text-white/70 hover:text-white" @click="logout">
         <LogOut class="h-4 w-4" />
-        退出登录
+        {{ auth.isGuest ? "结束试用并清空数据" : "退出登录" }}
       </button>
     </aside>
 
@@ -86,12 +94,19 @@ async function logout() {
         <div class="flex items-center gap-3">
           <div class="hidden text-xs text-slate-500 sm:block">{{ auth.user?.name || "未登录" }}</div>
           <button class="btn-secondary px-3 py-2 text-xs" @click="logout">
-            <LogOut class="h-4 w-4" />退出登录
+            <LogOut class="h-4 w-4" />{{ auth.isGuest ? "结束试用 / 去登录" : "退出登录" }}
           </button>
         </div>
       </header>
       <section class="p-6">
-        <RouterView />
+        <div v-if="auth.isGuest" class="mb-5 rounded-lg border border-amber-200 bg-amber-50 px-4 py-3 text-sm text-amber-900">
+          <div class="flex flex-wrap items-center justify-between gap-3">
+            <span>游客试用 · 有效至 {{ new Date(auth.user.guest_expires_at).toLocaleTimeString('zh-CN', { hour: '2-digit', minute: '2-digit' }) }}。使用中自动续期，保留当前记录；退出或长时间未使用到期后清理。</span>
+            <button type="button" class="btn-secondary shrink-0" :disabled="auth.renewingGuest" @click="renewGuest">{{ auth.renewingGuest ? "续期中…" : "继续试用 / 续期" }}</button>
+          </div>
+          <p v-if="auth.guestRenewalError" class="mt-2 text-red-700" role="alert">{{ auth.guestRenewalError }}</p>
+        </div>
+        <RouterView :key="auth.user?.id" />
       </section>
     </main>
   </div>

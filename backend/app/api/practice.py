@@ -99,7 +99,7 @@ def tts():
 @practice_bp.post("/practices")
 def create_practice():
     user = require_user()
-    if user.role != "student":
+    if user.role not in {"student", "guest"}:
         abort(403, "只有学生账号可以创建练习")
     data = _json()
     source_text = (data.get("source_text") or "").strip()
@@ -132,7 +132,7 @@ def create_practice():
     db.session.flush()
     class_id = data.get("class_id")
     course_id = data.get("course_id")
-    if class_id or course_id or current_app.config["REQUIRE_PRACTICE_CONTEXT"]:
+    if user.role != "guest" and (class_id or course_id or current_app.config["REQUIRE_PRACTICE_CONTEXT"]):
         enrollment = resolve_student_enrollment(user, class_id, course_id)
         item.context = PracticeContext(
             term_id=enrollment.course.term_id,
@@ -205,6 +205,9 @@ def upload_audio(session_id):
             abort(400, "请按原文顺序完成每句录音")
 
     upload_dir = Path(current_app.config["UPLOAD_DIR"])
+    if user.role == "guest":
+        from ..guests import guest_upload_dir
+        upload_dir = guest_upload_dir(user.guest_session.token_hash)
     upload_dir.mkdir(parents=True, exist_ok=True)
     ext = Path(secure_filename(upload.filename or "")).suffix or ".webm"
     filename = f"{session_id}-{uuid.uuid4().hex}{ext}"
@@ -212,6 +215,7 @@ def upload_audio(session_id):
     upload.save(audio_path)
 
     asr_payload = ASRClient().transcribe(str(audio_path), lang)
+    require_user()  # An external call may outlast a guest session.
     result = item.result or PracticeResult(session_id=item.id)
     result.audio_path = str(audio_path)
     result.asr_confidence = asr_payload.get("confidence")
@@ -256,6 +260,7 @@ def evaluate_practice(session_id):
         )
     except EvaluationFormatError:
         return jsonify({"error": "AI 评价格式或分数不符合要求，请重新生成评价"}), 502
+    require_user()
     result = item.result or PracticeResult(session_id=item.id)
     result.asr_text = asr_text
     result.score = payload.get("score")

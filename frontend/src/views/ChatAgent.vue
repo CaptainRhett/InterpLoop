@@ -215,7 +215,7 @@ onBeforeUnmount(() => { accountEpoch += 1; epoch += 1; window.clearTimeout(pollT
         <h2 class="font-semibold text-brand">对话历史</h2>
         <button class="btn-secondary" :disabled="sending || loading" @click="newConversation()"><Plus class="h-4 w-4" />新建</button>
       </div>
-      <p class="mt-2 text-xs text-slate-500">历史自动保存，仅当前账号可见。</p>
+      <p class="mt-2 text-xs text-slate-500">{{ auth.isGuest ? "历史仅在本次试用内保留，退出或到期后清理。" : "历史自动保存，仅当前账号可见。" }}</p>
       <div class="mt-4 flex-1 space-y-2 overflow-y-auto">
         <button v-for="item in conversations" :key="item.id" class="w-full rounded border px-3 py-3 text-left text-sm"
           :class="selected?.id === item.id ? 'border-brand bg-blue-50 text-brand' : 'border-slate-200 hover:bg-slate-50'"
