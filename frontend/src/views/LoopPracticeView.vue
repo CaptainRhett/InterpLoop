@@ -1,5 +1,5 @@
 <script setup>
-import { CheckCircle2, Mic, Pause, Play, Save, Square, Wand2 } from "@lucide/vue";
+import { CheckCircle2, Eye, EyeOff, Mic, Pause, Play, Save, Square, Wand2 } from "@lucide/vue";
 import { computed, onBeforeUnmount, reactive, ref } from "vue";
 import { api } from "../api";
 import { createCuePlayer, splitSentences } from "../utils/interpCue";
@@ -41,7 +41,6 @@ const sourcePlayed = ref(false);
 let lifecycle = 0;
 const sourceSentences = computed(() => splitSentences(state.sourceText));
 const currentSegment = computed(() => state.segments[state.segmentIndex]);
-const sourceHidden = computed(() => state.hideSource && (recording.value || startingRecording.value));
 const player = createCuePlayer({
   synthesize: async (payload, signal) => (await api.post("/tts", payload, { signal })).data,
   onIndex: () => {},
@@ -99,6 +98,7 @@ function nextSegment() {
   if (recording.value || startingRecording.value || uploading.value || sourcePlaying.value) return;
   if (!currentSegment.value?.recorded || !currentSegment.value.transcript.trim()) return;
   if (state.segmentIndex < state.segments.length - 1) {
+    state.hideSource = true;
     state.segmentIndex += 1;
     playSource();
   } else {
@@ -143,6 +143,7 @@ async function goRecording() {
     state.segmentIndex = 0;
     if (!state.practice) await createPractice();
     if (run !== lifecycle) return;
+    state.hideSource = true;
     state.step = 3;
     await playSource();
   } catch (error) {
@@ -350,6 +351,7 @@ function newPractice() {
   stopAudioCapture();
   state.segments = [];
   state.segmentIndex = 0;
+  state.hideSource = true;
   sourcePlayed.value = false;
   state.step = 1;
   state.practice = null;
@@ -448,14 +450,26 @@ onBeforeUnmount(() => {
 
     <section v-if="state.step === 3" class="panel space-y-4">
       <h2 class="text-lg font-semibold text-brand">逐句口译 · 第 {{ state.segmentIndex + 1 }} / {{ state.segments.length }} 句</h2>
-      <label class="flex items-center gap-2 text-sm">
-        <input v-model="state.hideSource" type="checkbox" :disabled="recording || startingRecording" />
-        开始录音时隐藏原文
-      </label>
       <div class="rounded-lg border border-slate-200 bg-slate-50 p-4">
-        <div class="text-sm font-medium text-slate-500">本句原文</div>
-        <p v-if="!sourceHidden" class="mt-2 text-lg leading-8 text-ink">{{ currentSegment?.source }}</p>
-        <p v-else class="mt-2 text-lg leading-8 text-slate-500">录音中，原文已隐藏</p>
+        <div class="flex items-center justify-between gap-2">
+          <div class="text-sm font-medium text-slate-500">本句原文</div>
+          <button
+            type="button"
+            class="flex h-9 w-9 items-center justify-center rounded-md text-slate-500 hover:bg-slate-100 hover:text-brand focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand"
+            :aria-label="state.hideSource ? '显示原文' : '隐藏原文'"
+            :title="state.hideSource ? '显示原文' : '隐藏原文'"
+            :aria-expanded="!state.hideSource"
+            aria-controls="current-source"
+            @click="state.hideSource = !state.hideSource"
+          >
+            <Eye v-if="state.hideSource" class="h-5 w-5" aria-hidden="true" />
+            <EyeOff v-else class="h-5 w-5" aria-hidden="true" />
+          </button>
+        </div>
+        <div id="current-source">
+          <p v-if="!state.hideSource" class="mt-2 text-lg leading-8 text-ink">{{ currentSegment?.source }}</p>
+          <p v-else class="mt-2 text-lg leading-8 text-slate-500">原文已隐藏，点击小眼睛查看</p>
+        </div>
       </div>
       <div class="flex flex-wrap items-center gap-3">
         <button class="btn-primary" :disabled="recording || startingRecording || uploading || sourcePlaying" @click="playSource"><Play class="h-4 w-4" />重播本句</button>

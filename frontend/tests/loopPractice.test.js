@@ -60,7 +60,7 @@ async function fixture() {
     capture: () => processor.onaudioprocess({ inputBuffer: { getChannelData: () => new Float32Array([0.1, 0.2]) }, outputBuffer: { getChannelData: () => new Float32Array(2) } }) };
 }
 
-test('loop alternates playback/recording, hides source optionally, and evaluates all sentences', async () => {
+test('loop alternates playback/recording, hides each source by default, and evaluates all sentences', async () => {
   const h = await fixture();
   const c = h.ctx;
   c.state.sourceText = 'First sentence. Second sentence.';
@@ -69,6 +69,7 @@ test('loop alternates playback/recording, hides source optionally, and evaluates
   await flush();
   assert.equal(c.state.segments.length, 2);
   assert.equal(c.state.step, 3);
+  assert.equal(c.state.hideSource, true, 'source is hidden during initial playback');
   await c.startRecording();
   assert.equal(c.recording.value, false, 'cannot record over source audio');
   c.player.togglePause();
@@ -77,20 +78,22 @@ test('loop alternates playback/recording, hides source optionally, and evaluates
   h.endSpeech();
   await begin;
   await c.startRecording();
-  assert.equal(c.sourceHidden.value, true);
+  assert.equal(c.state.hideSource, true);
   h.capture();
   await c.stopAndUpload();
-  assert.equal(c.sourceHidden.value, false);
+  assert.equal(c.state.hideSource, true, 'source stays hidden after recording');
   assert.equal(c.state.step, 3, 'first recording must not jump to evaluation');
   c.currentSegment.value.transcript = 'Corrected first translation.';
+  c.state.hideSource = false;
   c.nextSegment();
   await flush();
   assert.equal(c.state.segmentIndex, 1);
+  assert.equal(c.state.hideSource, true, 'next sentence is hidden even if the previous one was revealed');
   h.endSpeech();
   await flush();
   c.state.hideSource = false;
   await c.startRecording();
-  assert.equal(c.sourceHidden.value, false);
+  assert.equal(c.state.hideSource, false, 'recording respects the visibility toggle');
   h.capture();
   await c.stopAndUpload();
   c.nextSegment();
@@ -101,4 +104,5 @@ test('loop alternates playback/recording, hides source optionally, and evaluates
   assert.equal(h.requests.at(-1).data.asr_text, c.state.asrText);
   assert.equal(c.state.evaluation.score, '8');
   c.newPractice();
+  assert.equal(c.state.hideSource, true, 'new practice resets source visibility');
 });
