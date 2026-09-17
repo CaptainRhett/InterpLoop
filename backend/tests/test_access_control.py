@@ -1,9 +1,10 @@
+import csv
 import io
 import tempfile
 import unittest
 from pathlib import Path
 
-from openpyxl import Workbook
+from openpyxl import Workbook, load_workbook
 
 from backend.app import create_app
 from backend.app.config import Config
@@ -155,6 +156,52 @@ class AccessControlTestCase(unittest.TestCase):
         self.assertEqual(student.get(f"/api/practices/{self.practice_b['id']}").status_code, 403)
         rows = student.get("/api/practices").get_json()["practices"]
         self.assertEqual({row["id"] for row in rows}, {self.practice_a["id"]})
+
+    def test_csv_and_excel_exports_match_and_remain_scoped(self):
+        paths = ["/api/practices/export", "/api/practices/evaluation-versions/export",
+                 "/api/feedback-logs/export", f"/api/practices/{self.practice_a['id']}/export"]
+        for login, password in (("student-a", "StudentPass123"), ("teacher-a", "TeacherPass123")):
+            client = self._login(login, password)
+            for path in paths:
+                with self.subTest(login=login, path=path):
+                    csv_response = client.get(path + ".csv")
+                    self.assertEqual(csv_response.status_code, 200)
+                    csv_rows = list(csv.reader(io.StringIO(csv_response.data.decode("utf-8-sig"))))
+                    response = client.get(path + ".xlsx")
+                    self.assertEqual(response.status_code, 200)
+                    self.assertEqual(response.mimetype, "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet")
+                    self.assertIn(".xlsx", response.headers["Content-Disposition"])
+                    workbook = load_workbook(io.BytesIO(response.data))
+                    sheet = workbook.active
+                    excel_rows = [["" if cell is None else str(cell) for cell in row]
+                                  for row in sheet.iter_rows(values_only=True)]
+                    self.assertEqual(csv_rows, excel_rows)
+                    self.assertEqual(sheet.freeze_panes, "A2")
+                    self.assertIsNotNone(sheet.auto_filter.ref)
+                    workbook.close()
+                    self.assertIn("student-a", str(csv_rows))
+                    self.assertNotIn("student-b", str(csv_rows))
+            for extension in ("csv", "xlsx"):
+                self.assertEqual(client.get(f"/api/practices/{self.practice_b['id']}/export.{extension}").status_code, 403)
+                self.assertEqual(client.get(f"/api/practices/999999/export.{extension}").status_code, 404)
+
+    def test_exports_require_login_and_empty_exports_have_headers(self):
+        paths = ["/api/practices/export", "/api/practices/evaluation-versions/export",
+                 "/api/feedback-logs/export", f"/api/practices/{self.practice_a['id']}/export"]
+        anonymous = self.app.test_client()
+        for path in paths:
+            for extension in ("csv", "xlsx"):
+                self.assertEqual(anonymous.get(f"{path}.{extension}").status_code, 401)
+        empty_student = self._login("reset-user", "StudentPass123")
+        for path in paths[:3]:
+            csv_response = empty_student.get(path + ".csv")
+            self.assertEqual(csv_response.status_code, 200)
+            self.assertEqual(len(list(csv.reader(io.StringIO(csv_response.data.decode("utf-8-sig"))))), 1)
+            response = empty_student.get(path + ".xlsx")
+            self.assertEqual(response.status_code, 200)
+            workbook = load_workbook(io.BytesIO(response.data))
+            self.assertEqual(workbook.active.max_row, 1)
+            workbook.close()
 
     def test_teacher_list_detail_stats_feedback_and_exports_are_class_scoped(self):
         teacher = self._login("teacher-a", "TeacherPass123")

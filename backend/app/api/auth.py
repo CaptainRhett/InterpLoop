@@ -53,6 +53,13 @@ def require_teacher():
     return user
 
 
+def require_export_user():
+    user = require_user()
+    if user.role not in {"student", "teacher", "admin"}:
+        abort(403, "请使用学生或教师账号导出学习记录")
+    return user
+
+
 def require_admin():
     user = require_user()
     if user.role != "admin":

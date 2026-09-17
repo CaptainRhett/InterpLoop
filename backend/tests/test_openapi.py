@@ -77,8 +77,10 @@ class OpenAPITestCase(unittest.TestCase):
             self.assertIn(field, schema["required"])
             self.assertEqual(schema["properties"][field]["format"], "binary")
         for path in ("/api/practices/export.csv", "/api/practices/evaluation-versions/export.csv",
-                     "/api/feedback-logs/export.csv"):
+                     "/api/feedback-logs/export.csv", "/api/practices/{session_id}/export.csv"):
             self.assertIn("text/csv", paths[path]["get"]["responses"]["200"]["content"])
+            self.assertIn("application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
+                          paths[path.replace(".csv", ".xlsx")]["get"]["responses"]["200"]["content"])
         archive = paths["/api/practices/{session_id}/archive"]["post"]["responses"]
         self.assertTrue({"200", "201"}.issubset(archive))
         login = paths["/api/auth/login"]["post"]["requestBody"]["content"]["application/json"]["schema"]

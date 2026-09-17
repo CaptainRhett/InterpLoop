@@ -7,6 +7,7 @@ registered URL map so blueprint prefixes have a single source of truth.
 from copy import deepcopy
 
 from flask_smorest import Api
+from .services.exports import XLSX_MIME
 
 
 STRING = {"type": "string"}
@@ -125,8 +126,12 @@ OPERATIONS = {
         "归档最新评价", body={"asr_text": STRING, "evaluation_version_id": INTEGER},
         result=ARCHIVE, status=201,
         description="省略参数时归档最新评价；传入的版本和文本必须与最新评价一致。重复归档同一版本返回 200。"),
-    "practice.export_practices": operation("导出练习 CSV（教师、管理员）"),
-    "practice.export_evaluation_versions": operation("导出评价版本 CSV（教师、管理员）"),
+    "practice.export_practice": operation("导出单次学习记录（CSV / Excel）",
+        description="包括已保存的当前结果、全部历史评价及正式归档快照。学生仅可导出自己的记录，教师按授课范围访问；游客不可导出。"),
+    "practice.export_practices": operation("导出练习（CSV / Excel）",
+        description="学生仅导出本人记录；教师按授课范围、管理员按管理权限导出。游客不可导出。"),
+    "practice.export_evaluation_versions": operation("导出评价版本（CSV / Excel）",
+        description="学生仅导出本人评价历史；教师按授课范围、管理员按管理权限导出。游客不可导出。"),
     "feedback.parse_feedback": operation("解析反馈文本", body={"raw_text": STRING},
                                          required=("raw_text",), result=obj(FEEDBACK_FIELDS)),
     "feedback.create_feedback_log": operation(
@@ -136,7 +141,8 @@ OPERATIONS = {
         description="教师和管理员必须传入反馈所属学生 user_id；学生使用自身账号。" + CONTEXT_DESCRIPTION),
     "feedback.list_feedback_logs": operation("反馈列表", query=LIST_QUERY,
                                              result=obj({"feedback_logs": array()})),
-    "feedback.export_feedback_logs": operation("导出反馈 CSV（教师、管理员）"),
+    "feedback.export_feedback_logs": operation("导出反馈（CSV / Excel）",
+        description="学生仅导出本人反馈；教师按授课范围、管理员按管理权限导出。游客不可导出。"),
     "prompt.prompt_presets": operation("提示词预设", result=obj({"presets": array(),
                                                                  "default_dimensions": array(STRING)})),
     "prompt.build_prompt": operation("生成评价提示词",
@@ -213,7 +219,7 @@ for endpoint, key in (
 OPERATIONS["practice.archive_practice"]["responses"]["200"] = response(ARCHIVE, "该版本已归档")
 OPERATIONS["practice.evaluate_practice"]["responses"]["502"] = response(
     obj({"error": STRING}), "AI 评价格式或分数不符合要求")
-for endpoint in ("practice.export_practices", "practice.export_evaluation_versions",
+for endpoint in ("practice.export_practice", "practice.export_practices", "practice.export_evaluation_versions",
                  "feedback.export_feedback_logs"):
     OPERATIONS[endpoint]["responses"] = {"200": response(STRING, "UTF-8 BOM 编码的 CSV 文件", "text/csv")}
 
@@ -268,6 +274,8 @@ def register_openapi(app):
         if rule.endpoint not in OPERATIONS:
             continue
         doc = deepcopy(OPERATIONS[rule.endpoint])
+        if rule.rule.endswith(".xlsx"):
+            doc["responses"]["200"] = response({"type": "string", "format": "binary"}, "Excel 工作簿", XLSX_MIME)
         group = rule.endpoint.split(".")[0]
         doc["tags"] = [TAGS[group]]
         if group in {"admin", "system"}:
@@ -283,5 +291,6 @@ def register_openapi(app):
             doc["responses"]["413"] = {"description": "上传内容超过 MAX_UPLOAD_MB 配置的上限"}
         methods = {}
         for method in sorted(rule.methods - {"HEAD", "OPTIONS"}):
-            methods[method.lower()] = {**doc, "operationId": f"{rule.endpoint.replace('.', '_')}_{method.lower()}"}
+            suffix = "_xlsx" if rule.rule.endswith(".xlsx") else ""
+            methods[method.lower()] = {**doc, "operationId": f"{rule.endpoint.replace('.', '_')}_{method.lower()}{suffix}"}
         api.spec.path(rule=rule, operations=methods)

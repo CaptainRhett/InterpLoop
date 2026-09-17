@@ -1,5 +1,5 @@
 <script setup>
-import { CheckCircle2, Eye, EyeOff, Mic, Pause, Play, Save, Square, Wand2 } from "@lucide/vue";
+import { CheckCircle2, ExternalLink, Eye, EyeOff, Mic, Pause, Play, Save, Square, Wand2 } from "@lucide/vue";
 import { computed, onBeforeUnmount, reactive, ref } from "vue";
 import { api } from "../api";
 import { createCuePlayer, splitSentences } from "../utils/interpCue";
@@ -52,6 +52,13 @@ const player = createCuePlayer({
 const evaluating = ref(false);
 const archiving = ref(false);
 const uploading = ref(false);
+const captureBusy = computed(() => recording.value || startingRecording.value || uploading.value);
+const sourceActive = computed(() => sourcePlaying.value && !sourcePaused.value);
+const canRecord = computed(() => !captureBusy.value && !sourceActive.value && (sourcePaused.value || sourcePlayed.value));
+const feedbackLocation = computed(() => ({
+  name: "feedbacklog",
+  query: { practice: String(state.practice?.id), version: String(state.evaluationVersion?.id) },
+}));
 const elapsed = ref(0);
 let stream = null;
 let audioContext = null;
@@ -83,7 +90,7 @@ function toggleDimension(item) {
 }
 
 async function playSource() {
-  if (!currentSegment.value || recording.value || startingRecording.value || uploading.value) return;
+  if (!currentSegment.value || captureBusy.value || sourceActive.value) return;
   sourcePlayed.value = false;
   const completed = await player.play({
     sentences: [currentSegment.value.source], single: true, lang: sourceLang.value, voice: "",
@@ -94,9 +101,19 @@ async function playSource() {
   }
 }
 
+function toggleSourcePause() {
+  if (captureBusy.value || !sourcePausable.value) return;
+  player.togglePause();
+  state.status = sourcePaused.value
+    ? "原文已暂停，可以开始本句录音或继续播放"
+    : `正在播放第 ${state.segmentIndex + 1} 句`;
+}
+
 function nextSegment() {
-  if (recording.value || startingRecording.value || uploading.value || sourcePlaying.value) return;
+  if (captureBusy.value || sourceActive.value) return;
   if (!currentSegment.value?.recorded || !currentSegment.value.transcript.trim()) return;
+  player.stop();
+  sourcePlayed.value = false;
   if (state.segmentIndex < state.segments.length - 1) {
     state.hideSource = true;
     state.segmentIndex += 1;
@@ -154,7 +171,7 @@ async function goRecording() {
 }
 
 async function startRecording() {
-  if (recording.value || startingRecording.value || uploading.value || sourcePlaying.value || !sourcePlayed.value) return;
+  if (!canRecord.value) return;
   if (window.isSecureContext === false) {
     state.status = "录音需要安全访问地址：请用 http://localhost:5173、http://127.0.0.1:5173 或 HTTPS 打开，不要用普通 http 的局域网 IP。";
     return;
@@ -168,7 +185,6 @@ async function startRecording() {
     state.status = "当前浏览器不支持音频采集，请换用最新版 Chrome/Edge";
     return;
   }
-  player.stop();
   startingRecording.value = true;
   const run = lifecycle;
   pcmChunks = [];
@@ -239,7 +255,7 @@ async function stopAndUpload() {
     currentSegment.value.transcript = data.asr.transcript || "";
     currentSegment.value.recorded = true;
     state.status = currentSegment.value.transcript.trim()
-      ? "本句识别完成，可校对文字、重新录制或继续下一句"
+      ? "本句识别完成，可校对文字、重新录制、继续播放或播放下一句"
       : "本句未识别到文字，请重新录制或填写本句口译文字";
   } catch (error) {
     state.status = `识别失败：${apiErrorMessage(error)}`;
@@ -473,15 +489,15 @@ onBeforeUnmount(() => {
         </div>
       </div>
       <div class="flex flex-wrap items-center gap-3">
-        <button class="btn-primary" :disabled="recording || startingRecording || uploading || sourcePlaying" @click="playSource"><Play class="h-4 w-4" />重播本句</button>
-        <button class="btn-secondary" :disabled="!sourcePausable" @click="player.togglePause()"><Pause class="h-4 w-4" />{{ sourcePaused ? "继续播放" : "暂停原文" }}</button>
-        <button class="btn-success" :disabled="recording || startingRecording || uploading || sourcePlaying || !sourcePlayed" @click="startRecording"><Mic class="h-4 w-4" />{{ startingRecording ? "正在打开麦克风…" : "开始本句录音" }}</button>
+        <button class="btn-primary" :disabled="captureBusy || sourceActive" @click="playSource"><Play class="h-4 w-4" />重播本句</button>
+        <button class="btn-secondary" :disabled="captureBusy || !sourcePausable" @click="toggleSourcePause"><Play v-if="sourcePaused" class="h-4 w-4" /><Pause v-else class="h-4 w-4" />{{ sourcePaused ? "继续播放" : "暂停原文" }}</button>
+        <button class="btn-success" :disabled="!canRecord" @click="startRecording"><Mic class="h-4 w-4" />{{ startingRecording ? "正在打开麦克风…" : "开始本句录音" }}</button>
         <button class="btn-danger" :disabled="!recording || uploading" @click="stopAndUpload"><Square class="h-4 w-4" />完成本句并识别</button>
       </div>
       <div v-if="currentSegment?.recorded && !recording && !startingRecording" class="space-y-3">
         <label class="field-label">本句识别文字（可校对）</label>
         <textarea v-model="currentSegment.transcript" class="input min-h-24" :disabled="uploading"></textarea>
-        <button class="btn-primary" :disabled="uploading || sourcePlaying || !currentSegment.transcript.trim()" @click="nextSegment">
+        <button class="btn-primary" :disabled="captureBusy || sourceActive || !currentSegment.transcript.trim()" @click="nextSegment">
           {{ state.segmentIndex + 1 < state.segments.length ? "确认并播放下一句" : "完成全部录音，进入评价" }}
         </button>
       </div>
@@ -511,6 +527,7 @@ onBeforeUnmount(() => {
       <div class="flex flex-wrap gap-2">
         <button class="btn-primary" :disabled="evaluating" @click="evaluate"><Wand2 class="h-4 w-4" />{{ evaluating ? "评价中..." : "生成评价" }}</button>
         <button class="btn-success" :disabled="!state.evaluationVersion || archiving" @click="archive"><Save class="h-4 w-4" />{{ archiving ? "归档中..." : "确认并归档" }}</button>
+        <RouterLink v-if="state.evaluationVersion && state.evaluation?.feedback_text && !evaluating && !archiving" class="btn-secondary" :to="feedbackLocation"><ExternalLink class="h-4 w-4" />载入 Feedback 并解析</RouterLink>
       </div>
       <div class="rounded-md bg-amber-50 px-3 py-2 text-sm text-amber-800">{{ state.status }}</div>
     </section>
@@ -532,6 +549,7 @@ onBeforeUnmount(() => {
       <div class="flex flex-wrap gap-2">
         <button class="btn-primary" @click="newPractice">开始新练习</button>
         <RouterLink v-if="state.practice" class="btn-success" :to="`/practices/${state.practice.id}`">查看练习档案</RouterLink>
+        <RouterLink v-if="state.evaluationVersion && state.evaluation?.feedback_text" class="btn-secondary" :to="feedbackLocation"><ExternalLink class="h-4 w-4" />载入 Feedback 并解析</RouterLink>
         <button class="btn-secondary" @click="printPage">打印记录</button>
       </div>
     </section>

@@ -1,12 +1,10 @@
-import csv
-import io
 import uuid
 from datetime import datetime, timezone
 from pathlib import Path
 
 from ..services.evaluation import EvaluationFormatError, feedback_fields
 
-from flask import Blueprint, abort, current_app, jsonify, request, send_file
+from flask import Blueprint, abort, current_app, jsonify, request
 from sqlalchemy import func
 from werkzeug.utils import secure_filename
 
@@ -30,7 +28,8 @@ from ..services import (
     TTSClient,
     parse_feedback_text,
 )
-from .auth import require_teacher, require_user
+from .auth import require_export_user, require_user
+from ..services.exports import export_table
 
 practice_bp = Blueprint("practice", __name__)
 DIRECTION_LANGUAGES = {
@@ -387,12 +386,59 @@ def archive_practice(session_id):
     return jsonify({"practice": item.to_dict(), "archive": archive.to_dict()}), 201
 
 
+@practice_bp.get("/practices/<int:session_id>/export.csv")
+@practice_bp.get("/practices/<int:session_id>/export.xlsx")
+def export_practice(session_id):
+    user = require_export_user()
+    item = _session_for_user(session_id, user)
+    headers = [
+        "记录类型", "练习ID", "学号", "姓名", "学期", "班级", "课程", "方向", "状态", "模型",
+        "练习时间", "评价时间", "归档时间", "版本", "是否正式归档版本", "评价人",
+        "源语", "ASR识别文本", "评分", "AI评价", "参考译法",
+    ]
+    context = item.context
+    common = [
+        item.id, item.user.student_no if item.user else "", item.user.name if item.user else "",
+        context.term.name if context else "", context.class_group.name if context else "",
+        context.course.name if context else "", item.direction, item.status, item.model_name,
+        item.created_at.isoformat() if item.created_at else "",
+    ]
+    result = item.result
+    rows = [[
+        "当前结果", *common, "", "", "", "", "", item.source_text,
+        result.asr_text if result else "", result.score if result else "",
+        result.feedback_text if result else "", result.reference_translation if result else "",
+    ]]
+    archive = item.archive
+    for version in item.evaluation_versions:
+        is_archived = archive and archive.evaluation_version_id == version.id
+        rows.append([
+            "历史评价", *common, version.created_at.isoformat() if version.created_at else "",
+            archive.archived_at.isoformat() if is_archived and archive.archived_at else "",
+            version.version_number, "是" if is_archived else "否",
+            version.created_by.name if version.created_by else "", item.source_text,
+            version.asr_text, version.score, version.feedback_text, version.reference_translation,
+        ])
+    if archive:
+        rows.append([
+            "正式归档", *common,
+            archive.evaluation_created_at.isoformat() if archive.evaluation_created_at else "",
+            archive.archived_at.isoformat() if archive.archived_at else "",
+            archive.evaluation_version.version_number if archive.evaluation_version else "",
+            "是", archive.evaluation_version.created_by.name
+            if archive.evaluation_version and archive.evaluation_version.created_by else "",
+            archive.source_text, archive.asr_text, archive.score,
+            archive.feedback_text, archive.reference_translation,
+        ])
+    return export_table(headers, rows, f"interploop-practice-{item.id}", "学习记录")
+
+
 @practice_bp.get("/practices/export.csv")
+@practice_bp.get("/practices/export.xlsx")
 def export_practices():
-    user = require_teacher()
-    output = io.StringIO()
-    writer = csv.writer(output)
-    writer.writerow(
+    user = require_export_user()
+    table = []
+    table.append(
         [
             "练习时间",
             "归档时间",
@@ -419,7 +465,7 @@ def export_practices():
     for row in rows:
         result = row.result
         archive = row.archive
-        writer.writerow(
+        table.append(
             [
                 row.created_at.isoformat() if row.created_at else "",
                 archive.archived_at.isoformat() if archive and archive.archived_at else "",
@@ -445,21 +491,15 @@ def export_practices():
                 ),
             ]
         )
-    data = io.BytesIO(output.getvalue().encode("utf-8-sig"))
-    return send_file(
-        data,
-        mimetype="text/csv",
-        as_attachment=True,
-        download_name=f"interploop-practices-{datetime.now().strftime('%Y%m%d')}.csv",
-    )
+    return export_table(table[0], table[1:], "interploop-practices", "练习记录")
 
 
 @practice_bp.get("/practices/evaluation-versions/export.csv")
+@practice_bp.get("/practices/evaluation-versions/export.xlsx")
 def export_evaluation_versions():
-    user = require_teacher()
-    output = io.StringIO()
-    writer = csv.writer(output)
-    writer.writerow(
+    user = require_export_user()
+    table = []
+    table.append(
         [
             "评价时间",
             "练习时间",
@@ -492,7 +532,7 @@ def export_evaluation_versions():
     for version in versions:
         session_item = version.session
         archive = session_item.archive
-        writer.writerow(
+        table.append(
             [
                 version.created_at.isoformat() if version.created_at else "",
                 session_item.created_at.isoformat() if session_item.created_at else "",
@@ -510,10 +550,4 @@ def export_evaluation_versions():
                 version.reference_translation or "",
             ]
         )
-    data = io.BytesIO(output.getvalue().encode("utf-8-sig"))
-    return send_file(
-        data,
-        mimetype="text/csv",
-        as_attachment=True,
-        download_name=f"interploop-evaluation-versions-{datetime.now().strftime('%Y%m%d')}.csv",
-    )
+    return export_table(table[0], table[1:], "interploop-evaluation-versions", "评价历史")

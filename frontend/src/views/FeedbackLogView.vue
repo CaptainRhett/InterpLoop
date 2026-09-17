@@ -1,13 +1,19 @@
 <script setup>
-import { Download, ExternalLink, Save, Search, Trash2 } from "@lucide/vue";
+import { ChevronDown, ChevronUp, ExternalLink, Save, Search, Trash2 } from "@lucide/vue";
 import { computed, onMounted, reactive, ref } from "vue";
-import { api, downloadBlob } from "../api";
+import { useRoute } from "vue-router";
+import { api } from "../api";
+import ExportButton from "../components/ExportButton.vue";
 import { useAuthStore } from "../stores/auth";
 
 const auth = useAuthStore();
+const route = useRoute();
+const loadingFeedback = ref(Boolean(route.query.practice && route.query.version));
+const parsing = ref(false);
 const error = ref("");
 const message = ref("");
 const records = ref([]);
+const expandedRecordId = ref(null);
 const managedContexts = ref([]);
 
 const form = reactive({
@@ -53,6 +59,8 @@ function sample() {
 }
 
 async function parse() {
+  if (parsing.value) return;
+  parsing.value = true;
   error.value = "";
   message.value = "";
   try {
@@ -66,6 +74,33 @@ async function parse() {
     message.value = `已拆分：优点 ${data.counts.pros}，问题 ${data.counts.cons}，建议 ${data.counts.suggestions}`;
   } catch (err) {
     error.value = err.response?.data?.error || "拆分失败";
+  } finally {
+    parsing.value = false;
+  }
+}
+
+async function loadPracticeFeedback() {
+  const { practice, version } = route.query;
+  if (!practice || !version) return;
+  loadingFeedback.value = true;
+  try {
+    const { data } = await api.get(`/practices/${encodeURIComponent(practice)}`);
+    const evaluation = data.evaluation_versions.find((item) => String(item.id) === version);
+    if (!evaluation?.feedback_text?.trim()) throw new Error("该版本没有可解析的 AI 评价");
+    form.raw_text = evaluation.feedback_text;
+    form.task_id = `LP-${data.practice.id}-V${evaluation.version_number}`;
+    const context = availableContexts.value.find((item) =>
+      item.student?.id === data.practice.user?.id &&
+      item.class_group?.id === data.practice.context?.class_group?.id &&
+      item.course?.id === data.practice.context?.course?.id,
+    );
+    form.context_id = context?.enrollment_id || "";
+    syncContext();
+    await parse();
+  } catch (err) {
+    error.value = err.response?.data?.error || err.message || "AI 评价载入失败";
+  } finally {
+    loadingFeedback.value = false;
   }
 }
 
@@ -120,16 +155,17 @@ async function loadManagedContexts() {
   }
 }
 
-async function exportCsv() {
-  await downloadBlob("/feedback-logs/export.csv", "interploop-feedback.csv");
-}
-
 function linkedPracticeId(record) {
   return record.task_id?.match(/^LP-(\d+)-V\d+$/)?.[1] || null;
 }
 
 onMounted(async () => {
-  await Promise.all([loadRecords(), loadManagedContexts()]);
+  try {
+    await Promise.all([loadRecords(), loadManagedContexts()]);
+  } catch (err) {
+    error.value = err.response?.data?.error || "反馈记录加载失败";
+  }
+  await loadPracticeFeedback();
 });
 </script>
 
@@ -173,11 +209,11 @@ onMounted(async () => {
         </div>
       </div>
 
-      <textarea v-model="form.raw_text" class="input min-h-72 resize-y" placeholder="粘贴反馈原文"></textarea>
+      <textarea v-model="form.raw_text" class="input min-h-72 resize-y" :disabled="loadingFeedback || parsing" placeholder="粘贴反馈原文"></textarea>
       <div class="flex flex-wrap gap-2">
-        <button class="btn-primary" @click="parse"><Search class="h-4 w-4" />自动拆分</button>
-        <button class="btn-secondary" @click="sample">载入示例</button>
-        <button class="btn-secondary" @click="clear"><Trash2 class="h-4 w-4" />清空</button>
+        <button class="btn-primary" :disabled="loadingFeedback || parsing" @click="parse"><Search class="h-4 w-4" />{{ loadingFeedback ? "正在载入并解析…" : parsing ? "解析中…" : "自动拆分" }}</button>
+        <button class="btn-secondary" :disabled="loadingFeedback || parsing" @click="sample">载入示例</button>
+        <button class="btn-secondary" :disabled="loadingFeedback || parsing" @click="clear"><Trash2 class="h-4 w-4" />清空</button>
       </div>
       <p v-if="message" class="rounded-md bg-emerald-50 px-3 py-2 text-sm text-emerald-700">{{ message }}</p>
       <p v-if="error" class="rounded-md bg-red-50 px-3 py-2 text-sm text-red-700">{{ error }}</p>
@@ -186,7 +222,7 @@ onMounted(async () => {
     <section class="panel space-y-4">
       <div class="flex items-center justify-between">
         <h2 class="text-lg font-semibold text-brand">结构化字段</h2>
-        <button class="btn-success" @click="save"><Save class="h-4 w-4" />保存</button>
+        <button class="btn-success" :disabled="loadingFeedback || parsing" @click="save"><Save class="h-4 w-4" />保存</button>
       </div>
       <div>
         <label class="field-label text-emerald-700">优点</label>
@@ -207,9 +243,9 @@ onMounted(async () => {
     </section>
 
     <section class="panel xl:col-span-2">
-      <div class="mb-4 flex items-center justify-between">
+      <div class="mb-4 flex flex-wrap items-center justify-between gap-3">
         <h2 class="text-lg font-semibold text-brand">已保存记录</h2>
-        <button v-if="auth.isTeacher" class="btn-secondary" @click="exportCsv"><Download class="h-4 w-4" />导出 CSV</button>
+        <ExportButton v-if="!auth.isGuest" path="/feedback-logs/export" filename="interploop-feedback" label="导出反馈" />
       </div>
       <div class="overflow-x-auto">
         <table class="min-w-full text-left text-sm">
@@ -221,28 +257,73 @@ onMounted(async () => {
               <th class="px-3 py-2">任务</th>
               <th class="px-3 py-2">类型</th>
               <th class="px-3 py-2">建议摘要</th>
+              <th class="px-3 py-2">操作</th>
             </tr>
           </thead>
           <tbody>
-            <tr v-for="record in records" :key="record.id" class="border-t border-slate-100">
-              <td class="px-3 py-2">{{ record.created_at?.slice(0, 19).replace("T", " ") }}</td>
-              <td class="px-3 py-2">{{ record.student_no }}</td>
-              <td class="px-3 py-2">{{ record.student_name }}</td>
-              <td class="px-3 py-2">
-                <RouterLink
-                  v-if="linkedPracticeId(record)"
-                  class="inline-flex items-center gap-1 font-medium text-brand hover:underline"
-                  :to="`/practices/${linkedPracticeId(record)}`"
-                >
-                  {{ record.task_id }}<ExternalLink class="h-3.5 w-3.5" />
-                </RouterLink>
-                <span v-else>{{ record.task_id }}</span>
-              </td>
-              <td class="px-3 py-2">{{ record.feedback_type }}</td>
-              <td class="max-w-lg truncate px-3 py-2">{{ record.suggestions || record.overall }}</td>
-            </tr>
+            <template v-for="record in records" :key="record.id">
+              <tr class="border-t border-slate-100" :class="{ 'bg-slate-50': expandedRecordId === record.id }">
+                <td class="px-3 py-2">{{ record.created_at?.slice(0, 19).replace("T", " ") }}</td>
+                <td class="px-3 py-2">{{ record.student_no }}</td>
+                <td class="px-3 py-2">{{ record.student_name }}</td>
+                <td class="px-3 py-2">
+                  <RouterLink
+                    v-if="linkedPracticeId(record)"
+                    class="inline-flex items-center gap-1 font-medium text-brand hover:underline"
+                    :to="`/practices/${linkedPracticeId(record)}`"
+                  >
+                    {{ record.task_id }}<ExternalLink class="h-3.5 w-3.5" />
+                  </RouterLink>
+                  <span v-else>{{ record.task_id }}</span>
+                </td>
+                <td class="px-3 py-2">{{ record.feedback_type }}</td>
+                <td class="max-w-lg truncate px-3 py-2">{{ record.suggestions || record.overall }}</td>
+                <td class="px-3 py-2">
+                  <button
+                    type="button"
+                    class="btn-secondary whitespace-nowrap"
+                    :aria-expanded="expandedRecordId === record.id"
+                    :aria-controls="`feedback-detail-${record.id}`"
+                    @click="expandedRecordId = expandedRecordId === record.id ? null : record.id"
+                  >
+                    <ChevronUp v-if="expandedRecordId === record.id" class="h-4 w-4" aria-hidden="true" />
+                    <ChevronDown v-else class="h-4 w-4" aria-hidden="true" />
+                    {{ expandedRecordId === record.id ? "收起详情" : "查看详情" }}
+                  </button>
+                </td>
+              </tr>
+              <tr v-if="expandedRecordId === record.id" :id="`feedback-detail-${record.id}`" class="border-t border-slate-100 bg-slate-50">
+                <td colspan="7" class="p-4">
+                  <div class="space-y-4">
+                    <h3 class="font-semibold text-brand">反馈详情 · {{ record.task_id || "未设置任务编号" }}</h3>
+                    <div class="grid gap-4 md:grid-cols-2">
+                      <div class="min-w-0 rounded-lg border border-slate-200 bg-white p-4">
+                        <h4 class="mb-2 font-medium text-emerald-700">优点</h4>
+                        <p class="whitespace-pre-wrap break-words leading-7 [overflow-wrap:anywhere]">{{ record.pros || "暂无内容" }}</p>
+                      </div>
+                      <div class="min-w-0 rounded-lg border border-slate-200 bg-white p-4">
+                        <h4 class="mb-2 font-medium text-red-700">主要问题</h4>
+                        <p class="whitespace-pre-wrap break-words leading-7 [overflow-wrap:anywhere]">{{ record.cons || "暂无内容" }}</p>
+                      </div>
+                      <div class="min-w-0 rounded-lg border border-slate-200 bg-white p-4">
+                        <h4 class="mb-2 font-medium text-blue-700">改进建议</h4>
+                        <p class="whitespace-pre-wrap break-words leading-7 [overflow-wrap:anywhere]">{{ record.suggestions || "暂无内容" }}</p>
+                      </div>
+                      <div class="min-w-0 rounded-lg border border-slate-200 bg-white p-4">
+                        <h4 class="mb-2 font-medium text-brand">综合评语</h4>
+                        <p class="whitespace-pre-wrap break-words leading-7 [overflow-wrap:anywhere]">{{ record.overall || "暂无内容" }}</p>
+                      </div>
+                    </div>
+                    <div class="rounded-lg border border-slate-200 bg-white p-4">
+                      <h4 class="mb-2 font-medium text-brand">反馈原文</h4>
+                      <p class="whitespace-pre-wrap break-words leading-7 [overflow-wrap:anywhere]">{{ record.raw_text || "暂无内容" }}</p>
+                    </div>
+                  </div>
+                </td>
+              </tr>
+            </template>
             <tr v-if="!records.length">
-              <td class="px-3 py-8 text-center text-slate-500" colspan="6">尚无记录</td>
+              <td class="px-3 py-8 text-center text-slate-500" colspan="7">尚无记录</td>
             </tr>
           </tbody>
         </table>

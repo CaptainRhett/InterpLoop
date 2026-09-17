@@ -118,6 +118,10 @@ class GuestSessionTestCase(unittest.TestCase):
         self.assertNotEqual(response.get_json()["feedback_log"]["user_id"], self.admin_id)
         for url in ("/api/admin/overview", "/api/admin/system/settings", "/api/auth/me/students", "/api/practices/export.csv"):
             self.assertEqual(self.client.get(url).status_code, 403, url)
+        for path in ("/api/practices/export", "/api/practices/evaluation-versions/export",
+                     "/api/feedback-logs/export", "/api/practices/1/export"):
+            for extension in ("csv", "xlsx"):
+                self.assertEqual(self.client.get(f"{path}.{extension}").status_code, 403)
         self.assertEqual(self.client.post("/api/auth/change-password", json={}).status_code, 403)
 
     def test_other_guests_and_admin_cannot_read_trial_records(self):

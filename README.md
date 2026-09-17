@@ -79,7 +79,7 @@ http://localhost:5173
 - OpenAPI 3.0.3 JSON：<http://localhost:5000/api/openapi.json>
 
 文档涵盖登录、练习、语音、反馈、提示词、统计、管理后台和 AI 对话接口，支持 JSON 请求、
-录音及名单文件上传、CSV 导出。部署时沿用 `/api` 的反向代理即可访问文档。
+录音及名单文件上传、CSV / Excel 导出。部署时沿用 `/api` 的反向代理即可访问文档。
 
 在 Swagger UI 中展开 `POST /api/auth/login`，点击 **Try it out**，填写账号密码并执行。
 浏览器会保存并自动携带 Session Cookie；首次登录须先执行 `POST /api/auth/change-password`。
@@ -125,10 +125,10 @@ SQLite 已在后端启用 WAL、`busy_timeout` 和外键约束，适合 50 人�
 - 语音识别类型（讯飞 / 兼容 OpenAI 音频转写）；讯飞配置 App ID、API Key、API Secret、主机和识别领域，兼容服务配置基础地址、模型 ID 和 API Key。
 - 业务是否使用模拟服务。关闭后使用真实服务；模型缺少凭据时会报错，不再静默返回模拟结果。
 
-先保存，再点击“测试模型接口”或上传录音点击“测试识别接口”。测试始终调用真实的已保存服务，
+先保存，再点击“测试模型接口”，或选择语种后现场录音；停止录音后会自动测试识别接口。测试始终调用真实的已保存服务，
 显示响应/识别文字、成功状态和耗时，可能产生服务商用量费用。测试模型的连通性不等于保证该模型
-能够稳定输出口译评价结构，实际评价仍会执行结构校验。识别测试文件不超过 1 MB；讯飞要求
-16kHz、16bit、单声道 PCM/WAV，且不超过 30 秒。临时测试文件会在调用结束后删除。
+能够稳定输出口译评价结构，实际评价仍会执行结构校验。现场识别录音会在浏览器中转换为
+16kHz、16bit、单声道 PCM，最长 30 秒。临时测试文件会在调用结束后删除。
 兼容识别接口使用 `/audio/transcriptions`，提交 `file`、`model` 和 `language`，参见
 [音频转写接口参考](https://platform.openai.com/docs/api-reference/audio/createTranscription)。
 
@@ -210,6 +210,18 @@ Mock 模式的评价用于流程演示，不代表实际口译水平。
 前端自动化验证：在 `frontend` 下运行 `npm test`。测试使用模拟语音、麦克风和网络响应；
 真实设备的语音播放、录音权限和上游 AI/ASR 效果需在浏览器中验证。
 
+## 学习记录导出
+
+学生可在练习详情页选择 CSV 或 Excel（`.xlsx`），点击“导出本次记录”，下载已保存的当前结果、
+全部历史评价和正式归档快照。尚未提交的 ASR 编辑不包含在导出中。
+统计页支持批量导出练习和评价历史，反馈记录页支持导出反馈；所有入口均可选择两种格式。
+学生仅导出自己的数据，教师仅导出授课范围内的数据，管理员按现有管理范围导出；游客不可导出。
+
+接口保留原有 `.csv` 地址，同时提供对应 `.xlsx` 地址：
+`/api/practices/{id}/export.csv`、`/api/practices/export.csv`、
+`/api/practices/evaluation-versions/export.csv`、`/api/feedback-logs/export.csv`。
+CSV 使用 UTF-8 BOM；Excel 保留学号等文本字段并提供表头筛选和冻结。
+
 ## 功能范围
 
 - 学生登录：管理员导入学号账号和初始密码，首次登录强制改密。
@@ -219,9 +231,9 @@ Mock 模式的评价用于流程演示，不代表实际口译水平。
 - NumSprint：数字专项训练。
 - InterpCue：语料逐句播放。
 - PromptForge：口译评价提示词生成。
-- FeedbackLog：反馈文本拆分、保存、LoopPractice 自动同步和 CSV 导出。
+- FeedbackLog：反馈文本拆分、保存、LoopPractice 自动同步和 CSV / Excel 导出。
 - 练习档案：学生与教师可回看完整结果、修改 ASR 后重新评价、查看历史版本并重新归档。
-- 学习统计：练习次数、正式归档数、平均评价、档案列表和完整 CSV 导出。
+- 学习统计：练习次数、正式归档数、平均评价、档案列表和 CSV / Excel 导出。
 
 admin9527
 Zhouxingxing9527

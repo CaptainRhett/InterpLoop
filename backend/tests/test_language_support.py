@@ -1,7 +1,9 @@
+import csv
 import io
 import tempfile
 import unittest
 from pathlib import Path
+from openpyxl import load_workbook
 
 from backend.app import create_app
 from backend.app.config import Config
@@ -218,6 +220,25 @@ class LanguageSupportTestCase(unittest.TestCase):
         self.assertEqual([row["version_number"] for row in detail["evaluation_versions"]], [2, 1])
         self.assertEqual(detail["archive"]["evaluation_version_id"], first_version["id"])
         self.assertEqual(detail["latest_evaluation"]["id"], second_version["id"])
+
+        # Downloads must preserve the older archive alongside the newer result.
+        for extension in ("csv", "xlsx"):
+            exported = self.client.get(f"/api/practices/{practice['id']}/export.{extension}")
+            self.assertEqual(exported.status_code, 200)
+            if extension == "csv":
+                rows = list(csv.DictReader(io.StringIO(exported.data.decode("utf-8-sig"))))
+            else:
+                workbook = load_workbook(io.BytesIO(exported.data))
+                values = list(workbook.active.values)
+                rows = [dict(zip(values[0], row)) for row in values[1:]]
+                workbook.close()
+            self.assertEqual(len(rows), 4)
+            self.assertEqual(rows[0]["记录类型"], "当前结果")
+            self.assertEqual(rows[0]["ASR识别文本"], second_version["asr_text"])
+            self.assertEqual([str(row["版本"]) for row in rows if row["记录类型"] == "历史评价"], ["2", "1"])
+            archived = next(row for row in rows if row["记录类型"] == "正式归档")
+            self.assertEqual(archived["ASR识别文本"], first_version["asr_text"])
+            self.assertEqual(str(archived["版本"]), "1")
 
         response = self.client.post(
             f"/api/practices/{practice['id']}/archive",

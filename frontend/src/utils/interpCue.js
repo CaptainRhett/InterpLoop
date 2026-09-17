@@ -53,10 +53,12 @@ export function createCuePlayer({
     cancelWait?.();
     cancelWait = null;
     playbackControl = null;
+    speech?.cancel();
+    // Cancelling an utterance does not clear the browser's paused queue.
+    if (paused) speech?.resume();
     paused = false;
     onPaused(false);
     onPausable(false);
-    speech?.cancel();
     onPlaying(false);
   }
 

@@ -3,8 +3,11 @@ import { Archive, ArrowLeft, History, RefreshCcw } from "@lucide/vue";
 import { computed, onMounted, ref } from "vue";
 import { useRoute } from "vue-router";
 import { api } from "../api";
+import ExportButton from "../components/ExportButton.vue";
+import { useAuthStore } from "../stores/auth";
 
 const route = useRoute();
+const auth = useAuthStore();
 const practice = ref(null);
 const archiveSnapshot = ref(null);
 const versions = ref([]);
@@ -120,7 +123,16 @@ onMounted(load);
           <h2 class="text-xl font-semibold text-brand">练习档案 #{{ practice?.id }}</h2>
           <p class="mt-1 text-sm text-slate-500">查看完整结果、修改 ASR 文本、重新评价并追踪历史版本。</p>
         </div>
-        <button class="btn-secondary" :disabled="loading" @click="load"><RefreshCcw class="h-4 w-4" />刷新</button>
+        <div class="flex flex-wrap items-start gap-2">
+          <ExportButton
+            v-if="practice && !auth.isGuest"
+            :path="`/practices/${practice.id}/export`"
+            :filename="`interploop-practice-${practice.id}`"
+            label="导出本次记录"
+            :disabled="loading || evaluating || archiving"
+          />
+          <button class="btn-secondary" :disabled="loading" @click="load"><RefreshCcw class="h-4 w-4" />刷新</button>
+        </div>
       </div>
 
       <div v-if="practice" class="mt-5 grid gap-3 rounded-lg bg-slate-50 p-4 text-sm md:grid-cols-3">

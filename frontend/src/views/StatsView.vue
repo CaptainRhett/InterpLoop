@@ -1,7 +1,8 @@
 <script setup>
-import { Download, Eye, RefreshCcw, Search } from "@lucide/vue";
+import { Eye, RefreshCcw, Search } from "@lucide/vue";
 import { onMounted, ref } from "vue";
-import { api, downloadBlob } from "../api";
+import { api } from "../api";
+import ExportButton from "../components/ExportButton.vue";
 import { useAuthStore } from "../stores/auth";
 
 const auth = useAuthStore();
@@ -26,14 +27,6 @@ async function load() {
   }
 }
 
-async function exportPractices() {
-  await downloadBlob("/practices/export.csv", "interploop-practices.csv");
-}
-
-async function exportVersions() {
-  await downloadBlob("/practices/evaluation-versions/export.csv", "interploop-evaluation-versions.csv");
-}
-
 function statusLabel(status) {
   return {
     created: "已创建",
@@ -50,15 +43,15 @@ onMounted(load);
 <template>
   <div class="space-y-5">
     <section class="panel">
-      <div class="mb-5 flex items-center justify-between">
+      <div class="mb-5 flex flex-wrap items-center justify-between gap-3">
         <div>
           <h2 class="text-lg font-semibold text-brand">学习数据统计</h2>
           <p class="mt-1 text-sm text-slate-500">管理学习统计数据</p>
         </div>
         <div class="flex flex-wrap gap-2">
           <button class="btn-secondary" :disabled="loading" @click="load"><RefreshCcw class="h-4 w-4" />刷新</button>
-          <button v-if="auth.isTeacher" class="btn-secondary" @click="exportPractices"><Download class="h-4 w-4" />导出练习 CSV</button>
-          <button v-if="auth.isTeacher" class="btn-secondary" @click="exportVersions"><Download class="h-4 w-4" />导出版本 CSV</button>
+          <ExportButton v-if="!auth.isGuest" path="/practices/export" filename="interploop-practices" label="导出练习" />
+          <ExportButton v-if="!auth.isGuest" path="/practices/evaluation-versions/export" filename="interploop-evaluation-versions" label="导出版本" />
         </div>
       </div>
       <div class="grid gap-4 md:grid-cols-4">

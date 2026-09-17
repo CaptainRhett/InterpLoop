@@ -1,13 +1,10 @@
-import csv
-import io
-from datetime import datetime
-
-from flask import Blueprint, abort, current_app, jsonify, request, send_file
+from flask import Blueprint, abort, current_app, jsonify, request
 
 from ..models import FeedbackContext, FeedbackLog, User, db
 from ..permissions import resolve_student_enrollment, scope_feedback_query, scope_user_query
 from ..services import parse_feedback_text
-from .auth import require_teacher, require_user
+from .auth import require_export_user, require_user
+from ..services.exports import export_table
 
 feedback_bp = Blueprint("feedback", __name__)
 
@@ -83,18 +80,18 @@ def list_feedback_logs():
 
 
 @feedback_bp.get("/feedback-logs/export.csv")
+@feedback_bp.get("/feedback-logs/export.xlsx")
 def export_feedback_logs():
-    user = require_teacher()
-    output = io.StringIO()
-    writer = csv.writer(output)
-    writer.writerow(["时间", "学号", "姓名", "任务编号", "反馈类型", "优点", "问题", "建议", "总评", "原文"])
+    user = require_export_user()
+    table = []
+    table.append(["时间", "学号", "姓名", "任务编号", "反馈类型", "优点", "问题", "建议", "总评", "原文"])
     rows = (
         scope_feedback_query(FeedbackLog.query, user)
         .order_by(FeedbackLog.created_at.desc())
         .all()
     )
     for row in rows:
-        writer.writerow(
+        table.append(
             [
                 row.created_at.isoformat() if row.created_at else "",
                 row.student_no or "",
@@ -108,10 +105,4 @@ def export_feedback_logs():
                 row.raw_text,
             ]
         )
-    data = io.BytesIO(output.getvalue().encode("utf-8-sig"))
-    return send_file(
-        data,
-        mimetype="text/csv",
-        as_attachment=True,
-        download_name=f"interploop-feedback-{datetime.now().strftime('%Y%m%d')}.csv",
-    )
+    return export_table(table[0], table[1:], "interploop-feedback", "反馈记录")
