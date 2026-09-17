@@ -51,7 +51,6 @@ onMounted(load);
         <div class="flex flex-wrap gap-2">
           <button class="btn-secondary" :disabled="loading" @click="load"><RefreshCcw class="h-4 w-4" />刷新</button>
           <ExportButton v-if="!auth.isGuest" path="/practices/export" filename="interploop-practices" label="导出练习" />
-          <ExportButton v-if="!auth.isGuest" path="/practices/evaluation-versions/export" filename="interploop-evaluation-versions" label="导出版本" />
         </div>
       </div>
       <div class="grid gap-4 md:grid-cols-4">
